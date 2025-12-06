@@ -1,0 +1,201 @@
+\documentclass{article}
+
+
+\usepackage[utf8]{inputenc}   % MUST come before biblatex
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}         % recommended for biblatex
+
+\usepackage[
+    backend=biber,
+    style=alphabetic, % or whatever you want
+]{biblatex}
+
+% \usepackage[round]{natbib}
+% \renewcommand{\bibsection}{\subsubsection*{\bibname}}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+% \usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+\usepackage[normalem]{ulem} % for \sout (strikethrough)
+
+\input{header}
+\input{commands}
+
+\addbibresource{ref.bib}
+\title{Learning  a \sout{function on a} manifold}
+\date{December 2025}
+
+\begin{document}
+\maketitle
+
+\newcommand{\manifold}{\mathcal{M}}
+\renewcommand{\dataset}{{D}}
+
+
+\section{Definitions}
+
+\begin{definition}
+    A metric tensor on (the embedded in $\mathbb{R}^k$) manifold $\manifold$ is a function $g: \manifold \to \mathbb{R}^{k \times k},\forall x \in \manifold, \rank g(x) = \dim \manifold, g(x) \succeq 0$.
+\end{definition}
+
+
+\begin{definition}[Dirichlet energy]
+The \emph{Dirichlet energy} of a function $f : \manifold \to \mathbb{R}$ with respect to the manifold $\manifold$ equipped with the metric tensor $g$ is defined as
+\[
+    \mathcal{E}_{\manifold, g}(f) = \frac{1}{2} \int_{\manifold} \|\nabla_g f(x)\|_g^2 \, d\mu_g(x),
+\]
+where $\nabla_g f$ denotes the gradient of $f$ with respect to the metric $g$, $\|\cdot\|_g$ denotes the norm induced by $g$, and $\mu_g$ is the volume measure associated to $g$ on $\manifold$.
+\end{definition}
+
+\begin{definition}[Measure]
+    A Riemannian metric on a $d$-dimensional manifold is a smoothly varying inner product
+    $$
+    g_x: T_x M \times T_x M \rightarrow \mathbb{R} .
+    $$
+    In local coordinates, it is represented by a positive-definite matrix
+    $
+    g(x)=\left[g_{i j}(x)\right] .
+    $
+    The metric induces the Riemannian volume measure, often denoted:
+    $$
+    d \mu_g(x)=\sqrt{\operatorname{det} g(x)} d x^1 \cdots d x^d .
+    $$
+    This is the analogue of ``area $=\sqrt{\operatorname{det} g}$'' in differential geometry.
+    $d \mu_g(x)=\sqrt{\operatorname{det} g(x)} d x^1 \cdots d x^d$.
+\end{definition}
+
+
+\begin{definition}[Gradient]
+    The gradient of a function $f: \manifold \to \mathbb{R}$ with respect to the metric tensor $g$ is defined as
+    \[
+        \nabla_g f(x) = g(x) \nabla f(x) \in T_x \manifold,
+    \]
+    where $\nabla f(x)$ is the gradient of $f$ with respect to the Euclidean metric.
+\end{definition}
+
+\begin{definition}[Laplacian]
+    The Laplacian of a function $f: \manifold \to \mathbb{R}$ with respect to the metric $g$ is defined as
+    \[
+        \Delta_g f(x) = \nabla \cdot \nabla_g f(x) = \nabla \cdot (g \nabla f(x)) \in \mathbb{R}
+    \]
+\end{definition}
+
+\section{Learning a function}
+\paragraph{Given:} 
+\begin{itemize}
+    \item An embedded manifold $\manifold \subset \mathbb{R}^k, \dim \manifold = d$
+    \item A metric tensor on $\manifold$: $g: \manifold \to \mathbb{R}^{k \times k},\forall \vx \in \manifold, \rank g(\vx) = d, g(\vx) \succeq 0$. 
+    
+    \emph{Note: For simplicity, we assume $\det g(\vx) = 1$ hence, the measure is the Lebesgue measure.}
+    \item A dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$ where $\vx_i \in \manifold, y_i \in \mathbb{R}$ 
+\end{itemize}
+
+\paragraph{Goal:} to learn the smoothest function $f: \manifold \to \mathbb{R}$ such that the function $f(\vx_i) \approx y_i$. 
+
+Constrained optimization:
+\begin{align*}
+    \min_{f} \mathcal{E}_{\manifold, g}(f) \\
+    \text{s.t. } f(\vx_i) = y_i, \forall i 
+     \in [n].
+\end{align*}
+
+Unconstrained optimization:
+\begin{gather*}
+    \min_{f} \mathcal{E}_{\manifold, g}(f) + \lambda \sum_{i=1}^n (f(\vx_i) - y_i)^2 
+    = \\
+    \min_{f}
+    \frac{1}{2} 
+    \int_{\manifold} \|\nabla_g f(\vx)\|_g^2 \, d\mu_g(\vx) + \lambda \sum_{i=1}^n (f(\vx_i) - y_i)^2
+\end{gather*}
+Gradient descent, convex optimization (in a \emph{function} space):
+\begin{align*}
+    \text{PDE: }& \frac{\partial f}{\partial t} = - \Delta_g f + 2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i} 
+    \\
+    \text{step: }& f_{t+1} = f_t +  \eta\left(\Delta_g f_t - 2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i}\right)
+\end{align*}
+
+\begin{definition}[Gradient-flow evolution operator]
+    We will denote $\Phi_T(f_i)$ as the gradient-flow evolution operator of $f_i$ after time $T$ of gradient descent. Note, that $\Phi_T(f_i) = \Phi_T(f_i, g, \manifold, \dataset)$ depends on the metric tensor $g$, the manifold $\manifold$, and the dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$.
+\end{definition}
+
+\paragraph{Discretization in space}
+(Disclaimer: this is a bit of a stretch.)
+If $\manifold$ is discretized as a point cloud $\mathcal{P} = \{\vz_i\}_{i=1}^n$ with weights 
+$$w_{ij} = \exp\left(-\frac{\|\vz_i - \vz_j\|_{g(\vz_i)}^2}{\epsilon}\right)$$
+(epsilon TBD), one may argue that:
+\begin{align*}
+    L_{\mathcal{P}} D^{-1}_{\mathcal{P}}  \approx  \Delta_g 
+\end{align*}
+Hence, one step of gradient descent becomes (yes, here comes the "stretch") like a transformer layer:
+\begin{align*}
+    f_{t+1}(\vz) 
+    = 
+    \underbrace{f_t(\vz)}_{\text{Residual}} 
+    +  
+    \eta\left( 
+    \underbrace{\frac{\sum_{i} \exp(-{\|\vz - \vz_i\|_{g(\vz)}^2}/{\epsilon}) f_t(\vz_i)}{\sum_{j} \exp(-{\|\vz - \vz_j\|_{g(\vz)}^2}/{\epsilon})}}_{\approx \text{Attention}}  - \underbrace{2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i}(\vz)}_{\text{Residual}}
+    \right) 
+\end{align*}
+
+\textbf{Idea 1: what if a fixed transformer performs gradient descent on the function space, hence, learns a function in context?} 
+
+
+\section{Learning a manifold}
+
+What if we are given a few smooth functions $f_1, \ldots, f_l: \mathbb{R}^k \to \mathbb{R}$ on a manifold $\manifold$. However, we don't know the metric tensor $g$ on $\manifold$. Can we learn the metric tensor such that the functions $f_1, \ldots, f_l$ are as smooth as possible? If we do so, then we can easily learn a new smooth function from a few observations on the fly next time. 
+
+For this problem, the objective is the following:
+\begin{gather*}
+    \min_{g} \sum_{i=1}^l \mathcal{E}_{\manifold, g}(f_i) \\
+    \text{s.t. } \det g(\vx) = 1 \text{ for all } \vx \in \manifold.
+\end{gather*}
+where $\mathcal{E}_{\manifold, g}(f_i)$ is the Dirichlet energy of $f_i$ with respect to the metric tensor $g$. If we discard the constraint on the determinant or relax it to $\alpha I \preceq g(\vx)^{-1} \preceq \beta I$, the problem is convex w.r.t. $g$.
+
+
+% Given the fixed metric tensor $g$, we can find the smooth proxy after performing $T$ steps of gradient descent on the function space for each function $f_i$ if . Hence, the problem becomes:
+% \begin{gather*}
+%     \min_{\substack{g \\ g(\cdot) \succeq 0 \\ \det g(\cdot) = 1}} \sum_{i=1}^l \mathcal{E}_{\manifold, g}(\Phi_T(f_i, g, \manifold, \dataset))
+% \end{gather*}
+
+
+\textbf{Idea 2: training a transformer-like model = learning a geometry of a manifold} 
+
+Okay, as of now, we didn't have a need to perform GD in a function space inside the global optimization with respect to the metric tensor $g$ -- there was no need to train a transformer-like model with multiple layers. In what case would that be necessary? 
+
+
+\section{More Complex Geometry}
+
+Okay, let us consider a more complex geometry so that performing gradient descent in a function space is necessary during optimization over $g$. 
+
+What if the metric tensor $g(x)$ also depends on the function $f(x)$ on the manifold: $g(x, f)$? 
+
+\paragraph{The Perona--Malik anisotropic diffusion} Equation is given by
+\[
+\frac{\partial u}{\partial t}
+= \nabla \cdot \bigl( c(|\nabla u|) \, \nabla u \bigr),
+\]
+where \(u(x,t)\) is the evolving signal or image, and the 
+diffusivity function \(c(\cdot)\) is typically chosen as
+\[
+c(s) = \exp\!\left( - \left(\frac{s}{K}\right)^2 \right)
+\qquad\text{or}\qquad
+c(s) = \frac{1}{1 + \left(\frac{s}{K}\right)^2 }.
+\]
+
+\section*{Relevant literature}
+
+\begin{itemize}
+    \item \textcite{geshkovskiMathematicalPerspectiveTransformers2025} -- models transformers as interacting particle systems
+    \item \textcite{belkinConvergenceLaplacianEigenmaps2006} -- on the convergence of discrete Laplacian to Laplace-Beltrami operator
+    \item \textcite{zhangPDETransformerContinuousDynamical2025} -- PDE view on transformers
+\end{itemize}
+
+\printbibliography
+
+\end{document}

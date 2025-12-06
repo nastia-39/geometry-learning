@@ -1,0 +1,174 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{belkinConvergenceLaplacianEigenmaps2006}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=b2aeb0539e71c989e52b170b56b1fabd}{%
+           family={Belkin},
+           familyi={B\bibinitperiod},
+           given={Mikhail},
+           giveni={M\bibinitperiod}}}%
+        {{hash=156804623cd62fb419db269c507e26ce}{%
+           family={Niyogi},
+           familyi={N\bibinitperiod},
+           given={Partha},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{91e66b6bb0ec19548744f2daa009553e}
+      \strng{fullhash}{91e66b6bb0ec19548744f2daa009553e}
+      \strng{bibnamehash}{91e66b6bb0ec19548744f2daa009553e}
+      \strng{authorbibnamehash}{91e66b6bb0ec19548744f2daa009553e}
+      \strng{authornamehash}{91e66b6bb0ec19548744f2daa009553e}
+      \strng{authorfullhash}{91e66b6bb0ec19548744f2daa009553e}
+      \field{labelalpha}{BN06}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Geometrically based methods for various tasks of machine learning have attracted considerable attention over the last few years. In this paper we show convergence of eigenvectors of the point cloud Laplacian to the eigen- functions of the Laplace-Beltrami operator on the underlying manifold, thus establishing the first convergence results for a spectral dimensionality re- duction algorithm in the manifold setting.}
+      \field{booktitle}{Advances in {{Neural Information Processing Systems}}}
+      \field{title}{Convergence of {{Laplacian Eigenmaps}}}
+      \field{urlday}{5}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{volume}{19}
+      \field{year}{2006}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/KQD4857L/Belkin and Niyogi - 2006 - Convergence of Laplacian Eigenmaps.pdf
+      \endverb
+    \endentry
+    \entry{geshkovskiMathematicalPerspectiveTransformers2025}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=ed5527ac72f624366467ce00e35586f2}{%
+           family={Geshkovski},
+           familyi={G\bibinitperiod},
+           given={Borjan},
+           giveni={B\bibinitperiod}}}%
+        {{hash=919ecba31f0ceaf29ec978085aa0e3ea}{%
+           family={Letrouit},
+           familyi={L\bibinitperiod},
+           given={Cyril},
+           giveni={C\bibinitperiod}}}%
+        {{hash=0e88c067f56d6588280c5b247db0dc55}{%
+           family={Polyanskiy},
+           familyi={P\bibinitperiod},
+           given={Yury},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=0aada1e0dbe5dcee29325403816a4e60}{%
+           family={Rigollet},
+           familyi={R\bibinitperiod},
+           given={Philippe},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{225805324010d40308c44653964c328d}
+      \strng{fullhash}{4f6d2cf28cb5f0da5cb51bf03f301ee0}
+      \strng{bibnamehash}{225805324010d40308c44653964c328d}
+      \strng{authorbibnamehash}{225805324010d40308c44653964c328d}
+      \strng{authornamehash}{225805324010d40308c44653964c328d}
+      \strng{authorfullhash}{4f6d2cf28cb5f0da5cb51bf03f301ee0}
+      \field{labelalpha}{Ges+25}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Transformers play a central role in the inner workings of large language models. We develop a mathematical framework for analyzing Transformers based on their interpretation as interacting particle systems, which reveals that clusters emerge in long time. Our study explores the underlying theory and offers new perspectives for mathematicians as well as computer scientists.}
+      \field{eprintclass}{cs}
+      \field{eprinttype}{arXiv}
+      \field{month}{8}
+      \field{number}{arXiv:2312.10794}
+      \field{title}{A Mathematical Perspective on {{Transformers}}}
+      \field{urlday}{5}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.48550/arXiv.2312.10794
+      \endverb
+      \verb{eprint}
+      \verb 2312.10794
+      \endverb
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/GDPEFMCH/Geshkovski et al. - 2025 - A mathematical perspective on Transformers.pdf;/Users/aalokhina3/Zotero/storage/9TWZ79HW/Geshkovski et al. - 2025 - A mathematical perspective on Transformers.html
+      \endverb
+      \keyw{Computer Science - Machine Learning,Mathematics - Analysis of PDEs,Mathematics - Dynamical Systems}
+    \endentry
+    \entry{zhangPDETransformerContinuousDynamical2025}{misc}{}
+      \name{author}{2}{}{%
+        {{hash=caa6681753bd9f2dba4443aa540a22a6}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Yukun},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=02c0f686ab512f2b315f3b5100b7c440}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={Xueqing},
+           giveni={X\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{2561787cca99bbb866fd3f0e06bccb7a}
+      \strng{fullhash}{2561787cca99bbb866fd3f0e06bccb7a}
+      \strng{bibnamehash}{2561787cca99bbb866fd3f0e06bccb7a}
+      \strng{authorbibnamehash}{2561787cca99bbb866fd3f0e06bccb7a}
+      \strng{authornamehash}{2561787cca99bbb866fd3f0e06bccb7a}
+      \strng{authorfullhash}{2561787cca99bbb866fd3f0e06bccb7a}
+      \field{labelalpha}{ZZ25}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{We propose PDE-Transformer, a novel sequence modeling paradigm that casts the forward pass of a Transformer as the numerical discretization of a continuous reaction-diffusion system derived from a variational energy functional. In our framework, token embeddings evolve under a partial differential equation whose nonlocal integral term models self-attention, local reaction term models feed-forward layers, diffusion term encodes positional smoothing, and a stability control term corresponds to layer normalization. From this unifying perspective, we design an Adaptive PDE Diffusion Layer-an efficient, learnable finite-difference stencil that enforces local smoothness in feature space with linear time complexity and complements self-attention's global routing. Through a systematic theoretical analysis based on four pillars:stability, diffusion geometry, multi-scale dynamics, and component coupling, we derive principled guidelines for integrating the PDE layer at seven candidate points in the Transformer. Empirically, on the Long Range Arena benchmark, placing the layer immediately after embedding yields a 4.1 pp average accuracy gain over a strong baseline, and an adaptive multi-scale variant delivers further improvements. Our work thus offers a principled, lightweight mechanism to bolster long-range dependency modeling by harmonizing continuous PDE smoothing with discrete self-attention.}
+      \field{eprintclass}{cs}
+      \field{eprinttype}{arXiv}
+      \field{month}{10}
+      \field{number}{arXiv:2510.03272}
+      \field{shorttitle}{{{PDE-Transformer}}}
+      \field{title}{{{PDE-Transformer}}: {{A Continuous Dynamical Systems Approach}} to {{Sequence Modeling}}}
+      \field{urlday}{5}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.48550/arXiv.2510.03272
+      \endverb
+      \verb{eprint}
+      \verb 2510.03272
+      \endverb
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/VJVEY5N7/Zhang and Zhou - 2025 - PDE-Transformer A Continuous Dynamical Systems Approach to Sequence Modeling.pdf;/Users/aalokhina3/Zotero/storage/K5E2THGM/2510.html
+      \endverb
+      \keyw{Computer Science - Artificial Intelligence,Computer Science - Machine Learning}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
