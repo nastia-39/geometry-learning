@@ -1,19 +1,19 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'main.blg'
-[37] biber-darwin:340> INFO - === Fri Dec  5, 2025, 18:54:28
+[37] biber-darwin:340> INFO - === Sun Dec  7, 2025, 19:38:53
 [46] Biber.pm:419> INFO - Reading 'main.bcf'
-[87] Biber.pm:979> INFO - Found 3 citekeys in bib section 0
-[96] Biber.pm:4419> INFO - Processing section 0
-[107] Biber.pm:4610> INFO - Looking for bibtex file 'ref.bib' for section 0
-[126] bibtex.pm:1713> INFO - LaTeX decoding ...
-[328] bibtex.pm:1519> INFO - Found BibTeX data source 'ref.bib'
-[371] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[371] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[371] Biber.pm:4239> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
-[371] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[373] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[374] bbl.pm:763> INFO - Output to main.bbl
-[374] Biber.pm:131> WARN - Duplicate entry key: 'NIPS2006_5848ad95' in file 'ref.bib', skipping ...
-[374] Biber.pm:131> WARN - Duplicate entry key: 'NIPS2006_5848ad95' in file 'ref.bib', skipping ...
-[374] Biber.pm:131> WARN - Duplicate entry key: 'NIPS2006_5848ad95' in file 'ref.bib', skipping ...
-[374] Biber.pm:133> INFO - WARNINGS: 3
+[89] Biber.pm:979> INFO - Found 5 citekeys in bib section 0
+[97] Biber.pm:4419> INFO - Processing section 0
+[103] Biber.pm:4610> INFO - Looking for bibtex file 'ref.bib' for section 0
+[121] bibtex.pm:1713> INFO - LaTeX decoding ...
+[320] bibtex.pm:1519> INFO - Found BibTeX data source 'ref.bib'
+[366] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[366] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[366] Biber.pm:4239> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[366] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[369] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[371] bbl.pm:763> INFO - Output to main.bbl
+[371] Biber.pm:131> WARN - Duplicate entry key: 'NIPS2006_5848ad95' in file 'ref.bib', skipping ...
+[371] Biber.pm:131> WARN - Duplicate entry key: 'NIPS2006_5848ad95' in file 'ref.bib', skipping ...
+[371] Biber.pm:131> WARN - Duplicate entry key: 'NIPS2006_5848ad95' in file 'ref.bib', skipping ...
+[371] Biber.pm:133> INFO - WARNINGS: 3

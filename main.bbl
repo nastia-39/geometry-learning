@@ -118,6 +118,121 @@
       \endverb
       \keyw{Computer Science - Machine Learning,Mathematics - Analysis of PDEs,Mathematics - Dynamical Systems}
     \endentry
+    \entry{jacotNeuralTangentKernel2020}{misc}{}
+      \name{author}{3}{}{%
+        {{hash=1111c3e5fbd5fbb1b1cb45bca2136642}{%
+           family={Jacot},
+           familyi={J\bibinitperiod},
+           given={Arthur},
+           giveni={A\bibinitperiod}}}%
+        {{hash=7b326b5ce3c716fce6ac8de9447d7837}{%
+           family={Gabriel},
+           familyi={G\bibinitperiod},
+           given={Franck},
+           giveni={F\bibinitperiod}}}%
+        {{hash=67162c03a705984a8ecf3bdde982f6d0}{%
+           family={Hongler},
+           familyi={H\bibinitperiod},
+           given={Clément},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{6a26913c0fd65de3174ae8c5e7a592ff}
+      \strng{fullhash}{6a26913c0fd65de3174ae8c5e7a592ff}
+      \strng{bibnamehash}{6a26913c0fd65de3174ae8c5e7a592ff}
+      \strng{authorbibnamehash}{6a26913c0fd65de3174ae8c5e7a592ff}
+      \strng{authornamehash}{6a26913c0fd65de3174ae8c5e7a592ff}
+      \strng{authorfullhash}{6a26913c0fd65de3174ae8c5e7a592ff}
+      \field{labelalpha}{JGH20}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{At initialization, artificial neural networks (ANNs) are equivalent to Gaussian processes in the infinite-width limit, thus connecting them to kernel methods. We prove that the evolution of an ANN during training can also be described by a kernel: during gradient descent on the parameters of an ANN, the network function \$f\_\textbackslash theta\$ (which maps input vectors to output vectors) follows the kernel gradient of the functional cost (which is convex, in contrast to the parameter cost) w.r.t. a new kernel: the Neural Tangent Kernel (NTK). This kernel is central to describe the generalization features of ANNs. While the NTK is random at initialization and varies during training, in the infinite-width limit it converges to an explicit limiting kernel and it stays constant during training. This makes it possible to study the training of ANNs in function space instead of parameter space. Convergence of the training can then be related to the positive-definiteness of the limiting NTK. We prove the positive-definiteness of the limiting NTK when the data is supported on the sphere and the non-linearity is non-polynomial. We then focus on the setting of least-squares regression and show that in the infinite-width limit, the network function \$f\_\textbackslash theta\$ follows a linear differential equation during training. The convergence is fastest along the largest kernel principal components of the input data with respect to the NTK, hence suggesting a theoretical motivation for early stopping. Finally we study the NTK numerically, observe its behavior for wide networks, and compare it to the infinite-width limit.}
+      \field{eprintclass}{cs}
+      \field{eprinttype}{arXiv}
+      \field{month}{2}
+      \field{number}{arXiv:1806.07572}
+      \field{shorttitle}{Neural {{Tangent Kernel}}}
+      \field{title}{Neural {{Tangent Kernel}}: {{Convergence}} and {{Generalization}} in {{Neural Networks}}}
+      \field{urlday}{21}
+      \field{urlmonth}{8}
+      \field{urlyear}{2025}
+      \field{year}{2020}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.48550/arXiv.1806.07572
+      \endverb
+      \verb{eprint}
+      \verb 1806.07572
+      \endverb
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/DQEFI432/Jacot et al. - 2020 - Neural Tangent Kernel Convergence and Generalization in Neural Networks.pdf;/Users/aalokhina3/Zotero/storage/LAU7IJNI/1806.html
+      \endverb
+      \keyw{Computer Science - Machine Learning,Computer Science - Neural and Evolutionary Computing,Mathematics - Probability,NTK,Statistics - Machine Learning}
+    \endentry
+    \entry{shenUnderstandingInContextLearning2025a}{misc}{}
+      \name{author}{4}{}{%
+        {{hash=994f3d10006aa16f7b459dd66f69c4b8}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Zhaiming},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=3f7f82d1bb24eb8c217802722f768b24}{%
+           family={Hsu},
+           familyi={H\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1f15339d10b8c3d94cf3f4c61424aaad}{%
+           family={Lai},
+           familyi={L\bibinitperiod},
+           given={Rongjie},
+           giveni={R\bibinitperiod}}}%
+        {{hash=dca41abb88b93d80d97aa5e88cfc1df4}{%
+           family={Liao},
+           familyi={L\bibinitperiod},
+           given={Wenjing},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{f8e66da20d5652da91fdbdb2810ad0ca}
+      \strng{fullhash}{e61a9469d8eaeb06f6bf49a87401823a}
+      \strng{bibnamehash}{f8e66da20d5652da91fdbdb2810ad0ca}
+      \strng{authorbibnamehash}{f8e66da20d5652da91fdbdb2810ad0ca}
+      \strng{authornamehash}{f8e66da20d5652da91fdbdb2810ad0ca}
+      \strng{authorfullhash}{e61a9469d8eaeb06f6bf49a87401823a}
+      \field{labelalpha}{She+25}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{While in-context learning (ICL) has achieved remarkable success in natural language and vision domains, its theoretical understanding-particularly in the context of structured geometric data-remains unexplored. This paper initiates a theoretical study of ICL for regression of Hölder functions on manifolds. We establish a novel connection between the attention mechanism and classical kernel methods, demonstrating that transformers effectively perform kernel-based prediction at a new query through its interaction with the prompt. This connection is validated by numerical experiments, revealing that the learned query-prompt scores for Hölder functions are highly correlated with the Gaussian kernel. Building on this insight, we derive generalization error bounds in terms of the prompt length and the number of training tasks. When a sufficient number of training tasks are observed, transformers give rise to the minimax regression rate of Hölder functions on manifolds, which scales exponentially with the intrinsic dimension of the manifold, rather than the ambient space dimension. Our result also characterizes how the generalization error scales with the number of training tasks, shedding light on the complexity of transformers as in-context kernel algorithm learners. Our findings provide foundational insights into the role of geometry in ICL and novels tools to study ICL of nonlinear models.}
+      \field{eprintclass}{cs}
+      \field{eprinttype}{arXiv}
+      \field{month}{10}
+      \field{number}{arXiv:2506.10959}
+      \field{shorttitle}{Understanding {{In-Context Learning}} on {{Structured Manifolds}}}
+      \field{title}{Understanding {{In-Context Learning}} on {{Structured Manifolds}}: {{Bridging Attention}} to {{Kernel Methods}}}
+      \field{urlday}{8}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{year}{2025}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.48550/arXiv.2506.10959
+      \endverb
+      \verb{eprint}
+      \verb 2506.10959
+      \endverb
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/YKFHSDGB/Shen et al. - 2025 - Understanding In-Context Learning on Structured Manifolds Bridging Attention to Kernel Methods.pdf;/Users/aalokhina3/Zotero/storage/KDR5Z8ED/2506.html
+      \endverb
+      \keyw{Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Mathematics - Statistics Theory}
+    \endentry
     \entry{zhangPDETransformerContinuousDynamical2025}{misc}{}
       \name{author}{2}{}{%
         {{hash=caa6681753bd9f2dba4443aa540a22a6}{%

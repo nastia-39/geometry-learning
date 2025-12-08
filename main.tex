@@ -38,7 +38,7 @@
 \renewcommand{\dataset}{{D}}
 
 
-\section{Definitions}
+\section{Definitions and Previous Results}
 
 \begin{definition}
     A metric tensor on (the embedded in $\mathbb{R}^k$) manifold $\manifold$ is a function $g: \manifold \to \mathbb{R}^{k \times k},\forall x \in \manifold, \rank g(x) = \dim \manifold, g(x) \succeq 0$.
@@ -85,6 +85,16 @@ where $\nabla_g f$ denotes the gradient of $f$ with respect to the metric $g$, $
         \Delta_g f(x) = \nabla \cdot \nabla_g f(x) = \nabla \cdot (g \nabla f(x)) \in \mathbb{R}
     \]
 \end{definition}
+
+\begin{theorem}[Strong Whitney embedding theorem]
+     The \emph{strong Whitney embedding theorem} states that any smooth real $m$-dimensional manifold (required also to be Hausdorff and second-countable) can be smoothly embedded in the real $2 m$-space, $\mathbb{R}^{2 m}$, if $m>0$. This is the best linear bound on the smallest-dimensional Euclidean space that all $m$-dimensional manifolds embed in, as the real projective spaces of dimension $m$ cannot be embedded into real ( $2 m-1$ )-space if $m$ is a power of two (as can be seen from a characteristic class argument, also due to Whitney).
+\end{theorem}
+
+\begin{theorem}[weak Whitney embedding theorem]
+
+    The \emph{weak Whitney embedding theorem} states that any continuous function from an $n$-dimensional manifold to an $m$ dimensional manifold may be approximated by a smooth embedding provided $m>2 n$. Whitney similarly proved that such a map could be approximated by an immersion provided $m>2 n-1$. This last result is sometimes called the Whitney immersion theorem.
+
+\end{theorem}
 
 \section{Learning a function}
 \paragraph{Given:} 
@@ -164,29 +174,105 @@ where $\mathcal{E}_{\manifold, g}(f_i)$ is the Dirichlet energy of $f_i$ with re
 % \end{gather*}
 
 
-\textbf{Idea 2: training a transformer-like model = learning a geometry of a manifold} 
-
 Okay, as of now, we didn't have a need to perform GD in a function space inside the global optimization with respect to the metric tensor $g$ -- there was no need to train a transformer-like model with multiple layers. In what case would that be necessary? 
 
 
-\section{More Complex Geometry}
+% \section{More Complex Geometry}
 
-Okay, let us consider a more complex geometry so that performing gradient descent in a function space is necessary during optimization over $g$. 
+% Okay, let us consider a more complex geometry so that performing gradient descent in a function space is necessary during optimization over $g$. 
 
-What if the metric tensor $g(x)$ also depends on the function $f(x)$ on the manifold: $g(x, f)$? 
+% What if the metric tensor $g(x)$ also depends on the function $f(x)$ on the manifold: $g(x, f)$? 
 
-\paragraph{The Perona--Malik anisotropic diffusion} Equation is given by
+% \paragraph{The Perona--Malik anisotropic diffusion} Equation is given by
+% \[
+% \frac{\partial u}{\partial t}
+% = \nabla \cdot \bigl( c(|\nabla u|) \, \nabla u \bigr),
+% \]
+% where \(u(x,t)\) is the evolving signal or image, and the 
+% diffusivity function \(c(\cdot)\) is typically chosen as
+% \[
+% c(s) = \exp\!\left( - \left(\frac{s}{K}\right)^2 \right)
+% \qquad\text{or}\qquad
+% c(s) = \frac{1}{1 + \left(\frac{s}{K}\right)^2 }.
+% \]
+
+\section{Lessons from Kernel Methods} 
+
+\begin{itemize}
+    \item If we know \emph{the right} kernel $\kappa(x, y)$, given $\{(\vx_i, y_i)\}_{i=1}^n$ we can approximate any $f(x)$ is one step. For example, in \textcite{jacotNeuralTangentKernel2020} we learn a function that would give us the right kernel.
+    \item The generalization error will on 
+    \begin{itemize}
+        \item the number of samples $n$
+        \item the spectrum of $\mathcal{T}_\kappa$
+        \item the regularity of the $f$
+    \end{itemize}
+    as the risk is expressed as 
+    $$\mathcal{E}\left(\hat{f}_\lambda\right)=\underbrace{\sum_{j \geq 1}\left(\frac{\lambda}{\mu_j+\lambda}\right)^2 f_j^2}_{\text {bias term }}+\underbrace{\frac{\sigma^2}{n} \sum_{j \geq 1} \frac{\mu_j}{\left(\mu_j+\lambda\right)^2}}_{\text {variance term }}$$
+    \item So again, given some functions $f_1, \ldots, f_i$ we want to find kernel $\kappa$ with respect to what those functions are as smooth as possible.
+    \item If we can do that we can easily learn a function on a fly.
+    \item paper \textcite{shenUnderstandingInContextLearning2025a} brigdes kernel methods to $O(1)$-layer transformers.
+\end{itemize}
+
+\section{Distorted Manifold Hypothesis}
+
+Let $\mu$ be a probability distribution supported on a $d$-dimensional manifold $\mathcal{M} \subset \mathbb{R}^k$.
+
+\paragraph{Hypothesis:} True data: set of points $x \in \Real^k$ that comes from $\mu$ -- a probability distribution supported on a $d$-dimensional manifold $\mathcal{M} \subset \mathbb{R}^k,  ~ d \ll k$. However, we some distortion process $Z(\vx, t)$ we observed distorted points $\tilde\vx$ not $\vx$. For example, the distortion governed by time-inhomogeneous diffusion $D(t): [0, 1] \to \Real^{n \times n}, D \succeq 0$ and drift $b:[0, 1] \to \Real^n$. 
+
 \[
-\frac{\partial u}{\partial t}
-= \nabla \cdot \bigl( c(|\nabla u|) \, \nabla u \bigr),
+\begin{cases}
+\displaystyle \frac{\partial \mu_t(x)}{\partial t}
+= \nabla_x \cdot\big( D(t)\,\nabla_x \mu_t(x) \big)\;-\; b(t) \cdot \nabla_x \mu_t(x),
+& x \in \mathbb{R}^k,\; t \in (0,1],\\[0.6em]
+\mu_{t=0}(x) = \mu(x),
+& x \in \mathbb{R}^k.
+\end{cases}
 \]
-where \(u(x,t)\) is the evolving signal or image, and the 
-diffusivity function \(c(\cdot)\) is typically chosen as
-\[
-c(s) = \exp\!\left( - \left(\frac{s}{K}\right)^2 \right)
-\qquad\text{or}\qquad
-c(s) = \frac{1}{1 + \left(\frac{s}{K}\right)^2 }.
-\]
+
+For an effective kernel method, we should eliminate some distortion before fitting observed data: $\{(\tilde \vx_i, y_i)\}$. 
+I believe that finding \emph{minimal-embedding} of $\mu$ helps with that. 
+
+\begin{definition}
+    A minimal embedding of $\mu$ is the map
+
+    $$
+    \Phi: \mathcal{M} \rightarrow \mathbb{R}^k
+    $$
+
+    that minimizes the Dirichlet energy of the embedding:
+
+    $$
+    \Phi^{\star}=\arg \min _{\Phi: \mathcal{M} \rightarrow \mathbb{R}^k} \mathcal{E}(\Phi):=\frac{1}{2} \sum_{j=1}^k \int_{\mathcal{M}}\left\|\nabla_{\mathcal{M}} \Phi_j(x)\right\|^2 d \mu(x)
+    $$
+
+    subject to natural constraints:
+    \begin{itemize}
+        \item $\Phi$ preserves the intrinsic dimension
+    (rank of the Jacobian is $d$ almost everywhere),
+     \item $\mathbb{E}_\mu[\Phi(x)]=0$
+    (remove trivial translations),
+    \item $\frac{1}{d} \int_{\mathcal{M}} \Phi(x) \Phi(x)^{\top} d \mu(x)=I_d$
+    \end{itemize}
+\end{definition}
+\textbf{Intuition:} the minimal embedding is the least energetic or smoothest way to embed the distribution into $\mathbb{R}^k$.
+Equivalently:
+\begin{itemize}
+    \item it is the embedding whose coordinate functions are harmonic: $\Delta_{\manifold} f = 0$.
+    \item it removes all geometric distortions caused by drift/diffusion processes,
+    \item it recovers the "canonical" coordinates of the underlying manifold w.r.t. the intrinsic geometry induced by $\mu$.
+    \item Minimal embedding $=$ the embedding with the simplest geometry for which $\mu$ looks undistorted.
+\end{itemize}
+
+
+\paragraph{Idea: } Transformer layers reverse the distortion and recoved the minimal energy of the $\tilde \mu$.
+
+For example to reverse the diffusion one should do: 
+
+$$\left\{\begin{array}{l}-\partial_t \mu_t(x)=-\nabla \cdot\left(b_t(x) \mu_t(x)\right)+\nabla \cdot\left(D_t(x) \nabla \mu_t(x)\right), \quad t \in[0,1], \\ \mu_1(x)=\tilde \mu(x) .\end{array}\right.$$ 
+
+One transformer layer = One gradient step in the measure space that captures the equation above (on a discretized $\mu$).
+
+However, this process is ill-posed as the diffusion destroys high-frequency models so some information will be inevatably lost. 
 
 \section*{Relevant literature}
 
@@ -194,6 +280,7 @@ c(s) = \frac{1}{1 + \left(\frac{s}{K}\right)^2 }.
     \item \textcite{geshkovskiMathematicalPerspectiveTransformers2025} -- models transformers as interacting particle systems
     \item \textcite{belkinConvergenceLaplacianEigenmaps2006} -- on the convergence of discrete Laplacian to Laplace-Beltrami operator
     \item \textcite{zhangPDETransformerContinuousDynamical2025} -- PDE view on transformers
+    \item \textcite{jacotNeuralTangentKernel2020}
 \end{itemize}
 
 \printbibliography
