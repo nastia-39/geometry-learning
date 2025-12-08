@@ -276,7 +276,33 @@ However, this process is ill-posed as the diffusion destroys high-frequency mode
 
 \section{Scaling Laws}
 
-This framework can explain the Scaling law of the transformers as well : 
+This framework can explain the Scaling laws of the transformers as well \parencite{kaplanScalingLawsNeural2020}: 
+\begin{itemize}
+    \item Test loss as a power law in model size -- how many frequencies can be captured by the model, depends on the spectrum decay rate, how fine discretization of the reversed distortion process is.
+
+    $$
+    L(N)=L_{\infty}+A N^{-\alpha}
+    $$
+
+
+    \item Test loss as a power law in dataset size -- how many points are sampled from the manifold. 
+
+$$
+L(D)=L_{\infty}+B D^{-\beta}
+$$
+
+
+    \item Test loss as a power law in compute -- how many gradient descent steps are performed on a function $D(t, \cdot)$ in the space of possible distortions.
+
+$$
+L(C)=L_{\infty}+K C^{-\gamma}
+$$
+
+
+Empirical exponents (Kaplan et al. 2020):
+$$\alpha \approx 0.076,\beta \approx 0.095,\gamma \approx 0.048$$
+
+\end{itemize}
 
 
 \section*{Relevant literature}
