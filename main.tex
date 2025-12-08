@@ -158,7 +158,7 @@ Hence, one step of gradient descent becomes (yes, here comes the "stretch") like
 
 \section{Learning a manifold}
 
-What if we are given a few smooth functions $f_1, \ldots, f_l: \mathbb{R}^k \to \mathbb{R}$ on a manifold $\manifold$. However, we don't know the metric tensor $g$ on $\manifold$. Can we learn the metric tensor such that the functions $f_1, \ldots, f_l$ are as smooth as possible? If we do so, then we can easily learn a new smooth function from a few observations on the fly next time. 
+What if we are given a few smooth functions $f_1, \ldots, f_l: \mathbb{R}^k \to \mathbb{R}$ on a manifold $\manifold$ embedded in $\Real^k$. However, we don't know the metric tensor $g$ on $\manifold$. Can we learn the metric tensor such that the functions $f_1, \ldots, f_l$ are as smooth as possible? If we do so, then we can easily learn a new smooth function from a few observations on the fly next time. 
 
 For this problem, the objective is the following:
 \begin{gather*}
@@ -199,7 +199,7 @@ Okay, as of now, we didn't have a need to perform GD in a function space inside 
 \section{Lessons from Kernel Methods} 
 
 \begin{itemize}
-    \item If we know \emph{the right} kernel $\kappa(x, y)$, given $\{(\vx_i, y_i)\}_{i=1}^n$ we can approximate any $f(x)$ is one step. For example, in \textcite{jacotNeuralTangentKernel2020} we learn a function that would give us the right kernel.
+    \item If we know \emph{the right} kernel $\kappa(x, y)$, given $\{(\vx_i, y_i)\}_{i=1}^n$ we can approximate any $f(x)$ is one step. For example, in \textcite{jacotNeuralTangentKernel2020}  NN learns a function that would give us the right kernel.
     \item The generalization error will on 
     \begin{itemize}
         \item the number of samples $n$
@@ -273,6 +273,11 @@ $$\left\{\begin{array}{l}-\partial_t \mu_t(x)=-\nabla \cdot\left(b_t(x) \mu_t(x)
 One transformer layer = One gradient step in the measure space that captures the equation above (on a discretized $\mu$).
 
 However, this process is ill-posed as the diffusion destroys high-frequency models so some information will be inevatably lost. 
+
+\section{Scaling Laws}
+
+This framework can explain the Scaling law of the transformers as well : 
+
 
 \section*{Relevant literature}
 
