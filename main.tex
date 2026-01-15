@@ -305,6 +305,58 @@ $$\alpha \approx 0.076,\beta \approx 0.095,\gamma \approx 0.048$$
 \end{itemize}
 
 
+\section{The Last Piece of the Puzzle!}
+\begin{theorem}[Takahashi's Theorem (1966) \parencite{takahashiMinimalImmersionsRiemannian1966}]
+Let
+
+$$
+X:\left(M^d, g\right) \longrightarrow S^{k-1}(1) \subset \mathbb{R}^k
+$$
+
+be an isometric immersion of a $d$-dimensional Riemannian manifold into the unit sphere.
+Then the following are equivalent:
+\begin{enumerate}
+        \item $X(M)$ is a minimal submanifold of the sphere.
+
+        That is, its mean curvature vector $H$ (as a submanifold of $S^{k-1}$ ) satisfies
+        
+        $$
+        H \equiv 0 .
+        $$
+
+        \item The coordinate functions of $X$ are Laplace-Beltrami eigenfunctions with eigenvalue $d$ :
+
+        $$
+        \Delta_M X=-d X
+        $$
+        
+        
+        Here $\Delta_M$ acts componentwise on
+        
+        $$
+        X=\left(X^1, \ldots, X^k\right): M \rightarrow \mathbb{R}^k
+        $$
+        
+        
+        Equivalently:
+        
+        $$
+        \Delta_M X^j=-d X^j, \quad j=1, \ldots, k
+        $$
+    \end{enumerate}
+\end{theorem}
+
+So what transformer is doing is 
+\begin{enumerate}
+    \item Denoising the data via reverse diffusion process.
+    \item Finding a minimal embedding of the manifold $\manifold$ into the unit sphere $S^{k-1}(1) \subset \mathbb{R}^k$, hence, its first $k$ eigenfunctions: $\phi_1, \ldots, \phi_k$. Finding the min-embedding helps to remove the redundant dimensions of the original embedding. 
+    \item For a given function $f: \manifold \to \mathbb{R}$, find alpha $\alpha \in \mathbb{R}^k$ such that $f \approx \alpha \cdot \phi$. Just least square regression, linear transformer is capable of doing that \parencite{zhangTrainedTransformersLearn}.
+    \item Predict $f(x)$ using $f \approx \alpha \cdot \phi$. This is basically an in-context learning step.
+\end{enumerate}
+
+
+
+
 \section*{Relevant literature}
 
 \begin{itemize}
@@ -314,6 +366,64 @@ $$\alpha \approx 0.076,\beta \approx 0.095,\gamma \approx 0.048$$
     \item \textcite{jacotNeuralTangentKernel2020}
 \end{itemize}
 
+
+\newpage  
+        
+\section{Transformers learn ReLU in context}
+
+\subsection*{Assumptions} 
+ \newcommand{\domain}{\mathcal{M}}
+ \newcommand{\ffam}{\mathcal{F}}
+ \newcommand{\relu}{\mathrm{ReLU}}
+ \newcommand{\vspan}{\mathrm{span}}
+
+\begin{itemize}
+    \item Bounded domain $\domain \subset R^k$ 
+    \item Function class $\ffam = \{ f(\vx) \mid f: \domain \to \Real, f(\vx) = \sum_{i=1}^m a_i \relu({\vw_i^\top \vx}) \text{ where } a_i \in \Real, \vw_i \in \Real^k \}$
+    \item Assume that $\dim(\ffam) = d \ll km$, specifically, each 
+    $\vw_i \in \vspan\{\bm{\omega}_1, \ldots, \bm{\omega}_d\}$ 
+\end{itemize}
+
+\subsection*{Problem Set Up}
+
+Given $\{(\vx_i, y_i = f(\vx_i))\}$ we want to recover $\bar a, W$ that parametrize $f_{\bar a, W}$. 
+Let 
+$$Q = I - \sum_{i=1}^d \bm\omega_i \bm\omega_i^\top$$ 
+
+
+
+\begin{align*}
+    \min_{\substack{u_j: \domain \to \Real^k \\ j = 1, \ldots, m}} 
+    \int_{\vx \in \domain}
+    \underbrace{
+        \left\| \sum_{j=1}^m u_j(\vx)^\top  \vx  - y(\vx) \right\|_2^2
+    }_{\text{function fitting error}}
+    +
+    \underbrace{
+        \lambda \left\| \nabla u_j \right\|_{Q}^2 dx
+    }_{\text{piecewise linearity}}
+\end{align*}
+
+Convex in $u_j$ hence, can be solved by gradient descent:
+
+\begin{align*}
+    \frac{\partial u_j}{\partial t}(\vx) = 2 \left( \sum_{i=1}^m u_i (\vx)^\top \vx - y(\vx) \right) \vx  - \lambda \Delta_{Q} u_j(\vx)
+\\
+    u_j^{(l+1)} = u_j^{(l)} - \eta \frac{\partial u_j^{(l)}}{\partial t}
+\end{align*}
+where $\Delta_{Q}$ is the Laplacian with respect to the metric $Q$.
+
+
+\begin{align}
+    \min_{u_j} \int \left\| \sum_j u_j^\top \vx - y \right\|^2 + \lambda \left\| \sum_j \nabla u_j \nabla u_j^\top \right\|_* dx
+\end{align}
+
 \printbibliography
+
+\newpage
+
+\section{Intro} 
+
+
 
 \end{document}

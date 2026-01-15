@@ -2366,14 +2366,16 @@
     <bcf:citekey order="3" intorder="1">shenUnderstandingInContextLearning2025a</bcf:citekey>
     <bcf:citekey order="4" intorder="1">shenUnderstandingInContextLearning2025a</bcf:citekey>
     <bcf:citekey order="5" intorder="1">kaplanScalingLawsNeural2020</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">geshkovskiMathematicalPerspectiveTransformers2025</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">geshkovskiMathematicalPerspectiveTransformers2025</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">belkinConvergenceLaplacianEigenmaps2006</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">belkinConvergenceLaplacianEigenmaps2006</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">zhangPDETransformerContinuousDynamical2025</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">zhangPDETransformerContinuousDynamical2025</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">jacotNeuralTangentKernel2020</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">jacotNeuralTangentKernel2020</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">takahashiMinimalImmersionsRiemannian1966</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">zhangTrainedTransformersLearn</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">geshkovskiMathematicalPerspectiveTransformers2025</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">geshkovskiMathematicalPerspectiveTransformers2025</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">belkinConvergenceLaplacianEigenmaps2006</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">belkinConvergenceLaplacianEigenmaps2006</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">zhangPDETransformerContinuousDynamical2025</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">zhangPDETransformerContinuousDynamical2025</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">jacotNeuralTangentKernel2020</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">jacotNeuralTangentKernel2020</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="anyt">

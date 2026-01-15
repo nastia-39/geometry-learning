@@ -322,6 +322,83 @@
       \endverb
       \keyw{Computer Science - Artificial Intelligence,Computer Science - Machine Learning,Mathematics - Statistics Theory}
     \endentry
+    \entry{takahashiMinimalImmersionsRiemannian1966}{article}{}
+      \name{author}{1}{}{%
+        {{hash=dc720701f594382d801573386fd1d426}{%
+           family={Takahashi},
+           familyi={T\bibinitperiod},
+           given={Tsunero},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{dc720701f594382d801573386fd1d426}
+      \strng{fullhash}{dc720701f594382d801573386fd1d426}
+      \strng{bibnamehash}{dc720701f594382d801573386fd1d426}
+      \strng{authorbibnamehash}{dc720701f594382d801573386fd1d426}
+      \strng{authornamehash}{dc720701f594382d801573386fd1d426}
+      \strng{authorfullhash}{dc720701f594382d801573386fd1d426}
+      \field{labelalpha}{Tak66}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Journal of the Mathematical Society of Japan}
+      \field{issn}{0025-5645, 1881-1167}
+      \field{journaltitle}{Journal of the Mathematical Society of Japan}
+      \field{month}{10}
+      \field{number}{4}
+      \field{title}{Minimal Immersions of {{Riemannian}} Manifolds}
+      \field{urlday}{8}
+      \field{urlmonth}{12}
+      \field{urlyear}{2025}
+      \field{volume}{18}
+      \field{year}{1966}
+      \field{urldateera}{ce}
+      \field{pages}{380\bibrangedash 385}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.2969/jmsj/01840380
+      \endverb
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/3XSHPHPZ/Takahashi - 1966 - Minimal immersions of Riemannian manifolds.pdf
+      \endverb
+      \keyw{53.74}
+    \endentry
+    \entry{zhangTrainedTransformersLearn}{article}{}
+      \name{author}{3}{}{%
+        {{hash=830524e9808d4f28c4a759ac85a0bb87}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ruiqi},
+           giveni={R\bibinitperiod}}}%
+        {{hash=0d1a495ff6b182f713dc4ecc86240631}{%
+           family={Frei},
+           familyi={F\bibinitperiod},
+           given={Spencer},
+           giveni={S\bibinitperiod}}}%
+        {{hash=51fc11adc82c5171e6b03bb04073d8e6}{%
+           family={Bartlett},
+           familyi={B\bibinitperiod},
+           given={Peter\bibnamedelima L},
+           giveni={P\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{96c13b708810b98d6b743a77266b91ea}
+      \strng{fullhash}{96c13b708810b98d6b743a77266b91ea}
+      \strng{bibnamehash}{96c13b708810b98d6b743a77266b91ea}
+      \strng{authorbibnamehash}{96c13b708810b98d6b743a77266b91ea}
+      \strng{authornamehash}{96c13b708810b98d6b743a77266b91ea}
+      \strng{authorfullhash}{96c13b708810b98d6b743a77266b91ea}
+      \field{labelalpha}{ZFB}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Attention-based neural networks such as transformers have demonstrated a remarkable ability to exhibit in-context learning (ICL): Given a short prompt sequence of tokens from an unseen task, they can formulate relevant per-token and next-token predictions without any parameter updates. By embedding a sequence of labeled training data and unlabeled test data as a prompt, this allows for transformers to behave like supervised learning algorithms. Indeed, recent work has shown that when training transformer architectures over random instances of linear regression problems, these models' predictions mimic those of ordinary least squares.}
+      \field{langid}{english}
+      \field{title}{Trained {{Transformers Learn Linear Models In-Context}}}
+      \verb{file}
+      \verb /Users/aalokhina3/Zotero/storage/I3AZQE8D/Zhang et al. - Trained Transformers Learn Linear Models In-Context.pdf
+      \endverb
+    \endentry
     \entry{zhangPDETransformerContinuousDynamical2025}{misc}{}
       \name{author}{2}{}{%
         {{hash=caa6681753bd9f2dba4443aa540a22a6}{%

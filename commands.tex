@@ -196,7 +196,9 @@
 \newcommand{\edgesignalspace}{\mathcal{E}}
 \newcommand{\nodesignalspace}{\mathcal{X}}
 
-
+\foreach \x in {a,...,z}{%
+	\expandafter\xdef\csname v\x\endcsname{{\noexpand\boldsymbol{\noexpand\mathrm{\x}}}}
+}
 
 
 \newcommand{\adj}{a}
