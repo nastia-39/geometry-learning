@@ -422,8 +422,62 @@ where $\Delta_{Q}$ is the Laplacian with respect to the metric $Q$.
 
 \newpage
 
-\section{Intro} 
+\section{Training a ReLU Net} 
+
+\begin{align}
+    f_{\mu}(x) = \int_{w \in S^{d-1}} \sigma(\langle w, x\rangle) d\mu{(w)}
+\end{align}
+
+where $\mu(w)$ is finite signed Radon measure over $S^{d-1}$. Given a data the optimization problem is the following: 
+\begin{align*}
+    \min_{\mu} 
+    \underbrace{\sum_{i}\left(\int_{w} \sigma(\langle w, x_i\rangle) d \mu{(w)}  - y_i \right)^2}_{\text{data fit}} 
+    + 
+    \underbrace{\lambda \| \mu \|_{TV}}_{\text{regularization}}
+\end{align*}
+where total variation $\| \mu \|_{TV} = \int_w|\mu(w)|dw$ encourages sparsity.
+Importantly: this is convex in $\mu$.
 
 
+\section{Recovering a piecewise linear function (in context)}
+
+\begin{align*}
+    \min_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta f \|_{\mathcal{M}}
+\end{align*}
+where $\|\Delta f \|_{\mathcal{M}}$ is the Radon-measure TV norm -- enforcing few kinks / few curvature locations.
+
+\begin{align*}
+    \Delta f=\int_{S^{d-1}} \delta(\langle w, x\rangle) d \mu(w)
+\end{align*}
+
+Assuming that the (quadratic) cost function for each direction: $c(w) = \sqrt{w^\top Q w}$, the problem becomes:
+\begin{align*}
+    \min_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta_{Q} f \|_{\mathcal{M}}
+\end{align*}
+where $\Delta_{Q} = \nabla \cdot \left(Q^{-1} \nabla f\right)$ is the Laplacian with respect to the metric $Q$.
+
+For $D = \{(x_i, y_i)\}_{i=1}^n$ define: 
+
+\begin{align*}
+    f^*_D = \argmin_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta_{Q} f \|_{\mathcal{M}}
+\end{align*}
+
+Then given training data $D_t = \{(x^{(t)}_i, y^{(t)}_i)\}_{i=1}^{n}$ (unmasked) and $\hat D_t = \{(\hat x^{(t)}_i, \hat y^{(t)}_i)\}_{i=1}^{m}$ (masked) the full optimization minimizes the reconstruction error: 
+
+\begin{align*}
+    \min_{Q \succeq 0} \sum_{i=1}^t  \sum_{j=1}^m\left|f^*_{D_t}(\hat x^{(t)}_j) - \hat y^{(t)}_j \right|^2 
+\end{align*}
+
+This is NOT jointly convex in $Q$ and $f^*_{D_t}$. Let's overparametrize the problem by considering distribution over all PSD matrices $Q^{-1}$: $\rho$ over $\mathcal{S}_+$.
+Inner problem: convex in $f$, linear in $\rho$:
+\begin{align*}
+    f^*_D = \argmin_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \int\limits_{Q^{-1} \in \mathcal{S}_+} \lambda \|\nabla \cdot (Q^{-1} \nabla f) \|_{\mathcal{M}} d\rho(Q^{-1})
+\end{align*}
+
+Outer problem:
+\begin{align*}
+    \min_{ \rho} \sum_{i=1}^t  \sum_{j=1}^m\left|f^*_{D_t}(\hat x^{(t)}_j) - \hat y^{(t)}_j \right|^2 
+    + \| \rho \|_{TV} 
+\end{align*}
 
 \end{document}
