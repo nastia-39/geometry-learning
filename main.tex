@@ -28,7 +28,7 @@
 \input{commands}
 
 \addbibresource{ref.bib}
-\title{Learning  a \sout{function on a} manifold}
+\title{Learning a function energy space} 
 \date{December 2025}
 
 \begin{document}
@@ -38,446 +38,1254 @@
 \renewcommand{\dataset}{{D}}
 
 
-\section{Definitions and Previous Results}
+% \section{Definitions and Previous Results}
 
-\begin{definition}
-    A metric tensor on (the embedded in $\mathbb{R}^k$) manifold $\manifold$ is a function $g: \manifold \to \mathbb{R}^{k \times k},\forall x \in \manifold, \rank g(x) = \dim \manifold, g(x) \succeq 0$.
-\end{definition}
-
-
-\begin{definition}[Dirichlet energy]
-The \emph{Dirichlet energy} of a function $f : \manifold \to \mathbb{R}$ with respect to the manifold $\manifold$ equipped with the metric tensor $g$ is defined as
-\[
-    \mathcal{E}_{\manifold, g}(f) = \frac{1}{2} \int_{\manifold} \|\nabla_g f(x)\|_g^2 \, d\mu_g(x),
-\]
-where $\nabla_g f$ denotes the gradient of $f$ with respect to the metric $g$, $\|\cdot\|_g$ denotes the norm induced by $g$, and $\mu_g$ is the volume measure associated to $g$ on $\manifold$.
-\end{definition}
-
-\begin{definition}[Measure]
-    A Riemannian metric on a $d$-dimensional manifold is a smoothly varying inner product
-    $$
-    g_x: T_x M \times T_x M \rightarrow \mathbb{R} .
-    $$
-    In local coordinates, it is represented by a positive-definite matrix
-    $
-    g(x)=\left[g_{i j}(x)\right] .
-    $
-    The metric induces the Riemannian volume measure, often denoted:
-    $$
-    d \mu_g(x)=\sqrt{\operatorname{det} g(x)} d x^1 \cdots d x^d .
-    $$
-    This is the analogue of ``area $=\sqrt{\operatorname{det} g}$'' in differential geometry.
-    $d \mu_g(x)=\sqrt{\operatorname{det} g(x)} d x^1 \cdots d x^d$.
-\end{definition}
+% \begin{definition}
+%     A metric tensor on (the embedded in $\mathbb{R}^k$) manifold $\manifold$ is a function $g: \manifold \to \mathbb{R}^{k \times k},\forall x \in \manifold, \rank g(x) = \dim \manifold, g(x) \succeq 0$.
+% \end{definition}
 
 
-\begin{definition}[Gradient]
-    The gradient of a function $f: \manifold \to \mathbb{R}$ with respect to the metric tensor $g$ is defined as
-    \[
-        \nabla_g f(x) = g(x) \nabla f(x) \in T_x \manifold,
-    \]
-    where $\nabla f(x)$ is the gradient of $f$ with respect to the Euclidean metric.
-\end{definition}
+% \begin{definition}[Dirichlet energy]
+% The \emph{Dirichlet energy} of a function $f : \manifold \to \mathbb{R}$ with respect to the manifold $\manifold$ equipped with the metric tensor $g$ is defined as
+% \[
+%     \mathcal{E}_{\manifold, g}(f) = \frac{1}{2} \int_{\manifold} \|\nabla_g f(x)\|_g^2 \, d\mu_g(x),
+% \]
+% where $\nabla_g f$ denotes the gradient of $f$ with respect to the metric $g$, $\|\cdot\|_g$ denotes the norm induced by $g$, and $\mu_g$ is the volume measure associated to $g$ on $\manifold$.
+% \end{definition}
 
-\begin{definition}[Laplacian]
-    The Laplacian of a function $f: \manifold \to \mathbb{R}$ with respect to the metric $g$ is defined as
-    \[
-        \Delta_g f(x) = \nabla \cdot \nabla_g f(x) = \nabla \cdot (g \nabla f(x)) \in \mathbb{R}
-    \]
-\end{definition}
+% \begin{definition}[Measure]
+%     A Riemannian metric on a $d$-dimensional manifold is a smoothly varying inner product
+%     $$
+%     g_x: T_x M \times T_x M \rightarrow \mathbb{R} .
+%     $$
+%     In local coordinates, it is represented by a positive-definite matrix
+%     $
+%     g(x)=\left[g_{i j}(x)\right] .
+%     $
+%     The metric induces the Riemannian volume measure, often denoted:
+%     $$
+%     d \mu_g(x)=\sqrt{\operatorname{det} g(x)} d x^1 \cdots d x^d .
+%     $$
+%     This is the analogue of ``area $=\sqrt{\operatorname{det} g}$'' in differential geometry.
+%     $d \mu_g(x)=\sqrt{\operatorname{det} g(x)} d x^1 \cdots d x^d$.
+% \end{definition}
 
-\begin{theorem}[Strong Whitney embedding theorem]
-     The \emph{strong Whitney embedding theorem} states that any smooth real $m$-dimensional manifold (required also to be Hausdorff and second-countable) can be smoothly embedded in the real $2 m$-space, $\mathbb{R}^{2 m}$, if $m>0$. This is the best linear bound on the smallest-dimensional Euclidean space that all $m$-dimensional manifolds embed in, as the real projective spaces of dimension $m$ cannot be embedded into real ( $2 m-1$ )-space if $m$ is a power of two (as can be seen from a characteristic class argument, also due to Whitney).
-\end{theorem}
 
-\begin{theorem}[weak Whitney embedding theorem]
+% \begin{definition}[Gradient]
+%     The gradient of a function $f: \manifold \to \mathbb{R}$ with respect to the metric tensor $g$ is defined as
+%     \[
+%         \nabla_g f(x) = g(x) \nabla f(x) \in T_x \manifold,
+%     \]
+%     where $\nabla f(x)$ is the gradient of $f$ with respect to the Euclidean metric.
+% \end{definition}
 
-    The \emph{weak Whitney embedding theorem} states that any continuous function from an $n$-dimensional manifold to an $m$ dimensional manifold may be approximated by a smooth embedding provided $m>2 n$. Whitney similarly proved that such a map could be approximated by an immersion provided $m>2 n-1$. This last result is sometimes called the Whitney immersion theorem.
+% \begin{definition}[Laplacian]
+%     The Laplacian of a function $f: \manifold \to \mathbb{R}$ with respect to the metric $g$ is defined as
+%     \[
+%         \Delta_g f(x) = \nabla \cdot \nabla_g f(x) = \nabla \cdot (g \nabla f(x)) \in \mathbb{R}
+%     \]
+% \end{definition}
 
-\end{theorem}
+% \begin{theorem}[Strong Whitney embedding theorem]
+%      The \emph{strong Whitney embedding theorem} states that any smooth real $m$-dimensional manifold (required also to be Hausdorff and second-countable) can be smoothly embedded in the real $2 m$-space, $\mathbb{R}^{2 m}$, if $m>0$. This is the best linear bound on the smallest-dimensional Euclidean space that all $m$-dimensional manifolds embed in, as the real projective spaces of dimension $m$ cannot be embedded into real ( $2 m-1$ )-space if $m$ is a power of two (as can be seen from a characteristic class argument, also due to Whitney).
+% \end{theorem}
 
-\section{Learning a function}
-\paragraph{Given:} 
-\begin{itemize}
-    \item An embedded manifold $\manifold \subset \mathbb{R}^k, \dim \manifold = d$
-    \item A metric tensor on $\manifold$: $g: \manifold \to \mathbb{R}^{k \times k},\forall \vx \in \manifold, \rank g(\vx) = d, g(\vx) \succeq 0$. 
+% \begin{theorem}[weak Whitney embedding theorem]
+
+%     The \emph{weak Whitney embedding theorem} states that any continuous function from an $n$-dimensional manifold to an $m$ dimensional manifold may be approximated by a smooth embedding provided $m>2 n$. Whitney similarly proved that such a map could be approximated by an immersion provided $m>2 n-1$. This last result is sometimes called the Whitney immersion theorem.
+
+% \end{theorem}
+
+% \section{Learning a function}
+% \paragraph{Given:} 
+% \begin{itemize}
+%     \item An embedded manifold $\manifold \subset \mathbb{R}^k, \dim \manifold = d$
+%     \item A metric tensor on $\manifold$: $g: \manifold \to \mathbb{R}^{k \times k},\forall \vx \in \manifold, \rank g(\vx) = d, g(\vx) \succeq 0$. 
     
-    \emph{Note: For simplicity, we assume $\det g(\vx) = 1$ hence, the measure is the Lebesgue measure.}
-    \item A dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$ where $\vx_i \in \manifold, y_i \in \mathbb{R}$ 
-\end{itemize}
+%     \emph{Note: For simplicity, we assume $\det g(\vx) = 1$ hence, the measure is the Lebesgue measure.}
+%     \item A dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$ where $\vx_i \in \manifold, y_i \in \mathbb{R}$ 
+% \end{itemize}
 
-\paragraph{Goal:} to learn the smoothest function $f: \manifold \to \mathbb{R}$ such that the function $f(\vx_i) \approx y_i$. 
+% \paragraph{Goal:} to learn the smoothest function $f: \manifold \to \mathbb{R}$ such that the function $f(\vx_i) \approx y_i$. 
 
-Constrained optimization:
-\begin{align*}
-    \min_{f} \mathcal{E}_{\manifold, g}(f) \\
-    \text{s.t. } f(\vx_i) = y_i, \forall i 
-     \in [n].
-\end{align*}
+% Constrained optimization:
+% \begin{align*}
+%     \min_{f} \mathcal{E}_{\manifold, g}(f) \\
+%     \text{s.t. } f(\vx_i) = y_i, \forall i 
+%      \in [n].
+% \end{align*}
 
-Unconstrained optimization:
-\begin{gather*}
-    \min_{f} \mathcal{E}_{\manifold, g}(f) + \lambda \sum_{i=1}^n (f(\vx_i) - y_i)^2 
-    = \\
-    \min_{f}
-    \frac{1}{2} 
-    \int_{\manifold} \|\nabla_g f(\vx)\|_g^2 \, d\mu_g(\vx) + \lambda \sum_{i=1}^n (f(\vx_i) - y_i)^2
-\end{gather*}
-Gradient descent, convex optimization (in a \emph{function} space):
-\begin{align*}
-    \text{PDE: }& \frac{\partial f}{\partial t} = - \Delta_g f + 2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i} 
-    \\
-    \text{step: }& f_{t+1} = f_t +  \eta\left(\Delta_g f_t - 2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i}\right)
-\end{align*}
-
-\begin{definition}[Gradient-flow evolution operator]
-    We will denote $\Phi_T(f_i)$ as the gradient-flow evolution operator of $f_i$ after time $T$ of gradient descent. Note, that $\Phi_T(f_i) = \Phi_T(f_i, g, \manifold, \dataset)$ depends on the metric tensor $g$, the manifold $\manifold$, and the dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$.
-\end{definition}
-
-\paragraph{Discretization in space}
-(Disclaimer: this is a bit of a stretch.)
-If $\manifold$ is discretized as a point cloud $\mathcal{P} = \{\vz_i\}_{i=1}^n$ with weights 
-$$w_{ij} = \exp\left(-\frac{\|\vz_i - \vz_j\|_{g(\vz_i)}^2}{\epsilon}\right)$$
-(epsilon TBD), one may argue that:
-\begin{align*}
-    L_{\mathcal{P}} D^{-1}_{\mathcal{P}}  \approx  \Delta_g 
-\end{align*}
-Hence, one step of gradient descent becomes (yes, here comes the "stretch") like a transformer layer:
-\begin{align*}
-    f_{t+1}(\vz) 
-    = 
-    \underbrace{f_t(\vz)}_{\text{Residual}} 
-    +  
-    \eta\left( 
-    \underbrace{\frac{\sum_{i} \exp(-{\|\vz - \vz_i\|_{g(\vz)}^2}/{\epsilon}) f_t(\vz_i)}{\sum_{j} \exp(-{\|\vz - \vz_j\|_{g(\vz)}^2}/{\epsilon})}}_{\approx \text{Attention}}  - \underbrace{2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i}(\vz)}_{\text{Residual}}
-    \right) 
-\end{align*}
-
-\textbf{Idea 1: what if a fixed transformer performs gradient descent on the function space, hence, learns a function in context?} 
-
-
-\section{Learning a manifold}
-
-What if we are given a few smooth functions $f_1, \ldots, f_l: \mathbb{R}^k \to \mathbb{R}$ on a manifold $\manifold$ embedded in $\Real^k$. However, we don't know the metric tensor $g$ on $\manifold$. Can we learn the metric tensor such that the functions $f_1, \ldots, f_l$ are as smooth as possible? If we do so, then we can easily learn a new smooth function from a few observations on the fly next time. 
-
-For this problem, the objective is the following:
-\begin{gather*}
-    \min_{g} \sum_{i=1}^l \mathcal{E}_{\manifold, g}(f_i) \\
-    \text{s.t. } \det g(\vx) = 1 \text{ for all } \vx \in \manifold.
-\end{gather*}
-where $\mathcal{E}_{\manifold, g}(f_i)$ is the Dirichlet energy of $f_i$ with respect to the metric tensor $g$. If we discard the constraint on the determinant or relax it to $\alpha I \preceq g(\vx)^{-1} \preceq \beta I$, the problem is convex w.r.t. $g$.
-
-
-% Given the fixed metric tensor $g$, we can find the smooth proxy after performing $T$ steps of gradient descent on the function space for each function $f_i$ if . Hence, the problem becomes:
+% Unconstrained optimization:
 % \begin{gather*}
-%     \min_{\substack{g \\ g(\cdot) \succeq 0 \\ \det g(\cdot) = 1}} \sum_{i=1}^l \mathcal{E}_{\manifold, g}(\Phi_T(f_i, g, \manifold, \dataset))
+%     \min_{f} \mathcal{E}_{\manifold, g}(f) + \lambda \sum_{i=1}^n (f(\vx_i) - y_i)^2 
+%     = \\
+%     \min_{f}
+%     \frac{1}{2} 
+%     \int_{\manifold} \|\nabla_g f(\vx)\|_g^2 \, d\mu_g(\vx) + \lambda \sum_{i=1}^n (f(\vx_i) - y_i)^2
 % \end{gather*}
+% Gradient descent, convex optimization (in a \emph{function} space):
+% \begin{align*}
+%     \text{PDE: }& \frac{\partial f}{\partial t} = - \Delta_g f + 2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i} 
+%     \\
+%     \text{step: }& f_{t+1} = f_t +  \eta\left(\Delta_g f_t - 2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i}\right)
+% \end{align*}
+
+% \begin{definition}[Gradient-flow evolution operator]
+%     We will denote $\Phi_T(f_i)$ as the gradient-flow evolution operator of $f_i$ after time $T$ of gradient descent. Note, that $\Phi_T(f_i) = \Phi_T(f_i, g, \manifold, \dataset)$ depends on the metric tensor $g$, the manifold $\manifold$, and the dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$.
+% \end{definition}
+
+% \paragraph{Discretization in space}
+% (Disclaimer: this is a bit of a stretch.)
+% If $\manifold$ is discretized as a point cloud $\mathcal{P} = \{\vz_i\}_{i=1}^n$ with weights 
+% $$w_{ij} = \exp\left(-\frac{\|\vz_i - \vz_j\|_{g(\vz_i)}^2}{\epsilon}\right)$$
+% (epsilon TBD), one may argue that:
+% \begin{align*}
+%     L_{\mathcal{P}} D^{-1}_{\mathcal{P}}  \approx  \Delta_g 
+% \end{align*}
+% Hence, one step of gradient descent becomes (yes, here comes the "stretch") like a transformer layer:
+% \begin{align*}
+%     f_{t+1}(\vz) 
+%     = 
+%     \underbrace{f_t(\vz)}_{\text{Residual}} 
+%     +  
+%     \eta\left( 
+%     \underbrace{\frac{\sum_{i} \exp(-{\|\vz - \vz_i\|_{g(\vz)}^2}/{\epsilon}) f_t(\vz_i)}{\sum_{j} \exp(-{\|\vz - \vz_j\|_{g(\vz)}^2}/{\epsilon})}}_{\approx \text{Attention}}  - \underbrace{2\lambda \sum_{i=1}^n (f(\vx_i) - y_i) \delta_{\vx_i}(\vz)}_{\text{Residual}}
+%     \right) 
+% \end{align*}
+
+% \textbf{Idea 1: what if a fixed transformer performs gradient descent on the function space, hence, learns a function in context?} 
 
 
-Okay, as of now, we didn't have a need to perform GD in a function space inside the global optimization with respect to the metric tensor $g$ -- there was no need to train a transformer-like model with multiple layers. In what case would that be necessary? 
+% \section{Learning a manifold}
+
+% What if we are given a few smooth functions $f_1, \ldots, f_l: \mathbb{R}^k \to \mathbb{R}$ on a manifold $\manifold$ embedded in $\Real^k$. However, we don't know the metric tensor $g$ on $\manifold$. Can we learn the metric tensor such that the functions $f_1, \ldots, f_l$ are as smooth as possible? If we do so, then we can easily learn a new smooth function from a few observations on the fly next time. 
+
+% For this problem, the objective is the following:
+% \begin{gather*}
+%     \min_{g} \sum_{i=1}^l \mathcal{E}_{\manifold, g}(f_i) \\
+%     \text{s.t. } \det g(\vx) = 1 \text{ for all } \vx \in \manifold.
+% \end{gather*}
+% where $\mathcal{E}_{\manifold, g}(f_i)$ is the Dirichlet energy of $f_i$ with respect to the metric tensor $g$. If we discard the constraint on the determinant or relax it to $\alpha I \preceq g(\vx)^{-1} \preceq \beta I$, the problem is convex w.r.t. $g$.
 
 
-% \section{More Complex Geometry}
+% % Given the fixed metric tensor $g$, we can find the smooth proxy after performing $T$ steps of gradient descent on the function space for each function $f_i$ if . Hence, the problem becomes:
+% % \begin{gather*}
+% %     \min_{\substack{g \\ g(\cdot) \succeq 0 \\ \det g(\cdot) = 1}} \sum_{i=1}^l \mathcal{E}_{\manifold, g}(\Phi_T(f_i, g, \manifold, \dataset))
+% % \end{gather*}
 
-% Okay, let us consider a more complex geometry so that performing gradient descent in a function space is necessary during optimization over $g$. 
 
-% What if the metric tensor $g(x)$ also depends on the function $f(x)$ on the manifold: $g(x, f)$? 
+% Okay, as of now, we didn't have a need to perform GD in a function space inside the global optimization with respect to the metric tensor $g$ -- there was no need to train a transformer-like model with multiple layers. In what case would that be necessary? 
 
-% \paragraph{The Perona--Malik anisotropic diffusion} Equation is given by
+
+% % \section{More Complex Geometry}
+
+% % Okay, let us consider a more complex geometry so that performing gradient descent in a function space is necessary during optimization over $g$. 
+
+% % What if the metric tensor $g(x)$ also depends on the function $f(x)$ on the manifold: $g(x, f)$? 
+
+% % \paragraph{The Perona--Malik anisotropic diffusion} Equation is given by
+% % \[
+% % \frac{\partial u}{\partial t}
+% % = \nabla \cdot \bigl( c(|\nabla u|) \, \nabla u \bigr),
+% % \]
+% % where \(u(x,t)\) is the evolving signal or image, and the 
+% % diffusivity function \(c(\cdot)\) is typically chosen as
+% % \[
+% % c(s) = \exp\!\left( - \left(\frac{s}{K}\right)^2 \right)
+% % \qquad\text{or}\qquad
+% % c(s) = \frac{1}{1 + \left(\frac{s}{K}\right)^2 }.
+% % \]
+
+% \section{Lessons from Kernel Methods} 
+
+% \begin{itemize}
+%     \item If we know \emph{the right} kernel $\kappa(x, y)$, given $\{(\vx_i, y_i)\}_{i=1}^n$ we can approximate any $f(x)$ is one step. For example, in \textcite{jacotNeuralTangentKernel2020}  NN learns a function that would give us the right kernel.
+%     \item The generalization error will on 
+%     \begin{itemize}
+%         \item the number of samples $n$
+%         \item the spectrum of $\mathcal{T}_\kappa$
+%         \item the regularity of the $f$
+%     \end{itemize}
+%     as the risk is expressed as 
+%     $$\mathcal{E}\left(\hat{f}_\lambda\right)=\underbrace{\sum_{j \geq 1}\left(\frac{\lambda}{\mu_j+\lambda}\right)^2 f_j^2}_{\text {bias term }}+\underbrace{\frac{\sigma^2}{n} \sum_{j \geq 1} \frac{\mu_j}{\left(\mu_j+\lambda\right)^2}}_{\text {variance term }}$$
+%     \item So again, given some functions $f_1, \ldots, f_i$ we want to find kernel $\kappa$ with respect to what those functions are as smooth as possible.
+%     \item If we can do that we can easily learn a function on a fly.
+%     \item paper \textcite{shenUnderstandingInContextLearning2025a} brigdes kernel methods to $O(1)$-layer transformers.
+% \end{itemize}
+
+% \section{Distorted Manifold Hypothesis}
+
+% Let $\mu$ be a probability distribution supported on a $d$-dimensional manifold $\mathcal{M} \subset \mathbb{R}^k$.
+
+% \paragraph{Hypothesis:} True data: set of points $x \in \Real^k$ that comes from $\mu$ -- a probability distribution supported on a $d$-dimensional manifold $\mathcal{M} \subset \mathbb{R}^k,  ~ d \ll k$. However, we some distortion process $Z(\vx, t)$ we observed distorted points $\tilde\vx$ not $\vx$. For example, the distortion governed by time-inhomogeneous diffusion $D(t): [0, 1] \to \Real^{n \times n}, D \succeq 0$ and drift $b:[0, 1] \to \Real^n$. 
+
 % \[
-% \frac{\partial u}{\partial t}
-% = \nabla \cdot \bigl( c(|\nabla u|) \, \nabla u \bigr),
-% \]
-% where \(u(x,t)\) is the evolving signal or image, and the 
-% diffusivity function \(c(\cdot)\) is typically chosen as
-% \[
-% c(s) = \exp\!\left( - \left(\frac{s}{K}\right)^2 \right)
-% \qquad\text{or}\qquad
-% c(s) = \frac{1}{1 + \left(\frac{s}{K}\right)^2 }.
+% \begin{cases}
+% \displaystyle \frac{\partial \mu_t(x)}{\partial t}
+% = \nabla_x \cdot\big( D(t)\,\nabla_x \mu_t(x) \big)\;-\; b(t) \cdot \nabla_x \mu_t(x),
+% & x \in \mathbb{R}^k,\; t \in (0,1],\\[0.6em]
+% \mu_{t=0}(x) = \mu(x),
+% & x \in \mathbb{R}^k.
+% \end{cases}
 % \]
 
-\section{Lessons from Kernel Methods} 
+% For an effective kernel method, we should eliminate some distortion before fitting observed data: $\{(\tilde \vx_i, y_i)\}$. 
+% I believe that finding \emph{minimal-embedding} of $\mu$ helps with that. 
 
-\begin{itemize}
-    \item If we know \emph{the right} kernel $\kappa(x, y)$, given $\{(\vx_i, y_i)\}_{i=1}^n$ we can approximate any $f(x)$ is one step. For example, in \textcite{jacotNeuralTangentKernel2020}  NN learns a function that would give us the right kernel.
-    \item The generalization error will on 
-    \begin{itemize}
-        \item the number of samples $n$
-        \item the spectrum of $\mathcal{T}_\kappa$
-        \item the regularity of the $f$
-    \end{itemize}
-    as the risk is expressed as 
-    $$\mathcal{E}\left(\hat{f}_\lambda\right)=\underbrace{\sum_{j \geq 1}\left(\frac{\lambda}{\mu_j+\lambda}\right)^2 f_j^2}_{\text {bias term }}+\underbrace{\frac{\sigma^2}{n} \sum_{j \geq 1} \frac{\mu_j}{\left(\mu_j+\lambda\right)^2}}_{\text {variance term }}$$
-    \item So again, given some functions $f_1, \ldots, f_i$ we want to find kernel $\kappa$ with respect to what those functions are as smooth as possible.
-    \item If we can do that we can easily learn a function on a fly.
-    \item paper \textcite{shenUnderstandingInContextLearning2025a} brigdes kernel methods to $O(1)$-layer transformers.
-\end{itemize}
+% \begin{definition}
+%     A minimal embedding of $\mu$ is the map
 
-\section{Distorted Manifold Hypothesis}
+%     $$
+%     \Phi: \mathcal{M} \rightarrow \mathbb{R}^k
+%     $$
 
-Let $\mu$ be a probability distribution supported on a $d$-dimensional manifold $\mathcal{M} \subset \mathbb{R}^k$.
+%     that minimizes the Dirichlet energy of the embedding:
 
-\paragraph{Hypothesis:} True data: set of points $x \in \Real^k$ that comes from $\mu$ -- a probability distribution supported on a $d$-dimensional manifold $\mathcal{M} \subset \mathbb{R}^k,  ~ d \ll k$. However, we some distortion process $Z(\vx, t)$ we observed distorted points $\tilde\vx$ not $\vx$. For example, the distortion governed by time-inhomogeneous diffusion $D(t): [0, 1] \to \Real^{n \times n}, D \succeq 0$ and drift $b:[0, 1] \to \Real^n$. 
+%     $$
+%     \Phi^{\star}=\arg \min _{\Phi: \mathcal{M} \rightarrow \mathbb{R}^k} \mathcal{E}(\Phi):=\frac{1}{2} \sum_{j=1}^k \int_{\mathcal{M}}\left\|\nabla_{\mathcal{M}} \Phi_j(x)\right\|^2 d \mu(x)
+%     $$
 
-\[
-\begin{cases}
-\displaystyle \frac{\partial \mu_t(x)}{\partial t}
-= \nabla_x \cdot\big( D(t)\,\nabla_x \mu_t(x) \big)\;-\; b(t) \cdot \nabla_x \mu_t(x),
-& x \in \mathbb{R}^k,\; t \in (0,1],\\[0.6em]
-\mu_{t=0}(x) = \mu(x),
-& x \in \mathbb{R}^k.
-\end{cases}
-\]
-
-For an effective kernel method, we should eliminate some distortion before fitting observed data: $\{(\tilde \vx_i, y_i)\}$. 
-I believe that finding \emph{minimal-embedding} of $\mu$ helps with that. 
-
-\begin{definition}
-    A minimal embedding of $\mu$ is the map
-
-    $$
-    \Phi: \mathcal{M} \rightarrow \mathbb{R}^k
-    $$
-
-    that minimizes the Dirichlet energy of the embedding:
-
-    $$
-    \Phi^{\star}=\arg \min _{\Phi: \mathcal{M} \rightarrow \mathbb{R}^k} \mathcal{E}(\Phi):=\frac{1}{2} \sum_{j=1}^k \int_{\mathcal{M}}\left\|\nabla_{\mathcal{M}} \Phi_j(x)\right\|^2 d \mu(x)
-    $$
-
-    subject to natural constraints:
-    \begin{itemize}
-        \item $\Phi$ preserves the intrinsic dimension
-    (rank of the Jacobian is $d$ almost everywhere),
-     \item $\mathbb{E}_\mu[\Phi(x)]=0$
-    (remove trivial translations),
-    \item $\frac{1}{d} \int_{\mathcal{M}} \Phi(x) \Phi(x)^{\top} d \mu(x)=I_d$
-    \end{itemize}
-\end{definition}
-\textbf{Intuition:} the minimal embedding is the least energetic or smoothest way to embed the distribution into $\mathbb{R}^k$.
-Equivalently:
-\begin{itemize}
-    \item it is the embedding whose coordinate functions are harmonic: $\Delta_{\manifold} f = 0$.
-    \item it removes all geometric distortions caused by drift/diffusion processes,
-    \item it recovers the "canonical" coordinates of the underlying manifold w.r.t. the intrinsic geometry induced by $\mu$.
-    \item Minimal embedding $=$ the embedding with the simplest geometry for which $\mu$ looks undistorted.
-\end{itemize}
+%     subject to natural constraints:
+%     \begin{itemize}
+%         \item $\Phi$ preserves the intrinsic dimension
+%     (rank of the Jacobian is $d$ almost everywhere),
+%      \item $\mathbb{E}_\mu[\Phi(x)]=0$
+%     (remove trivial translations),
+%     \item $\frac{1}{d} \int_{\mathcal{M}} \Phi(x) \Phi(x)^{\top} d \mu(x)=I_d$
+%     \end{itemize}
+% \end{definition}
+% \textbf{Intuition:} the minimal embedding is the least energetic or smoothest way to embed the distribution into $\mathbb{R}^k$.
+% Equivalently:
+% \begin{itemize}
+%     \item it is the embedding whose coordinate functions are harmonic: $\Delta_{\manifold} f = 0$.
+%     \item it removes all geometric distortions caused by drift/diffusion processes,
+%     \item it recovers the "canonical" coordinates of the underlying manifold w.r.t. the intrinsic geometry induced by $\mu$.
+%     \item Minimal embedding $=$ the embedding with the simplest geometry for which $\mu$ looks undistorted.
+% \end{itemize}
 
 
-\paragraph{Idea: } Transformer layers reverse the distortion and recoved the minimal energy of the $\tilde \mu$.
+% \paragraph{Idea: } Transformer layers reverse the distortion and recoved the minimal energy of the $\tilde \mu$.
 
-For example to reverse the diffusion one should do: 
+% For example to reverse the diffusion one should do: 
 
-$$\left\{\begin{array}{l}-\partial_t \mu_t(x)=-\nabla \cdot\left(b_t(x) \mu_t(x)\right)+\nabla \cdot\left(D_t(x) \nabla \mu_t(x)\right), \quad t \in[0,1], \\ \mu_1(x)=\tilde \mu(x) .\end{array}\right.$$ 
+% $$\left\{\begin{array}{l}-\partial_t \mu_t(x)=-\nabla \cdot\left(b_t(x) \mu_t(x)\right)+\nabla \cdot\left(D_t(x) \nabla \mu_t(x)\right), \quad t \in[0,1], \\ \mu_1(x)=\tilde \mu(x) .\end{array}\right.$$ 
 
-One transformer layer = One gradient step in the measure space that captures the equation above (on a discretized $\mu$).
+% One transformer layer = One gradient step in the measure space that captures the equation above (on a discretized $\mu$).
 
-However, this process is ill-posed as the diffusion destroys high-frequency models so some information will be inevatably lost. 
+% However, this process is ill-posed as the diffusion destroys high-frequency models so some information will be inevatably lost. 
 
-\section{Scaling Laws}
+% \section{Scaling Laws}
 
-This framework can explain the Scaling laws of the transformers as well \parencite{kaplanScalingLawsNeural2020}: 
-\begin{itemize}
-    \item Test loss as a power law in model size -- how many frequencies can be captured by the model, depends on the spectrum decay rate, how fine discretization of the reversed distortion process is.
+% This framework can explain the Scaling laws of the transformers as well \parencite{kaplanScalingLawsNeural2020}: 
+% \begin{itemize}
+%     \item Test loss as a power law in model size -- how many frequencies can be captured by the model, depends on the spectrum decay rate, how fine discretization of the reversed distortion process is.
 
-    $$
-    L(N)=L_{\infty}+A N^{-\alpha}
-    $$
-
-
-    \item Test loss as a power law in dataset size -- how many points are sampled from the manifold. 
-
-$$
-L(D)=L_{\infty}+B D^{-\beta}
-$$
+%     $$
+%     L(N)=L_{\infty}+A N^{-\alpha}
+%     $$
 
 
-    \item Test loss as a power law in compute -- how many gradient descent steps are performed on a function $D(t, \cdot)$ in the space of possible distortions.
+%     \item Test loss as a power law in dataset size -- how many points are sampled from the manifold. 
 
-$$
-L(C)=L_{\infty}+K C^{-\gamma}
-$$
-
-
-Empirical exponents (Kaplan et al. 2020):
-$$\alpha \approx 0.076,\beta \approx 0.095,\gamma \approx 0.048$$
-
-\end{itemize}
+% $$
+% L(D)=L_{\infty}+B D^{-\beta}
+% $$
 
 
-\section{The Last Piece of the Puzzle!}
-\begin{theorem}[Takahashi's Theorem (1966) \parencite{takahashiMinimalImmersionsRiemannian1966}]
-Let
+%     \item Test loss as a power law in compute -- how many gradient descent steps are performed on a function $D(t, \cdot)$ in the space of possible distortions.
 
-$$
-X:\left(M^d, g\right) \longrightarrow S^{k-1}(1) \subset \mathbb{R}^k
-$$
+% $$
+% L(C)=L_{\infty}+K C^{-\gamma}
+% $$
 
-be an isometric immersion of a $d$-dimensional Riemannian manifold into the unit sphere.
-Then the following are equivalent:
-\begin{enumerate}
-        \item $X(M)$ is a minimal submanifold of the sphere.
 
-        That is, its mean curvature vector $H$ (as a submanifold of $S^{k-1}$ ) satisfies
+% Empirical exponents (Kaplan et al. 2020):
+% $$\alpha \approx 0.076,\beta \approx 0.095,\gamma \approx 0.048$$
+
+% \end{itemize}
+
+
+% \section{The Last Piece of the Puzzle!}
+% \begin{theorem}[Takahashi's Theorem (1966) \parencite{takahashiMinimalImmersionsRiemannian1966}]
+% Let
+
+% $$
+% X:\left(M^d, g\right) \longrightarrow S^{k-1}(1) \subset \mathbb{R}^k
+% $$
+
+% be an isometric immersion of a $d$-dimensional Riemannian manifold into the unit sphere.
+% Then the following are equivalent:
+% \begin{enumerate}
+%         \item $X(M)$ is a minimal submanifold of the sphere.
+
+%         That is, its mean curvature vector $H$ (as a submanifold of $S^{k-1}$ ) satisfies
         
-        $$
-        H \equiv 0 .
-        $$
+%         $$
+%         H \equiv 0 .
+%         $$
 
-        \item The coordinate functions of $X$ are Laplace-Beltrami eigenfunctions with eigenvalue $d$ :
+%         \item The coordinate functions of $X$ are Laplace-Beltrami eigenfunctions with eigenvalue $d$ :
 
-        $$
-        \Delta_M X=-d X
-        $$
+%         $$
+%         \Delta_M X=-d X
+%         $$
         
         
-        Here $\Delta_M$ acts componentwise on
+%         Here $\Delta_M$ acts componentwise on
         
-        $$
-        X=\left(X^1, \ldots, X^k\right): M \rightarrow \mathbb{R}^k
-        $$
+%         $$
+%         X=\left(X^1, \ldots, X^k\right): M \rightarrow \mathbb{R}^k
+%         $$
         
         
-        Equivalently:
+%         Equivalently:
         
-        $$
-        \Delta_M X^j=-d X^j, \quad j=1, \ldots, k
-        $$
-    \end{enumerate}
-\end{theorem}
+%         $$
+%         \Delta_M X^j=-d X^j, \quad j=1, \ldots, k
+%         $$
+%     \end{enumerate}
+% \end{theorem}
 
-So what transformer is doing is 
-\begin{enumerate}
-    \item Denoising the data via reverse diffusion process.
-    \item Finding a minimal embedding of the manifold $\manifold$ into the unit sphere $S^{k-1}(1) \subset \mathbb{R}^k$, hence, its first $k$ eigenfunctions: $\phi_1, \ldots, \phi_k$. Finding the min-embedding helps to remove the redundant dimensions of the original embedding. 
-    \item For a given function $f: \manifold \to \mathbb{R}$, find alpha $\alpha \in \mathbb{R}^k$ such that $f \approx \alpha \cdot \phi$. Just least square regression, linear transformer is capable of doing that \parencite{zhangTrainedTransformersLearn}.
-    \item Predict $f(x)$ using $f \approx \alpha \cdot \phi$. This is basically an in-context learning step.
-\end{enumerate}
-
-
+% So what transformer is doing is 
+% \begin{enumerate}
+%     \item Denoising the data via reverse diffusion process.
+%     \item Finding a minimal embedding of the manifold $\manifold$ into the unit sphere $S^{k-1}(1) \subset \mathbb{R}^k$, hence, its first $k$ eigenfunctions: $\phi_1, \ldots, \phi_k$. Finding the min-embedding helps to remove the redundant dimensions of the original embedding. 
+%     \item For a given function $f: \manifold \to \mathbb{R}$, find alpha $\alpha \in \mathbb{R}^k$ such that $f \approx \alpha \cdot \phi$. Just least square regression, linear transformer is capable of doing that \parencite{zhangTrainedTransformersLearn}.
+%     \item Predict $f(x)$ using $f \approx \alpha \cdot \phi$. This is basically an in-context learning step.
+% \end{enumerate}
 
 
-\section*{Relevant literature}
-
-\begin{itemize}
-    \item \textcite{geshkovskiMathematicalPerspectiveTransformers2025} -- models transformers as interacting particle systems
-    \item \textcite{belkinConvergenceLaplacianEigenmaps2006} -- on the convergence of discrete Laplacian to Laplace-Beltrami operator
-    \item \textcite{zhangPDETransformerContinuousDynamical2025} -- PDE view on transformers
-    \item \textcite{jacotNeuralTangentKernel2020}
-\end{itemize}
 
 
-\newpage  
+% \section*{Relevant literature}
+
+% \begin{itemize}
+%     \item \textcite{geshkovskiMathematicalPerspectiveTransformers2025} -- models transformers as interacting particle systems
+%     \item \textcite{belkinConvergenceLaplacianEigenmaps2006} -- on the convergence of discrete Laplacian to Laplace-Beltrami operator
+%     \item \textcite{zhangPDETransformerContinuousDynamical2025} -- PDE view on transformers
+%     \item \textcite{jacotNeuralTangentKernel2020}
+% \end{itemize}
+
+
+% \newpage  
         
-\section{Transformers learn ReLU in context}
+% \section{Transformers learn ReLU in context}
 
-\subsection*{Assumptions} 
+% \subsection*{Assumptions} 
  \newcommand{\domain}{\mathcal{M}}
  \newcommand{\ffam}{\mathcal{F}}
  \newcommand{\relu}{\mathrm{ReLU}}
  \newcommand{\vspan}{\mathrm{span}}
 
+% \begin{itemize}
+%     \item Bounded domain $\domain \subset R^k$ 
+%     \item Function class $\ffam = \{ f(\vx) \mid f: \domain \to \Real, f(\vx) = \sum_{i=1}^m a_i \relu({\vw_i^\top \vx}) \text{ where } a_i \in \Real, \vw_i \in \Real^k \}$
+%     \item Assume that $\dim(\ffam) = d \ll km$, specifically, each 
+%     $\vw_i \in \vspan\{\bm{\omega}_1, \ldots, \bm{\omega}_d\}$ 
+% \end{itemize}
+
+% \subsection*{Problem Set Up}
+
+% Given $\{(\vx_i, y_i = f(\vx_i))\}$ we want to recover $\bar a, W$ that parametrize $f_{\bar a, W}$. 
+% Let 
+% $$Q = I - \sum_{i=1}^d \bm\omega_i \bm\omega_i^\top$$ 
+
+
+
+% \begin{align*}
+%     \min_{\substack{u_j: \domain \to \Real^k \\ j = 1, \ldots, m}} 
+%     \int_{\vx \in \domain}
+%     \underbrace{
+%         \left\| \sum_{j=1}^m u_j(\vx)^\top  \vx  - y(\vx) \right\|_2^2
+%     }_{\text{function fitting error}}
+%     +
+%     \underbrace{
+%         \lambda \left\| \nabla u_j \right\|_{Q}^2 dx
+%     }_{\text{piecewise linearity}}
+% \end{align*}
+
+% Convex in $u_j$ hence, can be solved by gradient descent:
+
+% \begin{align*}
+%     \frac{\partial u_j}{\partial t}(\vx) = 2 \left( \sum_{i=1}^m u_i (\vx)^\top \vx - y(\vx) \right) \vx  - \lambda \Delta_{Q} u_j(\vx)
+% \\
+%     u_j^{(l+1)} = u_j^{(l)} - \eta \frac{\partial u_j^{(l)}}{\partial t}
+% \end{align*}
+% where $\Delta_{Q}$ is the Laplacian with respect to the metric $Q$.
+
+
+% \begin{align}
+%     \min_{u_j} \int \left\| \sum_j u_j^\top \vx - y \right\|^2 + \lambda \left\| \sum_j \nabla u_j \nabla u_j^\top \right\|_* dx
+% \end{align}
+
+% \printbibliography
+
+% \newpage
+
+% \section{Training a ReLU Net} 
+
+% \begin{align}
+%     f_{\mu}(x) = \int_{w \in S^{d-1}} \sigma(\langle w, x\rangle) d\mu{(w)}
+% \end{align}
+
+% where $\mu(w)$ is finite signed Radon measure over $S^{d-1}$. Given a data the optimization problem is the following: 
+% \begin{align*}
+%     \min_{\mu} 
+%     \underbrace{\sum_{i}\left(\int_{w} \sigma(\langle w, x_i\rangle) d \mu{(w)}  - y_i \right)^2}_{\text{data fit}} 
+%     + 
+%     \underbrace{\lambda \| \mu \|_{TV}}_{\text{regularization}}
+% \end{align*}
+% where total variation $\| \mu \|_{TV} = \int_w|\mu(w)|dw$ encourages sparsity.
+% Importantly: this is convex in $\mu$.
+
+
+% \section{Recovering a piecewise linear function (in context)}
+
+% \begin{align*}
+%     \min_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta f \|_{\mathcal{M}}
+% \end{align*}
+% where $\|\Delta f \|_{\mathcal{M}}$ is the Radon-measure TV norm -- enforcing few kinks / few curvature locations.
+
+% \begin{align*}
+%     \Delta f=\int_{S^{d-1}} \delta(\langle w, x\rangle) d \mu(w)
+% \end{align*}
+
+% Assuming that the (quadratic) cost function for each direction: $c(w) = \sqrt{w^\top Q w}$, the problem becomes:
+% \begin{align*}
+%     \min_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta_{Q} f \|_{\mathcal{M}}
+% \end{align*}
+% where $\Delta_{Q} = \nabla \cdot \left(Q^{-1} \nabla f\right)$ is the Laplacian with respect to the metric $Q$.
+
+% For $D = \{(x_i, y_i)\}_{i=1}^n$ define: 
+
+% \begin{align*}
+%     f^*_D = \argmin_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta_{Q} f \|_{\mathcal{M}}
+% \end{align*}
+
+% Then given training data $D_t = \{(x^{(t)}_i, y^{(t)}_i)\}_{i=1}^{n}$ (unmasked) and $\hat D_t = \{(\hat x^{(t)}_i, \hat y^{(t)}_i)\}_{i=1}^{m}$ (masked) the full optimization minimizes the reconstruction error: 
+
+% \begin{align*}
+%     \min_{Q \succeq 0} \sum_{i=1}^t  \sum_{j=1}^m\left|f^*_{D_t}(\hat x^{(t)}_j) - \hat y^{(t)}_j \right|^2 
+% \end{align*}
+
+% This is NOT jointly convex in $Q$ and $f^*_{D_t}$. Let's overparametrize the problem by considering distribution over all PSD matrices $Q^{-1}$: $\rho$ over $\mathcal{S}_+$.
+% Inner problem: convex in $f$, linear in $\rho$:
+% \begin{align*}
+%     f^*_D = \argmin_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \int\limits_{Q^{-1} \in \mathcal{S}_+} \lambda \|\nabla \cdot (Q^{-1} \nabla f) \|_{\mathcal{M}} d\rho(Q^{-1})
+% \end{align*}
+
+% Outer problem:
+% \begin{align*}
+%     \min_{ \rho} \sum_{i=1}^t  \sum_{j=1}^m\left|f^*_{D_t}(\hat x^{(t)}_j) - \hat y^{(t)}_j \right|^2 
+%     + \| \rho \|_{TV}
+% \end{align*}
+
+% \section{Background}
+
+% \begin{definition}[Coercive functional]
+% Let $X$ be a normed space and
+% $$
+% \mathcal{R}: X \rightarrow(-\infty,+\infty] .
+% $$
+% Definition (coercive functional)
+% $$
+% \mathcal{R} \text { is coercive if }\|x\| \rightarrow \infty \quad \Longrightarrow \quad \mathcal{R}(x) \rightarrow \infty .
+% $$
+% Equivalently:
+% $$
+% \exists c>0, C \in \mathbb{R} \quad \text { s.t. } \quad \mathcal{R}(x) \geq c\|x\|-C .
+% $$
+% Interpretation:
+% Large norms are energetically forbidden. Minimizers cannot "escape to infinity".
+
+% \end{definition}
+
+% \begin{proposition}[Stability of variational minimizers]
+% Let $H$ be a Hilbert space and let
+
+% $$
+% J(f ; \varphi)=\frac{1}{2} a(f, f)-\varphi(f)
+% $$
+
+% with $a$ continuous and coercive. Then the minimizer
+% $
+% f_{\varphi}=\arg \min _f J(f ; \varphi)
+% $
+% satisfies
+% $$
+% \left\|f_{\varphi_1}-f_{\varphi_2}\right\| \leq \frac{1}{\alpha}\left\|\varphi_1-\varphi_2\right\|_{H^*} .
+% $$
+% \end{proposition}
+
+% \section{Avoiding the masking approach by enforcing stability}
+
+% Ability to extrapolate well $\equiv$ stability of the function or $Q$. 
+% \begin{itemize}
+%     % \item $\phi$ is a distribution over all functions $f \in \mathcal{F}$
+%     \item family of Signed Radon measures $\mathcal{N}$ over $\mathbb{S}^{d-1}$, each of them corresponds to a function $f_\mu = \int_{w \in \mathbb{S}^{d-1}} \sigma(\langle w, x\rangle) d\mu(w)$
+%     % \item $F$ is a family of functions $f: \domain \to \Real$ + some assumtion of it $f_\mu
+%     \item $\rho$ is a distribution over all PSD matrices $Q^{-1}$
+% \end{itemize}
+
+% \begin{align*}
+%     \min_{\rho} \int\limits_{\hat f \in \mathcal{F}} \int\limits_{Q^{\dagger} \in \mathcal{S}_+} 
+%     \left(
+%         \|f - \hat f\|^2_{\domain} 
+%         +  
+%         \lambda \|\Delta_Q f \|_{TV} 
+%     \right)
+%     d\rho(Q^{\dagger}) df
+%     + \| \rho \|_{TV} 
+%     + 
+%     \text{term that enforces stability}
+% \end{align*} 
+
+% This is convex in $\rho$ and $f$.
+
+% Ingridients: 
+% \begin{itemize}
+%     \item Hilbert space $\mathcal{H}$ of ReLU functions $f_{\mu}(x) = \int_{w \in S^{d-1}} \sigma(\langle w, x\rangle) d\mu{(w)}$ where $\mu$ is a signed measure with inner product ... such that $\|f_\mu \|_{\mathcal{H}} = \int_{w \in S^{d-1}} c(w) |\mu(w)| $ , where cost function is $c_\rho(w) = \int_{Q \in \mathbb{S_+}} \sqrt{w^\top Q w} d\rho(Q)$ 
+% \end{itemize}
+
+% \section{Unifying things again}
+
+\section{Preliminaries}
+
+\begin{definition}[Polish space]
+    A metric space $(X,d)$ is called a \emph{Polish space} if it is
+    \begin{enumerate}
+        \item complete, i.e., every Cauchy sequence in $(X,d)$ converges to a point in $X$;
+        \item separable, i.e., there exists a countable dense subset $D \subset X$.
+    \end{enumerate}
+\end{definition}
+    
+Typical examples of Polish spaces include $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces, Hilbert spaces, and function spaces such as $L^2(M)$ or $H^s(M)$ when $M$ is a compact manifold.
+  
+
+\begin{definition}[Sigma-algebra]
+    Let $X$ be a set. A collection $\mathcal A \subset 2^X$ is called a \emph{$\sigma$-algebra} on $X$ if:
+    \begin{enumerate}
+        \item $X \in \mathcal A$;
+        \item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
+        \item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
+        \[
+        \bigcup_{n=1}^\infty A_n \in \mathcal A.
+        \]
+    \end{enumerate}
+    \end{definition}
+    
+    It follows immediately that $\varnothing \in \mathcal A$ and that $\mathcal A$ is also closed under countable intersections.
+
+
+
+\begin{definition}[Borel $\sigma$-algebra]
+Let $(X,d)$ be a metric space. The \emph{Borel $\sigma$-algebra} on $X$, denoted by $\mathcal B(X)$, is the smallest $\sigma$-algebra containing all open subsets of $X$:
+\[
+\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
+\]
+\end{definition}
+
+If $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it the canonical measurable structure for probability theory.
+
+
+
+\begin{definition}[Measurable function]
+    Let $(X,\mathcal B(X))$ be a measurable space. A function
+    \[
+    R : X \to [0,\infty]
+    \]
+    is said to be \emph{measurable} if for every Borel set $A \subset [0,\infty]$,
+    \[
+    R^{-1}(A) \in \mathcal B(X).
+    \]
+    Equivalently, $R$ is measurable if and only if the sublevel sets
+    \[
+    \{ f \in X : R(f) \le t \} \in \mathcal B(X)
+    \quad \text{for all } t \in \mathbb{R}.
+    \]
+\end{definition}
+
+
+\begin{definition}[Gibbs measure induced by a regularizer]
+Let $(X,d)$ be a Polish space, let $\mathcal B(X)$ be its Borel $\sigma$-algebra, and let $\nu$ be a $\sigma$-finite Borel measure on $X$.  
+Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
+\[
+Z_\lambda := \int_X e^{-\lambda R(f)} \, \nu(df) < \infty.
+\]
+The \emph{Gibbs measure} associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$ defined by
+\[
+\pi_\lambda(df)
+=
+\frac{1}{Z_\lambda} e^{-\lambda R(f)} \, \nu(df).
+\]
+\end{definition}
+
+Equivalently, $\pi_\lambda$ is absolutely continuous with respect to $\nu$, with Radon--Nikodym derivative
+\[
+\frac{d\pi_\lambda}{d\nu}(f)
+=
+\frac{1}{Z_\lambda} e^{-\lambda R(f)}.
+\]
+
+
+Given observations $y$ with likelihood $p(y \mid f)$, the posterior distribution induced by the Gibbs prior is
+\[
+\pi_\lambda(df \mid y)
+\propto
+p(y \mid f)\, e^{-\lambda R(f)} \, \nu(df).
+\]
+
+The maximum a posteriori (MAP) estimator is therefore given by
+\[
+\hat f_{\mathrm{MAP}}
+=
+\arg\min_{f \in X}
+\Big(
+- \log p(y \mid f) + \lambda R(f)
+\Big),
+\]
+which coincides with regularized empirical risk minimization.
+
+\section{Learning the regularizer}
+
+Assume, the regularizer depends on some parameter $\theta$. Then learning it equivalent to minimizing the negative log-likelihood:
+\begin{align*}
+    \min_\theta \mathcal{L}(\theta) = \lambda \int_{f} R_\theta(f)d\pi(f) + \log Z(\theta)
+\end{align*}
+where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$. 
+
+Or, if we are given the empirical observations of functions $\{ f_i \}_{i=1}^t$ then 
+\begin{align*}
+    \min_\theta \mathcal{L}(\theta) =  \frac{\lambda}{t} \sum_{i} R_\theta(f_i) + \log Z(\theta)
+\end{align*}
+
+Assuming $R_\theta(f) = \langle \theta, \Phi(f) \rangle$ (linear in $\theta$) out problem is convex, yaaaaay! Parameter $\theta$ can be here an infinite-dimensional measure or a vector, hence, the minimization problem can be solved by gradient descent on $\theta$.
+
+The gradient of the data term is
+\[
+\nabla_\theta
+\left(
+\frac{1}{T}\sum_{t=1}^T \langle \theta,\Phi(f^{(t)})\rangle
+\right)
+=
+\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
+\]
+
+For the partition function term, differentiation under the integral yields
+\begin{align*}
+\nabla_\theta \log Z(\theta)
+&=
+\frac{1}{Z(\theta)} \nabla_\theta Z(\theta) \\
+&=
+\frac{1}{Z(\theta)}
+\int \left(-\Phi(f)\right)
+\exp\!\big(-\langle \theta,\Phi(f)\rangle\big)\,\nu(df) \\
+&=
+- \mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right].
+\end{align*}
+
+Combining the two terms, the gradient of the objective is
+\[
+\boxed{
+\nabla_\theta \mathcal L(\theta)
+=
+\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+-
+\mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right],
+}
+\]
+where
+\[
+\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+:=
+\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
+\]
+
+
+A gradient descent step with step size $\eta>0$ is therefore given by
+\[
+\boxed{
+\theta_{k+1}
+=
+\theta_k
+-
+\eta
+\left(
+\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+-
+\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
+\right).
+}
+\]
+
+If $\theta$ is constrained (e.g., $\theta \ge 0$ or $\theta$ lies in a simplex), the update is followed by projection onto the feasible set $\Theta$:
+\[
+\theta_{k+1}
+=
+\Pi_\Theta
+\left[
+\theta_k
+-
+\eta
+\left(
+\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+-
+\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
+\right)
+\right].
+\]
+
+At a stationary point $\theta^\star$, the optimality condition is the moment-matching identity
+\[
+\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+=
+\mathbb E_{f \sim p_{\theta^\star}}\!\left[\Phi(f)\right].
+\]
+
+$\Phi(f)$ here a statistic extractor on function space. 
+
+\section{Examples}
+
+Note, in all the examples that follow $\Phi(f)$ is convex in $f$.  
+\paragraph{Example 1 (Energy regularization).}
+\[
+\Phi : L^2(M) \to \mathbb{R},
+\qquad
+\Phi(f) := \|f\|_{L^2(M)}^2.
+\]
+
+The induced regularizer $R(f)=\|f\|_{L^2}^2$ corresponds to ridge/Tikhonov regularization.
+This choice measures only the magnitude of $f$ and ignores geometric structure.
+
+
+\subsection{First-Order Smoothness}
+
+\paragraph{Example 2 (Sobolev $H^1$ regularization).}
+\[
+\Phi : H^1(M) \to \mathbb{R},
+\qquad
+\Phi(f) := \int_M \|\nabla f(x)\|^2 \, dx.
+\]
+
+This feature measures global smoothness.
+The null space consists of constant functions.
+
+
+\paragraph{Example 3 (Anisotropic Sobolev regularization).}
+Let $\{Q_j\}_{j=1}^k$ be fixed symmetric positive semidefinite matrices.
+Define
+\[
+\Phi : H^1(M) \to \mathbb{R}^k,
+\qquad
+\Phi_j(f) := \int_M \langle \nabla f(x), Q_j \nabla f(x)\rangle \, dx.
+\]
+
+Then
+\[
+R_\theta(f) = \sum_{j=1}^k \theta_j \Phi_j(f)
+\]
+corresponds to learning a Riemannian metric.
+
+
+\subsection{Total Variation and Sparsity}
+
+\paragraph{Example 4 (First-order total variation).}
+\[
+\Phi : BV(M) \to \mathbb{R}_+,
+\qquad
+\Phi(f) := \|\nabla f\|_{\mathcal M}.
+\]
+
+This feature measures the total mass of the gradient as a Radon measure and promotes piecewise-constant functions.
+
+
+\subsection{Second-Order and Curvature-Based Statistics}\label{par:anisotropic-second-order-tv}
+
+\paragraph{Example 5 (Second-order total variation / splines).}
+\[
+\Phi : X \to \mathbb{R}_+,
+\qquad
+\Phi(f) := \|\Delta f\|_{\mathcal M},
+\]
+where $X$ is the space of functions with measure-valued Laplacian.
+
+The null space consists of affine functions, and minimizers are adaptive splines.
+
+
+\paragraph{Example 6 (Anisotropic second-order TV).} 
+Let $\mathcal S_+$ denote the cone of symmetric positive semidefinite matrices.
+Define
+\[
+\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+\qquad
+\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
+\]
+where $\Delta_Q f := \nabla\cdot(Q\nabla f)$.
+
+Here:
 \begin{itemize}
-    \item Bounded domain $\domain \subset R^k$ 
-    \item Function class $\ffam = \{ f(\vx) \mid f: \domain \to \Real, f(\vx) = \sum_{i=1}^m a_i \relu({\vw_i^\top \vx}) \text{ where } a_i \in \Real, \vw_i \in \Real^k \}$
-    \item Assume that $\dim(\ffam) = d \ll km$, specifically, each 
-    $\vw_i \in \vspan\{\bm{\omega}_1, \ldots, \bm{\omega}_d\}$ 
+\item domain: functions with measure-valued anisotropic Laplacian,
+\item codomain: nonnegative functions on $\mathcal S_+$,
+\item regularizer:
+\[
+R_\theta(f) = \int_{\mathcal S_+} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q).
+\]
 \end{itemize}
 
-\subsection*{Problem Set Up}
+This promotes sparse, geometry-aligned curvature and induces a Finsler total variation.
 
-Given $\{(\vx_i, y_i = f(\vx_i))\}$ we want to recover $\bar a, W$ that parametrize $f_{\bar a, W}$. 
-Let 
-$$Q = I - \sum_{i=1}^d \bm\omega_i \bm\omega_i^\top$$ 
+\subsection{Spectral Statistics}
+
+\paragraph{Example 7 (Spectral energy features).}
+Let $\{\psi_k\}$ be eigenfunctions of a Laplacian on $M$.
+Define
+\[
+\Phi : L^2(M) \to \ell^1,
+\qquad
+\Phi_k(f) := |\langle f,\psi_k\rangle|^2.
+\]
+
+The corresponding regularizer weights energy by frequency and induces a spectral bias.
+
+
+\subsection{Measure-Based and Neural Representations}
+
+\paragraph{Example 8 (Barron / ReLU representation).}
+Let
+\[
+f_\mu(x) = \int_{\mathbb S^{d-1}} \sigma(\langle w,x\rangle)\, d\mu(w),
+\]
+with $\mu$ a finite signed Radon measure.
+Define
+\[
+\Phi : \mathcal B \to \mathcal M_+(\mathbb S^{d-1}),
+\qquad
+\Phi(f_\mu) := |\mu|.
+\]
+
+Here:
+\begin{itemize}
+\item domain: Barron space $\mathcal B$,
+\item codomain: finite nonnegative measures,
+\item regularizer: $R(f_\mu)=\|\mu\|_{\mathrm{TV}}$.
+\end{itemize}
+
+This promotes sparse ridge representations.
+
+
+\paragraph{Example 9 (Finsler--TV / Radon--Laplacian).}
+Combining the previous examples,
+\[
+\Phi : \mathcal B \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+\qquad
+\Phi(f_\mu)(Q) := \int \sqrt{w^\top Q w}\,|\mu|(dw).
+\]
+
+Equivalently,
+\[
+R(f_\mu)
+=
+\int_{\mathcal S_+} \Phi(f_\mu)(Q)\, d\theta(Q)
+=
+\int F(w)\,|\mu|(dw),
+\quad
+F(w):=\int \sqrt{w^\top Q w}\, d\theta(Q).
+\]
+
+This is a Finsler total variation norm on kink directions.
 
 
 
+\section{Back to the problem} 
+Given all distribution over functions minimizing the negative log-likelihood is
 \begin{align*}
-    \min_{\substack{u_j: \domain \to \Real^k \\ j = 1, \ldots, m}} 
-    \int_{\vx \in \domain}
-    \underbrace{
-        \left\| \sum_{j=1}^m u_j(\vx)^\top  \vx  - y(\vx) \right\|_2^2
-    }_{\text{function fitting error}}
-    +
-    \underbrace{
-        \lambda \left\| \nabla u_j \right\|_{Q}^2 dx
-    }_{\text{piecewise linearity}}
+    \min_\theta \mathcal{L}(\theta) = 
+    % \underbrace{
+        \lambda \int_{f} R_\theta(f)d\pi(f)
+        % }_{\text{energy of functions}}
+     + 
+     \log Z(\theta)
 \end{align*}
 
-Convex in $u_j$ hence, can be solved by gradient descent:
+
+where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$. 
+
+However, everything we observe is just a discrete sample. Hence, given the empirical observations of functions $\{ f_i \}_{i=1}^t$ our minimization looks like 
+\begin{align*}
+    \min_\theta \mathcal{L}(\theta) =  \frac{\lambda}{t} \sum_{i} R_\theta(f_i) + \log Z(\theta)
+\end{align*}
+
+Again, \textbf{everything} we observe is a discrete sample. Usually, we have access to each function $f$ via its values: $D = \{(x_i, y_i)\}$ where $y_i = f(x_i) + \mathcal{N}(0, \sigma^2)$. Note, that 
+\begin{align*}
+    \log p_{\theta}(D_Y | f, D_X) \propto - \frac{1}{\sigma^2}\sum_{(x, y) \in D} \|y - f(x)\|_2^2 
+    = \ell(D, f)
+\end{align*}
+Hence,
 
 \begin{align*}
-    \frac{\partial u_j}{\partial t}(\vx) = 2 \left( \sum_{i=1}^m u_i (\vx)^\top \vx - y(\vx) \right) \vx  - \lambda \Delta_{Q} u_j(\vx)
-\\
-    u_j^{(l+1)} = u_j^{(l)} - \eta \frac{\partial u_j^{(l)}}{\partial t}
+    -\log p_\theta\left(D_Y \mid D_X\right)=-\log \int \exp \left(-\ell(D, f)-\lambda R_\theta(f)\right) \nu(d f)+\log Z(\theta)
 \end{align*}
-where $\Delta_{Q}$ is the Laplacian with respect to the metric $Q$.
 
-
-\begin{align}
-    \min_{u_j} \int \left\| \sum_j u_j^\top \vx - y \right\|^2 + \lambda \left\| \sum_j \nabla u_j \nabla u_j^\top \right\|_* dx
+So given datasets $\{ D^{(i)} \}_{i=1}^t$ our optimization problem is
+\begin{align}\label{eq:loss-w-data}
+    \min_\theta \mathcal{L}(\theta) = 
+    -\frac{1}{t} \sum_{i=1}^t \log \int \exp \left(-\ell\left(D^{(i)}, f\right)-\lambda R_\theta(f)\right) \nu(d f)+\log Z(\theta)
 \end{align}
 
-\printbibliography
+However, the term $\log \int \exp \ldots $ is intractable :( This is why the masking comes into play in practice. 
+
+\section{Masking} 
+
+% Assume:
+% \begin{itemize}
+%     \item The dataset $D$ is large (large $n$ )
+%     \item  Noise variance $\sigma^2$ is small
+%     \item The regularizer $R_\theta$ is coercive
+% \end{itemize}
+
+% Then the functional
+% $$
+% E_\theta(D, f):=\ell(D, f)+\lambda R_\theta(f)
+% $$
+
+% has a unique minimizer
+% $
+% \hat{f}_\theta:=\arg \min _f E_\theta(D, f)
+% $.
+% Around $\hat{f}_\theta$, the energy grows quadratically. Hence, the posterior over $f$,
+% $
+% p_\theta(f \mid D) \propto e^{-E_\theta(D, f)},
+% $
+% is sharply concentrated near $\hat{f}_\theta$
+
+
+\subsection{Posterior concentration around the MAP estimator}
+\label{sec:posterior-concentration}
+
+Fix a parameter $\theta$ and a dataset $D=\{(x_j,y_j)\}_{j=1}^n$.
+Define the energy functional
+\[
+E_\theta(f)
+:=
+\ell(D,f)+\lambda R_\theta(f),
+\]
+where $\ell(D,f)$ denotes the empirical negative log-likelihood and
+$R_\theta$ is a regularizer.
+
+Assume the following:
+\begin{enumerate}
+    \item The dataset $D$ is large (large $n$) and noise variance $\sigma^2$ is small
+    \item (\emph{Coercivity}) The functional $R_\theta$ is coercive on $X$
+    modulo a finite-dimensional nullspace $\mathcal N$, i.e.,
+    $\|f\|_X\to\infty$ with $f\perp\mathcal N$ implies $R_\theta(f)\to\infty$.
+    \item (\emph{Strict convexity}) The functional $\ell(D,\cdot)$ is strictly
+    convex on $X/\mathcal N$.
+    \item (\emph{Regularity}) The map $f\mapsto E_\theta(f)$ is twice
+     differentiable in a neighborhood of its minimizer.
+\end{enumerate}
+
+Under these assumptions, the minimization problem
+\[
+\hat f_\theta
+\in
+\arg\min_{f\in X} E_\theta(f)
+\]
+admits a unique solution modulo $\mathcal N$.
+Moreover, the posterior distribution
+\[
+p_\theta(f\mid D)
+\propto
+\exp\!\big(-E_\theta(f)\big)
+\]
+concentrates in probability around $\hat f_\theta$ as either
+$n\to\infty$ or $\sigma^2\to 0$.
+In particular, for any neighborhood $U$ of $\hat f_\theta$ in $X$,
+\[
+p_\theta(U\mid D)\;\longrightarrow\;1.
+\]
+
+
+\subsection{Laplace approximation of the marginal likelihood}
+\label{sec:laplace}
+
+Let $E_\theta(f)=\ell(D,f)+\lambda R_\theta(f)$ and let
+$\hat f_\theta$ denote its unique minimizer.
+Define the Hessian operator
+\[
+H_\theta := \nabla^2 E_\theta(\hat f_\theta),
+\]
+acting on the tangent space of $X/\mathcal N$.
+
+By a second-order Taylor expansion,
+\[
+E_\theta(f)
+=
+E_\theta(\hat f_\theta)
++
+\frac{1}{2}
+\langle f-\hat f_\theta,\,
+H_\theta (f-\hat f_\theta)\rangle
++
+o(\|f-\hat f_\theta\|_X^2).
+\]
+
+Substituting this expansion into the marginal likelihood integral yields
+the Laplace approximation
+\begin{equation}
+\label{eq:laplace-approx}
+\int_X
+\exp\!\big(-E_\theta(f)\big)\,\nu(df)
+\;\approx\;
+\exp\!\big(-E_\theta(\hat f_\theta)\big)
+\int
+\exp\!\left(
+-\tfrac{1}{2}
+\langle h, H_\theta h\rangle
+\right)\,dh.
+\end{equation}
+
+The remaining integral is Gaussian and evaluates (up to a multiplicative
+constant) to $(\det H_\theta)^{-1/2}$, where $\det H_\theta$ denotes a suitable
+regularized determinant. Consequently,
+\begin{equation}
+\label{eq:laplace-result}
+\int_X
+\exp\!\big(-\ell(D,f)-\lambda R_\theta(f)\big)\,\nu(df)
+\;\approx\;
+\exp\!\big(-\ell(D,\hat f_\theta)-\lambda R_\theta(\hat f_\theta)\big)
+(\det H_\theta)^{-1/2}.
+\end{equation}
+
+
+\subsection{Decomposition of the marginal likelihood objective}
+\label{sec:objective-decomposition}
+
+Substituting the Laplace approximation~\eqref{eq:laplace-result} into the
+negative log marginal likelihood yields
+\begin{equation}
+\label{eq:laplace-objective}
+-\log p_\theta(D_Y\mid D_X)
+\;\approx\;
+\ell(D,\hat f_\theta)
++
+\lambda R_\theta(\hat f_\theta)
++
+\frac{1}{2}\log\det H_\theta
+-
+\log Z(\theta),
+\end{equation}
+up to additive constants independent of $\theta$.
+
+This expression decomposes the marginal likelihood into four interpretable
+components:
+\begin{enumerate}
+    \item \emph{Data-fit term} $\ell(D,\hat f_\theta)$, measuring how well the
+    MAP estimator explains the observations;
+    \item \emph{Regularization cost} $\lambda R_\theta(\hat f_\theta)$,
+    encoding alignment between the learned function and the inductive bias
+    imposed by $\theta$;
+    \item \emph{Local complexity (Occam) penalty}
+    $\frac{1}{2}\log\det H_\theta$, which penalizes flat or unstable directions
+    around the MAP solution;
+    \item \emph{Global complexity penalty} $-\log Z(\theta)$, measuring the
+    overall volume of functions favored by the prior.
+\end{enumerate}
+
+Together, these terms characterize the tradeoff between data fit,
+regularization, and model complexity in the marginal likelihood objective.
+ 
+
+\section{Back to the optimization}
+Given the collection of datasets $\mathcal{D} = \left\{\left(D^{(i)}_{\text{train}}, D^{(i)}_{\text{test}}\right)\right\}_{i=1}^t$
+Substituting this into \Cref{eq:loss-w-data} we have 
+
+\begin{gather*}
+    \min_\theta \mathcal{L}(\theta) = 
+    \frac{1}{t} \sum_{i=1}^t 
+    \ell\left(D_{\text{test}}^{(i)},\hat f^{(i)}_\theta\right)
+    +
+    \lambda R_\theta\left(\hat f^{(i)}_\theta\right)
+    +
+    \frac{1}{2}\log\det H_\theta
+    -
+    \log Z(\theta) 
+    \\
+    \text{where } \hat f_\theta^{(i)} = \argmin_f 
+    \ell\left(D_{\text{train}}^{(i)},  f\right)
+    +
+    \lambda R_\theta\left(f\right)
+\end{gather*}
+
+This is bilever optimization. Even though it lost the convexity, it is tractable and can be solved in practice by alternating gradient descent. I claim that gradient descent of the outer problem  = training a transformer, gradient descent of the inner problem is a transformer forward pass.
+
+\section{Inner problem}
+
+For a dataset $D = \{(x_i, y_i)\}$ we have 
+
+\begin{align*}
+    \hat f_\theta = \argmin_f 
+    \ell\left(D,  f\right)
+    +
+    \lambda R_\theta\left(f\right) 
+    = 
+    \argmin_f 
+    \| f(x_i) - y_i\|_2^2 
+    +
+    \lambda \langle \theta, \Phi(f) \rangle 
+\end{align*}
+
+Note, that if $\Phi$ is convex in $f$ then this can be solved by subgradient descent on $f$:
+\begin{align*}
+    f^{(t+1)} = f^{(t)} - \eta \left[ 2\sum_i \bigl(f^{(t)}(x_i) - y_i\bigr) \delta_{x_i} + \lambda \, g^{(t)} \right]
+\end{align*}
+where $g^{(t)} \in \partial_f R_\theta(f^{(t)})$ is a subgradient of the regularizer.
+
+\subsection{How transformer forward pass can implement a (sub)gradient descent}
+
+Now lets go through some of the examples in \Cref{par:anisotropic-second-order-tv}
+to see how transformer-like networks can implement a (sub)gradient $g$ descent for the inner problem.
+
+\paragraph{Energy regularization}
+
+\[
+\Phi : L^2(M) \to \mathbb{R},
+\qquad
+\Phi(f) := \|f\|_{L^2(M)}^2 \qquad R_\theta(f) = \theta \|f\|_{L^2(M)}^2 
+\qquad
+g = 2f
+\]
+
+\paragraph{Anisotropic Sobolev Regularization}
+Parameter $\theta$ is a measure over PSD matrices.
+\[
+\Phi(f)(Q) := \| \nabla f(x) \|^2_{Q} \qquad R_\theta(f) =  \int_{Q \in \mathbf{S}_+}\| \nabla f(x) \|^2_{Q}  d \theta(Q) \qquad g = - \int_{Q \in \mathbf{S}_+} \Delta_Q  f  d \theta(Q)
+\]
+
+
+\paragraph{Anisotropic second-order TV} 
+
+\[
+\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+\qquad
+\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M}, 
+\qquad
+g = \int_{\mathcal S_+}  \Delta_Q \sign(\Delta_Q f) d\theta(Q)
+\]
+where $\Delta_Q f := \nabla\cdot(Q\nabla f)$.
+
+
+As the functions are defined on a "flat" domain $\domain \subset R^{d}$, the discrete version of $\Delta_Q$ looks like:
+\begin{align*}
+    L \in R^{n \times n}: L_{ij} = \exp\left(\frac{-\|x_i - x_j\|_{Q^{-1}}^2}{\epsilon} \right)
+\end{align*}
+
+If our domain is curved manifold $\domain$ we can W.L.O.G. (by Takahashi's thm hehe) assume that it's $\domain \in S^{d-1}$, hence, the discrete version of $\Delta_Q$ will require projection $P_i = I - x_i x_i^\top$:
+\begin{align*}
+    L \in R^{n \times n}: L_{ij} 
+    &= \exp\left(\frac{-(x_i - x_j)^\top P_i Q^{-1} P_i  (x_i - x_j)^\top}{\epsilon} \right) \\
+    &= \exp \left(-\frac{\left(x_j-\left(x_i^{\top} x_j\right) x_i\right)^{\top} Q^{-1} \left(x_j-\left(x_i^{\top} x_j\right) x_i\right)}{\epsilon}\right)
+\end{align*}
+
+Note, that all the exp terms are kind of similar to the original transformer softmax terms. I think, softmax should be replaced by those. The final idea is that a transformish NN with infinite amount of heads approximates the disctribution over $Q$.
+
+% Let $\mathcal S_+$ denote the cone of symmetric positive semidefinite matrices.
+% Define
+% \[
+% \Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+% \qquad
+% \Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
+% \qquad
+% R_\theta(f) = \int_{\mathcal S_+} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q).
+% \]
+% where $\Delta_Q f := \nabla\cdot(Q\nabla f)$. Computing subgradient we have
+% \begin{align*}
+%     
+% \end{align*}
+
+
+
+
+
 
 \newpage
 
-\section{Training a ReLU Net} 
+\begin{theorem}[Stability from coercive $\Phi$-regularization]
+    \label{thm:stability-coercive-phi}
+    Let $(X,\|\cdot\|_X)$ be a reflexive Banach space of functions on a domain $M$, and let
+    \[
+    R_\theta(f) := \langle \theta, \Phi(f) \rangle \in [0,\infty]
+    \]
+    where $\Phi:X\to V$ is a measurable map into a real locally convex space $V$ and $\theta\in V^\ast$ is such that $R_\theta$ is a proper, convex, lower semicontinuous functional on $X$.
+    Assume the following:
+    
+    \begin{enumerate}
+    \item \textbf{Coercivity (modulo a nullspace).}
+    There exists a finite-dimensional subspace $\mathcal N\subset X$ and a constant $c>0$ such that for all $f\in X$,
+    \[
+    R_\theta(f) \;\ge\; c\,\|f-\Pi_{\mathcal N}f\|_X - c,
+    \]
+    where $\Pi_{\mathcal N}$ denotes a fixed linear projection onto $\mathcal N$.
+    In particular, the sublevel sets $\{f: R_\theta(f)\le C\}$ are relatively compact in $X/\mathcal N$.
+    
+    \item \textbf{Strong convexity of the empirical loss.}
+    For each dataset $D=\{(x_i,y_i)\}_{i=1}^n$, define
+    \[
+    \mathcal L_D(f):=\frac{1}{n}\sum_{i=1}^n \ell\big(f(x_i),y_i\big),
+    \]
+    and assume $\mathcal L_D$ is $\alpha$-strongly convex on $X/\mathcal N$ with respect to $\|\cdot\|_X$, uniformly over all datasets $D$ (for some $\alpha>0$).
+    
+    \item \textbf{Lipschitz dependence on function values.}
+    Assume $\ell(\cdot,y)$ is $L$-Lipschitz in its first argument for all $y$, and that point-evaluation is continuous on $X$ in the sense that there exists $\kappa>0$ such that for all $x\in M$ and all $f,g\in X$,
+    \[
+    |f(x)-g(x)| \le \kappa \|f-g\|_X.
+    \]
+    \end{enumerate}
+    
+    % Fix $\lambda>0$, and define the (regularized ERM / MAP) estimator
+    % \[
+    % \hat f_D \in \arg\min_{f\in X}\Big\{ \mathcal L_D(f) + \lambda R_\theta(f)\Big\},
+    % \]
+    % where $\hat f_D$ is chosen uniquely in $X/\mathcal N$ (e.g.\ by imposing a gauge condition such as $\Pi_{\mathcal N}\hat f_D=0$).
+    
+    % Then the estimator is \textbf{stable to masking} in the following sense:
+    % if $D^{(j)}$ denotes the dataset obtained by removing (masking) the $j$-th sample from $D$, then for all $j\in\{1,\dots,n\}$,
+    % \[
+    % \|\hat f_D - \hat f_{D^{(j)}}\|_X
+    % \;\le\;
+    % \frac{2L\kappa}{\alpha\, n}.
+    % \]
+    % Consequently, the change in loss on any test point $(x,y)$ is uniformly bounded by
+    % \[
+    % \big|\ell(\hat f_D(x),y)-\ell(\hat f_{D^{(j)}}(x),y)\big|
+    % \;\le\;
+    % \frac{2L^2\kappa^2}{\alpha\, n}.
+    % \]
+    Observed data $y_i = f^*(x_i) + \mathcal{N}(0, \sigma^2)$
+    \begin{align*}
+        \hat f = \argmin_f \frac{1}{n}\sum_{i=1}^n \ell(f(x_i), y_i) + \lambda R(f) \Rightarrow
+        \|f^* - \hat f\|_{X} \leq C(n, \sigma, R, \lambda)
+    \end{align*}
 
-\begin{align}
-    f_{\mu}(x) = \int_{w \in S^{d-1}} \sigma(\langle w, x\rangle) d\mu{(w)}
-\end{align}
+    \end{theorem}
+    \begin{proposition}[Bilevel learning of $\theta$ as a MAP surrogate]
+        Let $R_\theta(f)=\langle \theta,\Phi(f)\rangle$ and define the inner estimator
+        \[
+        \hat f_\theta(D)\in\arg\min_{f\in X}\Big\{\mathcal L_D(f)+\lambda R_\theta(f)\Big\}.
+        \]
+        Consider the bilevel objective based on masking (or train/validation splits),
+        \[
+        \min_\theta \; \mathbb E_{\text{mask}}\Big[\mathcal L_{\mathrm{val}}\big(\hat f_\theta(D_{\mathrm{train}})\big)\Big]+\Omega(\theta).
+        \]
+        Then bilevel optimization selects $\theta$ so as to minimize the predictive risk of the MAP estimator induced by the Gibbs prior
+        \[
+        p_\theta(df)\propto \exp\!\big(-\lambda R_\theta(f)\big)\,\nu(df).
+        \]
+        In contrast, maximum-likelihood learning of $\theta$ for the induced Gibbs model includes an additional global complexity term $\log Z(\theta)$, which is generally not captured by the bilevel objective unless explicitly approximated (e.g., via Laplace/Occam corrections).
+        \end{proposition}
+        
 
-where $\mu(w)$ is finite signed Radon measure over $S^{d-1}$. Given a data the optimization problem is the following: 
-\begin{align*}
-    \min_{\mu} 
-    \underbrace{\sum_{i}\left(\int_{w} \sigma(\langle w, x_i\rangle) d \mu{(w)}  - y_i \right)^2}_{\text{data fit}} 
-    + 
-    \underbrace{\lambda \| \mu \|_{TV}}_{\text{regularization}}
-\end{align*}
-where total variation $\| \mu \|_{TV} = \int_w|\mu(w)|dw$ encourages sparsity.
-Importantly: this is convex in $\mu$.
 
 
-\section{Recovering a piecewise linear function (in context)}
 
-\begin{align*}
-    \min_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta f \|_{\mathcal{M}}
-\end{align*}
-where $\|\Delta f \|_{\mathcal{M}}$ is the Radon-measure TV norm -- enforcing few kinks / few curvature locations.
-
-\begin{align*}
-    \Delta f=\int_{S^{d-1}} \delta(\langle w, x\rangle) d \mu(w)
-\end{align*}
-
-Assuming that the (quadratic) cost function for each direction: $c(w) = \sqrt{w^\top Q w}$, the problem becomes:
-\begin{align*}
-    \min_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta_{Q} f \|_{\mathcal{M}}
-\end{align*}
-where $\Delta_{Q} = \nabla \cdot \left(Q^{-1} \nabla f\right)$ is the Laplacian with respect to the metric $Q$.
-
-For $D = \{(x_i, y_i)\}_{i=1}^n$ define: 
-
-\begin{align*}
-    f^*_D = \argmin_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \lambda \|\Delta_{Q} f \|_{\mathcal{M}}
-\end{align*}
-
-Then given training data $D_t = \{(x^{(t)}_i, y^{(t)}_i)\}_{i=1}^{n}$ (unmasked) and $\hat D_t = \{(\hat x^{(t)}_i, \hat y^{(t)}_i)\}_{i=1}^{m}$ (masked) the full optimization minimizes the reconstruction error: 
-
-\begin{align*}
-    \min_{Q \succeq 0} \sum_{i=1}^t  \sum_{j=1}^m\left|f^*_{D_t}(\hat x^{(t)}_j) - \hat y^{(t)}_j \right|^2 
-\end{align*}
-
-This is NOT jointly convex in $Q$ and $f^*_{D_t}$. Let's overparametrize the problem by considering distribution over all PSD matrices $Q^{-1}$: $\rho$ over $\mathcal{S}_+$.
-Inner problem: convex in $f$, linear in $\rho$:
-\begin{align*}
-    f^*_D = \argmin_f \sum_{i=1}^n\left|f(x_i) - y_i \right|^2 + \int\limits_{Q^{-1} \in \mathcal{S}_+} \lambda \|\nabla \cdot (Q^{-1} \nabla f) \|_{\mathcal{M}} d\rho(Q^{-1})
-\end{align*}
-
-Outer problem:
-\begin{align*}
-    \min_{ \rho} \sum_{i=1}^t  \sum_{j=1}^m\left|f^*_{D_t}(\hat x^{(t)}_j) - \hat y^{(t)}_j \right|^2 
-    + \| \rho \|_{TV} 
-\end{align*}
 
 \end{document}
