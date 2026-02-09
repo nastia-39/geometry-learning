@@ -28,7 +28,7 @@
 \input{commands}
 
 \addbibresource{ref.bib}
-\title{Learning a function energy space} 
+\title{Transformers can Learn the Energy Spaces of Functions} 
 \date{December 2025}
 
 \begin{document}
@@ -568,9 +568,7 @@ Typical examples of Polish spaces include $\mathbb{R}^n$ with the Euclidean metr
         \item $X \in \mathcal A$;
         \item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
         \item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
-        \[
-        \bigcup_{n=1}^\infty A_n \in \mathcal A.
-        \]
+        $\bigcup_{n=1}^\infty A_n \in \mathcal A$.
     \end{enumerate}
     \end{definition}
     
@@ -648,7 +646,7 @@ which coincides with regularized empirical risk minimization.
 
 \section{Learning the regularizer}
 
-Assume, the regularizer depends on some parameter $\theta$. Then learning it equivalent to minimizing the negative log-likelihood:
+Assume, the regularizer depends on some parameter $\theta$. Then learning it is equivalent to minimizing the negative log-likelihood:
 \begin{align*}
     \min_\theta \mathcal{L}(\theta) = \lambda \int_{f} R_\theta(f)d\pi(f) + \log Z(\theta)
 \end{align*}
@@ -668,7 +666,7 @@ The gradient of the data term is
 \frac{1}{T}\sum_{t=1}^T \langle \theta,\Phi(f^{(t)})\rangle
 \right)
 =
-\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
+\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)})\eqqcolon \mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right].
 \]
 
 For the partition function term, differentiation under the integral yields
@@ -692,14 +690,9 @@ Combining the two terms, the gradient of the objective is
 \mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
 -
 \mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right],
-}
+}.
 \]
-where
-\[
-\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-:=
-\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
-\]
+ 
 
 
 A gradient descent step with step size $\eta>0$ is therefore given by
@@ -1116,7 +1109,7 @@ Substituting this into \Cref{eq:loss-w-data} we have
     \lambda R_\theta\left(f\right)
 \end{gather*}
 
-This is bilever optimization. Even though it lost the convexity, it is tractable and can be solved in practice by alternating gradient descent. I claim that gradient descent of the outer problem  = training a transformer, gradient descent of the inner problem is a transformer forward pass.
+This is bilever optimization. Even though it lost the convexity, it is tractable and can be solved in practice by alternating gradient descent. I claim that gradient descent of the outer problem  = training a transformer, gradient descent of the inner problem is a transformer forward pass. 
 
 \section{Inner problem}
 
@@ -1209,6 +1202,8 @@ Note, that all the exp terms are kind of similar to the original transformer sof
 
 \newpage
 
+TODO: move this
+
 \begin{theorem}[Stability from coercive $\Phi$-regularization]
     \label{thm:stability-coercive-phi}
     Let $(X,\|\cdot\|_X)$ be a reflexive Banach space of functions on a domain $M$, and let
@@ -1283,6 +1278,7 @@ Note, that all the exp terms are kind of similar to the original transformer sof
         In contrast, maximum-likelihood learning of $\theta$ for the induced Gibbs model includes an additional global complexity term $\log Z(\theta)$, which is generally not captured by the bilevel objective unless explicitly approximated (e.g., via Laplace/Occam corrections).
         \end{proposition}
         
+
 
 
 
