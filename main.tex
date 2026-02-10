@@ -101,7 +101,7 @@
 % \begin{itemize}
 %     \item An embedded manifold $\manifold \subset \mathbb{R}^k, \dim \manifold = d$
 %     \item A metric tensor on $\manifold$: $g: \manifold \to \mathbb{R}^{k \times k},\forall \vx \in \manifold, \rank g(\vx) = d, g(\vx) \succeq 0$. 
-    
+
 %     \emph{Note: For simplicity, we assume $\det g(\vx) = 1$ hence, the measure is the Lebesgue measure.}
 %     \item A dataset $\dataset = \{(\vx_i, y_i)\}_{i=1}^n$ where $\vx_i \in \manifold, y_i \in \mathbb{R}$ 
 % \end{itemize}
@@ -319,7 +319,7 @@
 %         \item $X(M)$ is a minimal submanifold of the sphere.
 
 %         That is, its mean curvature vector $H$ (as a submanifold of $S^{k-1}$ ) satisfies
-        
+
 %         $$
 %         H \equiv 0 .
 %         $$
@@ -329,17 +329,17 @@
 %         $$
 %         \Delta_M X=-d X
 %         $$
-        
-        
+
+
 %         Here $\Delta_M$ acts componentwise on
-        
+
 %         $$
 %         X=\left(X^1, \ldots, X^k\right): M \rightarrow \mathbb{R}^k
 %         $$
-        
-        
+
+
 %         Equivalently:
-        
+
 %         $$
 %         \Delta_M X^j=-d X^j, \quad j=1, \ldots, k
 %         $$
@@ -368,14 +368,14 @@
 
 
 % \newpage  
-        
+
 % \section{Transformers learn ReLU in context}
 
 % \subsection*{Assumptions} 
- \newcommand{\domain}{\mathcal{M}}
- \newcommand{\ffam}{\mathcal{F}}
- \newcommand{\relu}{\mathrm{ReLU}}
- \newcommand{\vspan}{\mathrm{span}}
+\newcommand{\domain}{\mathcal{M}}
+\newcommand{\ffam}{\mathcal{F}}
+\newcommand{\relu}{\mathrm{ReLU}}
+\newcommand{\vspan}{\mathrm{span}}
 
 % \begin{itemize}
 %     \item Bounded domain $\domain \subset R^k$ 
@@ -552,37 +552,37 @@
 \section{Preliminaries}
 
 \begin{definition}[Polish space]
-    A metric space $(X,d)$ is called a \emph{Polish space} if it is
-    \begin{enumerate}
-        \item complete, i.e., every Cauchy sequence in $(X,d)$ converges to a point in $X$;
-        \item separable, i.e., there exists a countable dense subset $D \subset X$.
-    \end{enumerate}
+	A metric space $(X,d)$ is called a \emph{Polish space} if it is
+	\begin{enumerate}
+		\item complete, i.e., every Cauchy sequence in $(X,d)$ converges to a point in $X$;
+		\item separable, i.e., there exists a countable dense subset $D \subset X$.
+	\end{enumerate}
 \end{definition}
-    
+
 Typical examples of Polish spaces include $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces, Hilbert spaces, and function spaces such as $L^2(M)$ or $H^s(M)$ when $M$ is a compact manifold.
-  
+
 
 \begin{definition}[Sigma-algebra]
-    Let $X$ be a set. A collection $\mathcal A \subset 2^X$ is called a \emph{$\sigma$-algebra} on $X$ if:
-    \begin{enumerate}
-        \item $X \in \mathcal A$;
-        \item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
-        \item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
-        \[
-        \bigcup_{n=1}^\infty A_n \in \mathcal A.
-        \]
-    \end{enumerate}
-    \end{definition}
-    
-    It follows immediately that $\varnothing \in \mathcal A$ and that $\mathcal A$ is also closed under countable intersections.
+	Let $X$ be a set. A collection $\mathcal A \subset 2^X$ is called a \emph{$\sigma$-algebra} on $X$ if:
+	\begin{enumerate}
+		\item $X \in \mathcal A$;
+		\item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
+		\item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
+		      \[
+			      \bigcup_{n=1}^\infty A_n \in \mathcal A.
+		      \]
+	\end{enumerate}
+\end{definition}
+
+It follows immediately that $\varnothing \in \mathcal A$ and that $\mathcal A$ is also closed under countable intersections.
 
 
 
 \begin{definition}[Borel $\sigma$-algebra]
-Let $(X,d)$ be a metric space. The \emph{Borel $\sigma$-algebra} on $X$, denoted by $\mathcal B(X)$, is the smallest $\sigma$-algebra containing all open subsets of $X$:
-\[
-\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
-\]
+	Let $(X,d)$ be a metric space. The \emph{Borel $\sigma$-algebra} on $X$, denoted by $\mathcal B(X)$, is the smallest $\sigma$-algebra containing all open subsets of $X$:
+	\[
+		\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
+	\]
 \end{definition}
 
 If $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it the canonical measurable structure for probability theory.
@@ -590,59 +590,59 @@ If $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties t
 
 
 \begin{definition}[Measurable function]
-    Let $(X,\mathcal B(X))$ be a measurable space. A function
-    \[
-    R : X \to [0,\infty]
-    \]
-    is said to be \emph{measurable} if for every Borel set $A \subset [0,\infty]$,
-    \[
-    R^{-1}(A) \in \mathcal B(X).
-    \]
-    Equivalently, $R$ is measurable if and only if the sublevel sets
-    \[
-    \{ f \in X : R(f) \le t \} \in \mathcal B(X)
-    \quad \text{for all } t \in \mathbb{R}.
-    \]
+	Let $(X,\mathcal B(X))$ be a measurable space. A function
+	\[
+		R : X \to [0,\infty]
+	\]
+	is said to be \emph{measurable} if for every Borel set $A \subset [0,\infty]$,
+	\[
+		R^{-1}(A) \in \mathcal B(X).
+	\]
+	Equivalently, $R$ is measurable if and only if the sublevel sets
+	\[
+		\{ f \in X : R(f) \le t \} \in \mathcal B(X)
+		\quad \text{for all } t \in \mathbb{R}.
+	\]
 \end{definition}
 
 
 \begin{definition}[Gibbs measure induced by a regularizer]
-Let $(X,d)$ be a Polish space, let $\mathcal B(X)$ be its Borel $\sigma$-algebra, and let $\nu$ be a $\sigma$-finite Borel measure on $X$.  
-Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
-\[
-Z_\lambda := \int_X e^{-\lambda R(f)} \, \nu(df) < \infty.
-\]
-The \emph{Gibbs measure} associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$ defined by
-\[
-\pi_\lambda(df)
-=
-\frac{1}{Z_\lambda} e^{-\lambda R(f)} \, \nu(df).
-\]
+	Let $(X,d)$ be a Polish space, let $\mathcal B(X)$ be its Borel $\sigma$-algebra, and let $\nu$ be a $\sigma$-finite Borel measure on $X$.
+	Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
+	\[
+		Z_\lambda := \int_X e^{-\lambda R(f)} \, \nu(df) < \infty.
+	\]
+	The \emph{Gibbs measure} associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$ defined by
+	\[
+		\pi_\lambda(df)
+		=
+		\frac{1}{Z_\lambda} e^{-\lambda R(f)} \, \nu(df).
+	\]
 \end{definition}
 
 Equivalently, $\pi_\lambda$ is absolutely continuous with respect to $\nu$, with Radon--Nikodym derivative
 \[
-\frac{d\pi_\lambda}{d\nu}(f)
-=
-\frac{1}{Z_\lambda} e^{-\lambda R(f)}.
+	\frac{d\pi_\lambda}{d\nu}(f)
+	=
+	\frac{1}{Z_\lambda} e^{-\lambda R(f)}.
 \]
 
 
 Given observations $y$ with likelihood $p(y \mid f)$, the posterior distribution induced by the Gibbs prior is
 \[
-\pi_\lambda(df \mid y)
-\propto
-p(y \mid f)\, e^{-\lambda R(f)} \, \nu(df).
+	\pi_\lambda(df \mid y)
+	\propto
+	p(y \mid f)\, e^{-\lambda R(f)} \, \nu(df).
 \]
 
 The maximum a posteriori (MAP) estimator is therefore given by
 \[
-\hat f_{\mathrm{MAP}}
-=
-\arg\min_{f \in X}
-\Big(
-- \log p(y \mid f) + \lambda R(f)
-\Big),
+	\hat f_{\mathrm{MAP}}
+	=
+	\arg\min_{f \in X}
+	\Big(
+	- \log p(y \mid f) + \lambda R(f)
+	\Big),
 \]
 which coincides with regularized empirical risk minimization.
 
@@ -650,108 +650,108 @@ which coincides with regularized empirical risk minimization.
 
 Assume, the regularizer depends on some parameter $\theta$. Then learning it equivalent to minimizing the negative log-likelihood:
 \begin{align*}
-    \min_\theta \mathcal{L}(\theta) = \lambda \int_{f} R_\theta(f)d\pi(f) + \log Z(\theta)
+	\min_\theta \mathcal{L}(\theta) = \lambda \int_{f} R_\theta(f)d\pi(f) + \log Z(\theta)
 \end{align*}
-where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$. 
+where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$.
 
-Or, if we are given the empirical observations of functions $\{ f_i \}_{i=1}^t$ then 
+Or, if we are given the empirical observations of functions $\{ f_i \}_{i=1}^t$ then
 \begin{align*}
-    \min_\theta \mathcal{L}(\theta) =  \frac{\lambda}{t} \sum_{i} R_\theta(f_i) + \log Z(\theta)
+	\min_\theta \mathcal{L}(\theta) =  \frac{\lambda}{t} \sum_{i} R_\theta(f_i) + \log Z(\theta)
 \end{align*}
 
 Assuming $R_\theta(f) = \langle \theta, \Phi(f) \rangle$ (linear in $\theta$) out problem is convex, yaaaaay! Parameter $\theta$ can be here an infinite-dimensional measure or a vector, hence, the minimization problem can be solved by gradient descent on $\theta$.
 
 The gradient of the data term is
 \[
-\nabla_\theta
-\left(
-\frac{1}{T}\sum_{t=1}^T \langle \theta,\Phi(f^{(t)})\rangle
-\right)
-=
-\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
+	\nabla_\theta
+	\left(
+	\frac{1}{T}\sum_{t=1}^T \langle \theta,\Phi(f^{(t)})\rangle
+	\right)
+	=
+	\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
 \]
 
 For the partition function term, differentiation under the integral yields
 \begin{align*}
-\nabla_\theta \log Z(\theta)
-&=
-\frac{1}{Z(\theta)} \nabla_\theta Z(\theta) \\
-&=
-\frac{1}{Z(\theta)}
-\int \left(-\Phi(f)\right)
-\exp\!\big(-\langle \theta,\Phi(f)\rangle\big)\,\nu(df) \\
-&=
-- \mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right].
+	\nabla_\theta \log Z(\theta)
+	 & =
+	\frac{1}{Z(\theta)} \nabla_\theta Z(\theta)             \\
+	 & =
+	\frac{1}{Z(\theta)}
+	\int \left(-\Phi(f)\right)
+	\exp\!\big(-\langle \theta,\Phi(f)\rangle\big)\,\nu(df) \\
+	 & =
+	- \mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right].
 \end{align*}
 
 Combining the two terms, the gradient of the objective is
 \[
-\boxed{
-\nabla_\theta \mathcal L(\theta)
-=
-\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
--
-\mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right],
-}
+	\boxed{
+		\nabla_\theta \mathcal L(\theta)
+		=
+		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+		-
+		\mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right],
+	}
 \]
 where
 \[
-\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-:=
-\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
+	\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+	:=
+	\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)}).
 \]
 
 
 A gradient descent step with step size $\eta>0$ is therefore given by
 \[
-\boxed{
-\theta_{k+1}
-=
-\theta_k
--
-\eta
-\left(
-\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
--
-\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
-\right).
-}
+	\boxed{
+		\theta_{k+1}
+		=
+		\theta_k
+		-
+		\eta
+		\left(
+		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+		-
+		\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
+		\right).
+	}
 \]
 
 If $\theta$ is constrained (e.g., $\theta \ge 0$ or $\theta$ lies in a simplex), the update is followed by projection onto the feasible set $\Theta$:
 \[
-\theta_{k+1}
-=
-\Pi_\Theta
-\left[
-\theta_k
--
-\eta
-\left(
-\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
--
-\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
-\right)
-\right].
+	\theta_{k+1}
+	=
+	\Pi_\Theta
+	\left[
+		\theta_k
+		-
+		\eta
+		\left(
+		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+		-
+		\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
+		\right)
+		\right].
 \]
 
 At a stationary point $\theta^\star$, the optimality condition is the moment-matching identity
 \[
-\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-=
-\mathbb E_{f \sim p_{\theta^\star}}\!\left[\Phi(f)\right].
+	\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+	=
+	\mathbb E_{f \sim p_{\theta^\star}}\!\left[\Phi(f)\right].
 \]
 
-$\Phi(f)$ here a statistic extractor on function space. 
+$\Phi(f)$ here a statistic extractor on function space.
 
 \section{Examples}
 
-Note, in all the examples that follow $\Phi(f)$ is convex in $f$.  
+Note, in all the examples that follow $\Phi(f)$ is convex in $f$.
 \paragraph{Example 1 (Energy regularization).}
 \[
-\Phi : L^2(M) \to \mathbb{R},
-\qquad
-\Phi(f) := \|f\|_{L^2(M)}^2.
+	\Phi : L^2(M) \to \mathbb{R},
+	\qquad
+	\Phi(f) := \|f\|_{L^2(M)}^2.
 \]
 
 The induced regularizer $R(f)=\|f\|_{L^2}^2$ corresponds to ridge/Tikhonov regularization.
@@ -762,9 +762,9 @@ This choice measures only the magnitude of $f$ and ignores geometric structure.
 
 \paragraph{Example 2 (Sobolev $H^1$ regularization).}
 \[
-\Phi : H^1(M) \to \mathbb{R},
-\qquad
-\Phi(f) := \int_M \|\nabla f(x)\|^2 \, dx.
+	\Phi : H^1(M) \to \mathbb{R},
+	\qquad
+	\Phi(f) := \int_M \|\nabla f(x)\|^2 \, dx.
 \]
 
 This feature measures global smoothness.
@@ -775,14 +775,14 @@ The null space consists of constant functions.
 Let $\{Q_j\}_{j=1}^k$ be fixed symmetric positive semidefinite matrices.
 Define
 \[
-\Phi : H^1(M) \to \mathbb{R}^k,
-\qquad
-\Phi_j(f) := \int_M \langle \nabla f(x), Q_j \nabla f(x)\rangle \, dx.
+	\Phi : H^1(M) \to \mathbb{R}^k,
+	\qquad
+	\Phi_j(f) := \int_M \langle \nabla f(x), Q_j \nabla f(x)\rangle \, dx.
 \]
 
 Then
 \[
-R_\theta(f) = \sum_{j=1}^k \theta_j \Phi_j(f)
+	R_\theta(f) = \sum_{j=1}^k \theta_j \Phi_j(f)
 \]
 corresponds to learning a Riemannian metric.
 
@@ -791,9 +791,9 @@ corresponds to learning a Riemannian metric.
 
 \paragraph{Example 4 (First-order total variation).}
 \[
-\Phi : BV(M) \to \mathbb{R}_+,
-\qquad
-\Phi(f) := \|\nabla f\|_{\mathcal M}.
+	\Phi : BV(M) \to \mathbb{R}_+,
+	\qquad
+	\Phi(f) := \|\nabla f\|_{\mathcal M}.
 \]
 
 This feature measures the total mass of the gradient as a Radon measure and promotes piecewise-constant functions.
@@ -803,33 +803,33 @@ This feature measures the total mass of the gradient as a Radon measure and prom
 
 \paragraph{Example 5 (Second-order total variation / splines).}
 \[
-\Phi : X \to \mathbb{R}_+,
-\qquad
-\Phi(f) := \|\Delta f\|_{\mathcal M},
+	\Phi : X \to \mathbb{R}_+,
+	\qquad
+	\Phi(f) := \|\Delta f\|_{\mathcal M},
 \]
 where $X$ is the space of functions with measure-valued Laplacian.
 
 The null space consists of affine functions, and minimizers are adaptive splines.
 
 
-\paragraph{Example 6 (Anisotropic second-order TV).} 
+\paragraph{Example 6 (Anisotropic second-order TV).}
 Let $\mathcal S_+$ denote the cone of symmetric positive semidefinite matrices.
 Define
 \[
-\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
-\qquad
-\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
+	\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+	\qquad
+	\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
 \]
 where $\Delta_Q f := \nabla\cdot(Q\nabla f)$.
 
 Here:
 \begin{itemize}
-\item domain: functions with measure-valued anisotropic Laplacian,
-\item codomain: nonnegative functions on $\mathcal S_+$,
-\item regularizer:
-\[
-R_\theta(f) = \int_{\mathcal S_+} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q).
-\]
+	\item domain: functions with measure-valued anisotropic Laplacian,
+	\item codomain: nonnegative functions on $\mathcal S_+$,
+	\item regularizer:
+	      \[
+		      R_\theta(f) = \int_{\mathcal S_+} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q).
+	      \]
 \end{itemize}
 
 This promotes sparse, geometry-aligned curvature and induces a Finsler total variation.
@@ -840,9 +840,9 @@ This promotes sparse, geometry-aligned curvature and induces a Finsler total var
 Let $\{\psi_k\}$ be eigenfunctions of a Laplacian on $M$.
 Define
 \[
-\Phi : L^2(M) \to \ell^1,
-\qquad
-\Phi_k(f) := |\langle f,\psi_k\rangle|^2.
+	\Phi : L^2(M) \to \ell^1,
+	\qquad
+	\Phi_k(f) := |\langle f,\psi_k\rangle|^2.
 \]
 
 The corresponding regularizer weights energy by frequency and induces a spectral bias.
@@ -853,21 +853,21 @@ The corresponding regularizer weights energy by frequency and induces a spectral
 \paragraph{Example 8 (Barron / ReLU representation).}
 Let
 \[
-f_\mu(x) = \int_{\mathbb S^{d-1}} \sigma(\langle w,x\rangle)\, d\mu(w),
+	f_\mu(x) = \int_{\mathbb S^{d-1}} \sigma(\langle w,x\rangle)\, d\mu(w),
 \]
 with $\mu$ a finite signed Radon measure.
 Define
 \[
-\Phi : \mathcal B \to \mathcal M_+(\mathbb S^{d-1}),
-\qquad
-\Phi(f_\mu) := |\mu|.
+	\Phi : \mathcal B \to \mathcal M_+(\mathbb S^{d-1}),
+	\qquad
+	\Phi(f_\mu) := |\mu|.
 \]
 
 Here:
 \begin{itemize}
-\item domain: Barron space $\mathcal B$,
-\item codomain: finite nonnegative measures,
-\item regularizer: $R(f_\mu)=\|\mu\|_{\mathrm{TV}}$.
+	\item domain: Barron space $\mathcal B$,
+	\item codomain: finite nonnegative measures,
+	\item regularizer: $R(f_\mu)=\|\mu\|_{\mathrm{TV}}$.
 \end{itemize}
 
 This promotes sparse ridge representations.
@@ -876,65 +876,65 @@ This promotes sparse ridge representations.
 \paragraph{Example 9 (Finsler--TV / Radon--Laplacian).}
 Combining the previous examples,
 \[
-\Phi : \mathcal B \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
-\qquad
-\Phi(f_\mu)(Q) := \int \sqrt{w^\top Q w}\,|\mu|(dw).
+	\Phi : \mathcal B \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+	\qquad
+	\Phi(f_\mu)(Q) := \int \sqrt{w^\top Q w}\,|\mu|(dw).
 \]
 
 Equivalently,
 \[
-R(f_\mu)
-=
-\int_{\mathcal S_+} \Phi(f_\mu)(Q)\, d\theta(Q)
-=
-\int F(w)\,|\mu|(dw),
-\quad
-F(w):=\int \sqrt{w^\top Q w}\, d\theta(Q).
+	R(f_\mu)
+	=
+	\int_{\mathcal S_+} \Phi(f_\mu)(Q)\, d\theta(Q)
+	=
+	\int F(w)\,|\mu|(dw),
+	\quad
+	F(w):=\int \sqrt{w^\top Q w}\, d\theta(Q).
 \]
 
 This is a Finsler total variation norm on kink directions.
 
 
 
-\section{Back to the problem} 
+\section{Back to the problem}
 Given all distribution over functions minimizing the negative log-likelihood is
 \begin{align*}
-    \min_\theta \mathcal{L}(\theta) = 
-    % \underbrace{
-        \lambda \int_{f} R_\theta(f)d\pi(f)
-        % }_{\text{energy of functions}}
-     + 
-     \log Z(\theta)
+	\min_\theta \mathcal{L}(\theta) =
+	% \underbrace{
+	\lambda \int_{f} R_\theta(f)d\pi(f)
+	% }_{\text{energy of functions}}
+	+
+	\log Z(\theta)
 \end{align*}
 
 
-where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$. 
+where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$.
 
-However, everything we observe is just a discrete sample. Hence, given the empirical observations of functions $\{ f_i \}_{i=1}^t$ our minimization looks like 
+However, everything we observe is just a discrete sample. Hence, given the empirical observations of functions $\{ f_i \}_{i=1}^t$ our minimization looks like
 \begin{align*}
-    \min_\theta \mathcal{L}(\theta) =  \frac{\lambda}{t} \sum_{i} R_\theta(f_i) + \log Z(\theta)
+	\min_\theta \mathcal{L}(\theta) =  \frac{\lambda}{t} \sum_{i} R_\theta(f_i) + \log Z(\theta)
 \end{align*}
 
-Again, \textbf{everything} we observe is a discrete sample. Usually, we have access to each function $f$ via its values: $D = \{(x_i, y_i)\}$ where $y_i = f(x_i) + \mathcal{N}(0, \sigma^2)$. Note, that 
+Again, \textbf{everything} we observe is a discrete sample. Usually, we have access to each function $f$ via its values: $D = \{(x_i, y_i)\}$ where $y_i = f(x_i) + \mathcal{N}(0, \sigma^2)$. Note, that
 \begin{align*}
-    \log p_{\theta}(D_Y | f, D_X) \propto - \frac{1}{\sigma^2}\sum_{(x, y) \in D} \|y - f(x)\|_2^2 
-    = \ell(D, f)
+	\log p_{\theta}(D_Y | f, D_X) \propto - \frac{1}{\sigma^2}\sum_{(x, y) \in D} \|y - f(x)\|_2^2
+	= \ell(D, f)
 \end{align*}
 Hence,
 
 \begin{align*}
-    -\log p_\theta\left(D_Y \mid D_X\right)=-\log \int \exp \left(-\ell(D, f)-\lambda R_\theta(f)\right) \nu(d f)+\log Z(\theta)
+	-\log p_\theta\left(D_Y \mid D_X\right)=-\log \int \exp \left(-\ell(D, f)-\lambda R_\theta(f)\right) \nu(d f)+\log Z(\theta)
 \end{align*}
 
 So given datasets $\{ D^{(i)} \}_{i=1}^t$ our optimization problem is
 \begin{align}\label{eq:loss-w-data}
-    \min_\theta \mathcal{L}(\theta) = 
-    -\frac{1}{t} \sum_{i=1}^t \log \int \exp \left(-\ell\left(D^{(i)}, f\right)-\lambda R_\theta(f)\right) \nu(d f)+\log Z(\theta)
+	\min_\theta \mathcal{L}(\theta) =
+	-\frac{1}{t} \sum_{i=1}^t \log \int \exp \left(-\ell\left(D^{(i)}, f\right)-\lambda R_\theta(f)\right) \nu(d f)+\log Z(\theta)
 \end{align}
 
-However, the term $\log \int \exp \ldots $ is intractable :( This is why the masking comes into play in practice. 
+However, the term $\log \int \exp \ldots $ is intractable :( This is why the masking comes into play in practice.
 
-\section{Masking} 
+\section{Masking}
 
 % Assume:
 % \begin{itemize}
@@ -965,43 +965,43 @@ However, the term $\log \int \exp \ldots $ is intractable :( This is why the mas
 Fix a parameter $\theta$ and a dataset $D=\{(x_j,y_j)\}_{j=1}^n$.
 Define the energy functional
 \[
-E_\theta(f)
-:=
-\ell(D,f)+\lambda R_\theta(f),
+	E_\theta(f)
+	:=
+	\ell(D,f)+\lambda R_\theta(f),
 \]
 where $\ell(D,f)$ denotes the empirical negative log-likelihood and
 $R_\theta$ is a regularizer.
 
 Assume the following:
 \begin{enumerate}
-    \item The dataset $D$ is large (large $n$) and noise variance $\sigma^2$ is small
-    \item (\emph{Coercivity}) The functional $R_\theta$ is coercive on $X$
-    modulo a finite-dimensional nullspace $\mathcal N$, i.e.,
-    $\|f\|_X\to\infty$ with $f\perp\mathcal N$ implies $R_\theta(f)\to\infty$.
-    \item (\emph{Strict convexity}) The functional $\ell(D,\cdot)$ is strictly
-    convex on $X/\mathcal N$.
-    \item (\emph{Regularity}) The map $f\mapsto E_\theta(f)$ is twice
-     differentiable in a neighborhood of its minimizer.
+	\item The dataset $D$ is large (large $n$) and noise variance $\sigma^2$ is small
+	\item (\emph{Coercivity}) The functional $R_\theta$ is coercive on $X$
+	      modulo a finite-dimensional nullspace $\mathcal N$, i.e.,
+	      $\|f\|_X\to\infty$ with $f\perp\mathcal N$ implies $R_\theta(f)\to\infty$.
+	\item (\emph{Strict convexity}) The functional $\ell(D,\cdot)$ is strictly
+	      convex on $X/\mathcal N$.
+	\item (\emph{Regularity}) The map $f\mapsto E_\theta(f)$ is twice
+	      differentiable in a neighborhood of its minimizer.
 \end{enumerate}
 
 Under these assumptions, the minimization problem
 \[
-\hat f_\theta
-\in
-\arg\min_{f\in X} E_\theta(f)
+	\hat f_\theta
+	\in
+	\arg\min_{f\in X} E_\theta(f)
 \]
 admits a unique solution modulo $\mathcal N$.
 Moreover, the posterior distribution
 \[
-p_\theta(f\mid D)
-\propto
-\exp\!\big(-E_\theta(f)\big)
+	p_\theta(f\mid D)
+	\propto
+	\exp\!\big(-E_\theta(f)\big)
 \]
 concentrates in probability around $\hat f_\theta$ as either
 $n\to\infty$ or $\sigma^2\to 0$.
 In particular, for any neighborhood $U$ of $\hat f_\theta$ in $X$,
 \[
-p_\theta(U\mid D)\;\longrightarrow\;1.
+	p_\theta(U\mid D)\;\longrightarrow\;1.
 \]
 
 
@@ -1012,48 +1012,48 @@ Let $E_\theta(f)=\ell(D,f)+\lambda R_\theta(f)$ and let
 $\hat f_\theta$ denote its unique minimizer.
 Define the Hessian operator
 \[
-H_\theta := \nabla^2 E_\theta(\hat f_\theta),
+	H_\theta := \nabla^2 E_\theta(\hat f_\theta),
 \]
 acting on the tangent space of $X/\mathcal N$.
 
 By a second-order Taylor expansion,
 \[
-E_\theta(f)
-=
-E_\theta(\hat f_\theta)
-+
-\frac{1}{2}
-\langle f-\hat f_\theta,\,
-H_\theta (f-\hat f_\theta)\rangle
-+
-o(\|f-\hat f_\theta\|_X^2).
+	E_\theta(f)
+	=
+	E_\theta(\hat f_\theta)
+	+
+	\frac{1}{2}
+	\langle f-\hat f_\theta,\,
+	H_\theta (f-\hat f_\theta)\rangle
+	+
+	o(\|f-\hat f_\theta\|_X^2).
 \]
 
 Substituting this expansion into the marginal likelihood integral yields
 the Laplace approximation
 \begin{equation}
-\label{eq:laplace-approx}
-\int_X
-\exp\!\big(-E_\theta(f)\big)\,\nu(df)
-\;\approx\;
-\exp\!\big(-E_\theta(\hat f_\theta)\big)
-\int
-\exp\!\left(
--\tfrac{1}{2}
-\langle h, H_\theta h\rangle
-\right)\,dh.
+	\label{eq:laplace-approx}
+	\int_X
+	\exp\!\big(-E_\theta(f)\big)\,\nu(df)
+	\;\approx\;
+	\exp\!\big(-E_\theta(\hat f_\theta)\big)
+	\int
+	\exp\!\left(
+	-\tfrac{1}{2}
+	\langle h, H_\theta h\rangle
+	\right)\,dh.
 \end{equation}
 
 The remaining integral is Gaussian and evaluates (up to a multiplicative
 constant) to $(\det H_\theta)^{-1/2}$, where $\det H_\theta$ denotes a suitable
 regularized determinant. Consequently,
 \begin{equation}
-\label{eq:laplace-result}
-\int_X
-\exp\!\big(-\ell(D,f)-\lambda R_\theta(f)\big)\,\nu(df)
-\;\approx\;
-\exp\!\big(-\ell(D,\hat f_\theta)-\lambda R_\theta(\hat f_\theta)\big)
-(\det H_\theta)^{-1/2}.
+	\label{eq:laplace-result}
+	\int_X
+	\exp\!\big(-\ell(D,f)-\lambda R_\theta(f)\big)\,\nu(df)
+	\;\approx\;
+	\exp\!\big(-\ell(D,\hat f_\theta)-\lambda R_\theta(\hat f_\theta)\big)
+	(\det H_\theta)^{-1/2}.
 \end{equation}
 
 
@@ -1063,80 +1063,80 @@ regularized determinant. Consequently,
 Substituting the Laplace approximation~\eqref{eq:laplace-result} into the
 negative log marginal likelihood yields
 \begin{equation}
-\label{eq:laplace-objective}
--\log p_\theta(D_Y\mid D_X)
-\;\approx\;
-\ell(D,\hat f_\theta)
-+
-\lambda R_\theta(\hat f_\theta)
-+
-\frac{1}{2}\log\det H_\theta
--
-\log Z(\theta),
+	\label{eq:laplace-objective}
+	-\log p_\theta(D_Y\mid D_X)
+	\;\approx\;
+	\ell(D,\hat f_\theta)
+	+
+	\lambda R_\theta(\hat f_\theta)
+	+
+	\frac{1}{2}\log\det H_\theta
+	-
+	\log Z(\theta),
 \end{equation}
 up to additive constants independent of $\theta$.
 
 This expression decomposes the marginal likelihood into four interpretable
 components:
 \begin{enumerate}
-    \item \emph{Data-fit term} $\ell(D,\hat f_\theta)$, measuring how well the
-    MAP estimator explains the observations;
-    \item \emph{Regularization cost} $\lambda R_\theta(\hat f_\theta)$,
-    encoding alignment between the learned function and the inductive bias
-    imposed by $\theta$;
-    \item \emph{Local complexity (Occam) penalty}
-    $\frac{1}{2}\log\det H_\theta$, which penalizes flat or unstable directions
-    around the MAP solution;
-    \item \emph{Global complexity penalty} $-\log Z(\theta)$, measuring the
-    overall volume of functions favored by the prior.
+	\item \emph{Data-fit term} $\ell(D,\hat f_\theta)$, measuring how well the
+	      MAP estimator explains the observations;
+	\item \emph{Regularization cost} $\lambda R_\theta(\hat f_\theta)$,
+	      encoding alignment between the learned function and the inductive bias
+	      imposed by $\theta$;
+	\item \emph{Local complexity (Occam) penalty}
+	      $\frac{1}{2}\log\det H_\theta$, which penalizes flat or unstable directions
+	      around the MAP solution;
+	\item \emph{Global complexity penalty} $-\log Z(\theta)$, measuring the
+	      overall volume of functions favored by the prior.
 \end{enumerate}
 
 Together, these terms characterize the tradeoff between data fit,
 regularization, and model complexity in the marginal likelihood objective.
- 
+
 
 \section{Back to the optimization}
 Given the collection of datasets $\mathcal{D} = \left\{\left(D^{(i)}_{\text{train}}, D^{(i)}_{\text{test}}\right)\right\}_{i=1}^t$
-Substituting this into \Cref{eq:loss-w-data} we have 
+Substituting this into \Cref{eq:loss-w-data} we have
 
 \begin{gather*}
-    \min_\theta \mathcal{L}(\theta) = 
-    \frac{1}{t} \sum_{i=1}^t 
-    \ell\left(D_{\text{test}}^{(i)},\hat f^{(i)}_\theta\right)
-    +
-    \lambda R_\theta\left(\hat f^{(i)}_\theta\right)
-    +
-    \frac{1}{2}\log\det H_\theta
-    -
-    \log Z(\theta) 
-    \\
-    \text{where } \hat f_\theta^{(i)} = \argmin_f 
-    \ell\left(D_{\text{train}}^{(i)},  f\right)
-    +
-    \lambda R_\theta\left(f\right)
+	\min_\theta \mathcal{L}(\theta) =
+	\frac{1}{t} \sum_{i=1}^t
+	\ell\left(D_{\text{test}}^{(i)},\hat f^{(i)}_\theta\right)
+	+
+	\lambda R_\theta\left(\hat f^{(i)}_\theta\right)
+	+
+	\frac{1}{2}\log\det H_\theta
+	-
+	\log Z(\theta)
+	\\
+	\text{where } \hat f_\theta^{(i)} = \argmin_f
+	\ell\left(D_{\text{train}}^{(i)},  f\right)
+	+
+	\lambda R_\theta\left(f\right)
 \end{gather*}
 
 This is bilever optimization. Even though it lost the convexity, it is tractable and can be solved in practice by alternating gradient descent. I claim that gradient descent of the outer problem  = training a transformer, gradient descent of the inner problem is a transformer forward pass.
 
 \section{Inner problem}
 
-For a dataset $D = \{(x_i, y_i)\}$ we have 
+For a dataset $D = \{(x_i, y_i)\}$ we have
 
 \begin{align*}
-    \hat f_\theta = \argmin_f 
-    \ell\left(D,  f\right)
-    +
-    \lambda R_\theta\left(f\right) 
-    = 
-    \argmin_f 
-    \| f(x_i) - y_i\|_2^2 
-    +
-    \lambda \langle \theta, \Phi(f) \rangle 
+	\hat f_\theta = \argmin_f
+	\ell\left(D,  f\right)
+	+
+	\lambda R_\theta\left(f\right)
+	=
+	\argmin_f
+	\| f(x_i) - y_i\|_2^2
+	+
+	\lambda \langle \theta, \Phi(f) \rangle
 \end{align*}
 
 Note, that if $\Phi$ is convex in $f$ then this can be solved by subgradient descent on $f$:
 \begin{align*}
-    f^{(t+1)} = f^{(t)} - \eta \left[ 2\sum_i \bigl(f^{(t)}(x_i) - y_i\bigr) \delta_{x_i} + \lambda \, g^{(t)} \right]
+	f^{(t+1)} = f^{(t)} - \eta \left[ 2\sum_i \bigl(f^{(t)}(x_i) - y_i\bigr) \delta_{x_i} + \lambda \, g^{(t)} \right]
 \end{align*}
 where $g^{(t)} \in \partial_f R_\theta(f^{(t)})$ is a subgradient of the regularizer.
 
@@ -1148,42 +1148,42 @@ to see how transformer-like networks can implement a (sub)gradient $g$ descent f
 \paragraph{Energy regularization}
 
 \[
-\Phi : L^2(M) \to \mathbb{R},
-\qquad
-\Phi(f) := \|f\|_{L^2(M)}^2 \qquad R_\theta(f) = \theta \|f\|_{L^2(M)}^2 
-\qquad
-g = 2f
+	\Phi : L^2(M) \to \mathbb{R},
+	\qquad
+	\Phi(f) := \|f\|_{L^2(M)}^2 \qquad R_\theta(f) = \theta \|f\|_{L^2(M)}^2
+	\qquad
+	g = 2f
 \]
 
 \paragraph{Anisotropic Sobolev Regularization}
 Parameter $\theta$ is a measure over PSD matrices.
 \[
-\Phi(f)(Q) := \| \nabla f(x) \|^2_{Q} \qquad R_\theta(f) =  \int_{Q \in \mathbf{S}_+}\| \nabla f(x) \|^2_{Q}  d \theta(Q) \qquad g = - \int_{Q \in \mathbf{S}_+} \Delta_Q  f  d \theta(Q)
+	\Phi(f)(Q) := \| \nabla f(x) \|^2_{Q} \qquad R_\theta(f) =  \int_{Q \in \mathbf{S}_+}\| \nabla f(x) \|^2_{Q}  d \theta(Q) \qquad g = - \int_{Q \in \mathbf{S}_+} \Delta_Q  f  d \theta(Q)
 \]
 
 
-\paragraph{Anisotropic second-order TV} 
+\paragraph{Anisotropic second-order TV}
 
 \[
-\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
-\qquad
-\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M}, 
-\qquad
-g = \int_{\mathcal S_+}  \Delta_Q \sign(\Delta_Q f) d\theta(Q)
+	\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+	\qquad
+	\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
+	\qquad
+	g = \int_{\mathcal S_+}  \Delta_Q \sign(\Delta_Q f) d\theta(Q)
 \]
 where $\Delta_Q f := \nabla\cdot(Q\nabla f)$.
 
 
 As the functions are defined on a "flat" domain $\domain \subset R^{d}$, the discrete version of $\Delta_Q$ looks like:
 \begin{align*}
-    L \in R^{n \times n}: L_{ij} = \exp\left(\frac{-\|x_i - x_j\|_{Q^{-1}}^2}{\epsilon} \right)
+	L \in R^{n \times n}: L_{ij} = \exp\left(\frac{-\|x_i - x_j\|_{Q^{-1}}^2}{\epsilon} \right)
 \end{align*}
 
 If our domain is curved manifold $\domain$ we can W.L.O.G. (by Takahashi's thm hehe) assume that it's $\domain \in S^{d-1}$, hence, the discrete version of $\Delta_Q$ will require projection $P_i = I - x_i x_i^\top$:
 \begin{align*}
-    L \in R^{n \times n}: L_{ij} 
-    &= \exp\left(\frac{-(x_i - x_j)^\top P_i Q^{-1} P_i  (x_i - x_j)^\top}{\epsilon} \right) \\
-    &= \exp \left(-\frac{\left(x_j-\left(x_i^{\top} x_j\right) x_i\right)^{\top} Q^{-1} \left(x_j-\left(x_i^{\top} x_j\right) x_i\right)}{\epsilon}\right)
+	L \in R^{n \times n}: L_{ij}
+	 & = \exp\left(\frac{-(x_i - x_j)^\top P_i Q^{-1} P_i  (x_i - x_j)^\top}{\epsilon} \right)                                                               \\
+	 & = \exp \left(-\frac{\left(x_j-\left(x_i^{\top} x_j\right) x_i\right)^{\top} Q^{-1} \left(x_j-\left(x_i^{\top} x_j\right) x_i\right)}{\epsilon}\right)
 \end{align*}
 
 Note, that all the exp terms are kind of similar to the original transformer softmax terms. I think, softmax should be replaced by those. The final idea is that a transformish NN with infinite amount of heads approximates the disctribution over $Q$.
@@ -1210,80 +1210,254 @@ Note, that all the exp terms are kind of similar to the original transformer sof
 \newpage
 
 \begin{theorem}[Stability from coercive $\Phi$-regularization]
-    \label{thm:stability-coercive-phi}
-    Let $(X,\|\cdot\|_X)$ be a reflexive Banach space of functions on a domain $M$, and let
-    \[
-    R_\theta(f) := \langle \theta, \Phi(f) \rangle \in [0,\infty]
-    \]
-    where $\Phi:X\to V$ is a measurable map into a real locally convex space $V$ and $\theta\in V^\ast$ is such that $R_\theta$ is a proper, convex, lower semicontinuous functional on $X$.
-    Assume the following:
-    
-    \begin{enumerate}
-    \item \textbf{Coercivity (modulo a nullspace).}
-    There exists a finite-dimensional subspace $\mathcal N\subset X$ and a constant $c>0$ such that for all $f\in X$,
-    \[
-    R_\theta(f) \;\ge\; c\,\|f-\Pi_{\mathcal N}f\|_X - c,
-    \]
-    where $\Pi_{\mathcal N}$ denotes a fixed linear projection onto $\mathcal N$.
-    In particular, the sublevel sets $\{f: R_\theta(f)\le C\}$ are relatively compact in $X/\mathcal N$.
-    
-    \item \textbf{Strong convexity of the empirical loss.}
-    For each dataset $D=\{(x_i,y_i)\}_{i=1}^n$, define
-    \[
-    \mathcal L_D(f):=\frac{1}{n}\sum_{i=1}^n \ell\big(f(x_i),y_i\big),
-    \]
-    and assume $\mathcal L_D$ is $\alpha$-strongly convex on $X/\mathcal N$ with respect to $\|\cdot\|_X$, uniformly over all datasets $D$ (for some $\alpha>0$).
-    
-    \item \textbf{Lipschitz dependence on function values.}
-    Assume $\ell(\cdot,y)$ is $L$-Lipschitz in its first argument for all $y$, and that point-evaluation is continuous on $X$ in the sense that there exists $\kappa>0$ such that for all $x\in M$ and all $f,g\in X$,
-    \[
-    |f(x)-g(x)| \le \kappa \|f-g\|_X.
-    \]
-    \end{enumerate}
-    
-    % Fix $\lambda>0$, and define the (regularized ERM / MAP) estimator
-    % \[
-    % \hat f_D \in \arg\min_{f\in X}\Big\{ \mathcal L_D(f) + \lambda R_\theta(f)\Big\},
-    % \]
-    % where $\hat f_D$ is chosen uniquely in $X/\mathcal N$ (e.g.\ by imposing a gauge condition such as $\Pi_{\mathcal N}\hat f_D=0$).
-    
-    % Then the estimator is \textbf{stable to masking} in the following sense:
-    % if $D^{(j)}$ denotes the dataset obtained by removing (masking) the $j$-th sample from $D$, then for all $j\in\{1,\dots,n\}$,
-    % \[
-    % \|\hat f_D - \hat f_{D^{(j)}}\|_X
-    % \;\le\;
-    % \frac{2L\kappa}{\alpha\, n}.
-    % \]
-    % Consequently, the change in loss on any test point $(x,y)$ is uniformly bounded by
-    % \[
-    % \big|\ell(\hat f_D(x),y)-\ell(\hat f_{D^{(j)}}(x),y)\big|
-    % \;\le\;
-    % \frac{2L^2\kappa^2}{\alpha\, n}.
-    % \]
-    Observed data $y_i = f^*(x_i) + \mathcal{N}(0, \sigma^2)$
-    \begin{align*}
-        \hat f = \argmin_f \frac{1}{n}\sum_{i=1}^n \ell(f(x_i), y_i) + \lambda R(f) \Rightarrow
-        \|f^* - \hat f\|_{X} \leq C(n, \sigma, R, \lambda)
-    \end{align*}
+	\label{thm:stability-coercive-phi}
+	Let $(X,\|\cdot\|_X)$ be a reflexive Banach space of functions on a domain $M$, and let
+	\[
+		R_\theta(f) := \langle \theta, \Phi(f) \rangle \in [0,\infty]
+	\]
+	where $\Phi:X\to V$ is a measurable map into a real locally convex space $V$ and $\theta\in V^\ast$ is such that $R_\theta$ is a proper, convex, lower semicontinuous functional on $X$.
+	Assume the following:
 
-    \end{theorem}
-    \begin{proposition}[Bilevel learning of $\theta$ as a MAP surrogate]
-        Let $R_\theta(f)=\langle \theta,\Phi(f)\rangle$ and define the inner estimator
-        \[
-        \hat f_\theta(D)\in\arg\min_{f\in X}\Big\{\mathcal L_D(f)+\lambda R_\theta(f)\Big\}.
-        \]
-        Consider the bilevel objective based on masking (or train/validation splits),
-        \[
-        \min_\theta \; \mathbb E_{\text{mask}}\Big[\mathcal L_{\mathrm{val}}\big(\hat f_\theta(D_{\mathrm{train}})\big)\Big]+\Omega(\theta).
-        \]
-        Then bilevel optimization selects $\theta$ so as to minimize the predictive risk of the MAP estimator induced by the Gibbs prior
-        \[
-        p_\theta(df)\propto \exp\!\big(-\lambda R_\theta(f)\big)\,\nu(df).
-        \]
-        In contrast, maximum-likelihood learning of $\theta$ for the induced Gibbs model includes an additional global complexity term $\log Z(\theta)$, which is generally not captured by the bilevel objective unless explicitly approximated (e.g., via Laplace/Occam corrections).
-        \end{proposition}
-        
+	\begin{enumerate}
+		\item \textbf{Coercivity (modulo a nullspace).}
+		      There exists a finite-dimensional subspace $\mathcal N\subset X$ and a constant $c>0$ such that for all $f\in X$,
+		      \[
+			      R_\theta(f) \;\ge\; c\,\|f-\Pi_{\mathcal N}f\|_X - c,
+		      \]
+		      where $\Pi_{\mathcal N}$ denotes a fixed linear projection onto $\mathcal N$.
+		      In particular, the sublevel sets $\{f: R_\theta(f)\le C\}$ are relatively compact in $X/\mathcal N$.
 
+		\item \textbf{Strong convexity of the empirical loss.}
+		      For each dataset $D=\{(x_i,y_i)\}_{i=1}^n$, define
+		      \[
+			      \mathcal L_D(f):=\frac{1}{n}\sum_{i=1}^n \ell\big(f(x_i),y_i\big),
+		      \]
+		      and assume $\mathcal L_D$ is $\alpha$-strongly convex on $X/\mathcal N$ with respect to $\|\cdot\|_X$, uniformly over all datasets $D$ (for some $\alpha>0$).
+
+		\item \textbf{Lipschitz dependence on function values.}
+		      Assume $\ell(\cdot,y)$ is $L$-Lipschitz in its first argument for all $y$, and that point-evaluation is continuous on $X$ in the sense that there exists $\kappa>0$ such that for all $x\in M$ and all $f,g\in X$,
+		      \[
+			      |f(x)-g(x)| \le \kappa \|f-g\|_X.
+		      \]
+	\end{enumerate}
+
+	% Fix $\lambda>0$, and define the (regularized ERM / MAP) estimator
+	% \[
+	% \hat f_D \in \arg\min_{f\in X}\Big\{ \mathcal L_D(f) + \lambda R_\theta(f)\Big\},
+	% \]
+	% where $\hat f_D$ is chosen uniquely in $X/\mathcal N$ (e.g.\ by imposing a gauge condition such as $\Pi_{\mathcal N}\hat f_D=0$).
+
+	% Then the estimator is \textbf{stable to masking} in the following sense:
+	% if $D^{(j)}$ denotes the dataset obtained by removing (masking) the $j$-th sample from $D$, then for all $j\in\{1,\dots,n\}$,
+	% \[
+	% \|\hat f_D - \hat f_{D^{(j)}}\|_X
+	% \;\le\;
+	% \frac{2L\kappa}{\alpha\, n}.
+	% \]
+	% Consequently, the change in loss on any test point $(x,y)$ is uniformly bounded by
+	% \[
+	% \big|\ell(\hat f_D(x),y)-\ell(\hat f_{D^{(j)}}(x),y)\big|
+	% \;\le\;
+	% \frac{2L^2\kappa^2}{\alpha\, n}.
+	% \]
+	Observed data $y_i = f^*(x_i) + \mathcal{N}(0, \sigma^2)$
+	\begin{align*}
+		\hat f = \argmin_f \frac{1}{n}\sum_{i=1}^n \ell(f(x_i), y_i) + \lambda R(f) \Rightarrow
+		\|f^* - \hat f\|_{X} \leq C(n, \sigma, R, \lambda)
+	\end{align*}
+
+\end{theorem}
+\begin{proposition}[Bilevel learning of $\theta$ as a MAP surrogate]
+	Let $R_\theta(f)=\langle \theta,\Phi(f)\rangle$ and define the inner estimator
+	\[
+		\hat f_\theta(D)\in\arg\min_{f\in X}\Big\{\mathcal L_D(f)+\lambda R_\theta(f)\Big\}.
+	\]
+	Consider the bilevel objective based on masking (or train/validation splits),
+	\[
+		\min_\theta \; \mathbb E_{\text{mask}}\Big[\mathcal L_{\mathrm{val}}\big(\hat f_\theta(D_{\mathrm{train}})\big)\Big]+\Omega(\theta).
+	\]
+	Then bilevel optimization selects $\theta$ so as to minimize the predictive risk of the MAP estimator induced by the Gibbs prior
+	\[
+		p_\theta(df)\propto \exp\!\big(-\lambda R_\theta(f)\big)\,\nu(df).
+	\]
+	In contrast, maximum-likelihood learning of $\theta$ for the induced Gibbs model includes an additional global complexity term $\log Z(\theta)$, which is generally not captured by the bilevel objective unless explicitly approximated (e.g., via Laplace/Occam corrections).
+\end{proposition}
+
+\section{Manifold Hypothesis and its Shortcomings}
+
+A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure.
+
+\begin{assumption}[Manifold Hypothesis]
+	Let $\chi \subset \mathbb{R}^D$ be the ambient space and let $\mathcal{D}$ be a probability distribution on $\chi$.
+	There exists a $d$-dimensional manifold $\mathcal{M} \subset \chi$, with $d \ll D$, such that
+	\[
+		\mathbb{P}_{x \sim \mathcal{D}}\big( \mathrm{dist}(x,\mathcal{M}) \le \varepsilon \big) \ge 1 - \delta,
+	\]
+	for sufficiently small $\varepsilon, \delta > 0$.
+\end{assumption}
+
+In practice, data rarely concentrate on a single smooth manifold. Rather, they are better modeled as lying on \emph{unions of manifolds}, or more generally on \emph{stratified spaces} composed of pieces of varying intrinsic dimensions, potentially with singularities and boundaries.
+
+Why small $d$ is important?
+\begin{itemize}
+	\item Generalization error depends on the intrinsic dimension $d$ of the manifold.
+	\item The number of samples $n$ needed to learn the manifold increases with $d$.
+	\item The complexity of the model increases with $d$.
+	\item Can get a small embedding.
+\end{itemize}
+
+\paragraph{Shortcomings}
+\begin{itemize}
+	\item Doesn't properly capture union of manifolds.
+	\item Doesn't properly capture stratified spaces.
+	\item Doesn't properly capture manifolds with singularities and boundaries.
+	\item What about infinite-dimensional data? Cause images come from infinite-dimensional continuous functions.
+\end{itemize}
+
+\paragraph{Example: Vision Data}
+
+Each 2d image (or 3d scene or a point cloud) can be modeled $f: \Real^2 \to \Real^3$ as a function from coordinates to RGB (or XYZ) values. That's how NeRFS work:
+
+\paragraph{Neural Radiance Fields (NeRFs).}
+A \emph{Neural Radiance Field} models a 3D scene as a continuous function
+\[
+	f_\theta : (\mathbf{x}, \mathbf{d}) \;\mapsto\; (\sigma, \mathbf{c}),
+\]
+where
+\begin{itemize}
+	\item $\mathbf{x} \in \mathbb{R}^3$ denotes a spatial location,
+	\item $\mathbf{d} \in \mathbb{S}^2$ denotes a viewing direction,
+	\item $\sigma \in \mathbb{R}_{\ge 0}$ is the volume density at $\mathbf{x}$,
+	\item $\mathbf{c} \in \mathbb{R}^3$ is the emitted RGB color in direction $\mathbf{d}$.
+\end{itemize}
+
+The key idea is that the scene is represented neither as a mesh, nor as a voxel grid,
+nor as a point cloud, but as a \emph{continuous radiance field} parameterized by a neural network.
+
+In a similar way, each 2d image can be modeled as a function from coordinates to RGB values: $f: \Real^2 \to \Real^3$ and the embedding of this function would the weights of the corresponding ReLU network. The regular manifold hypothesis doesn't properly capture this structure that:
+\begin{itemize}
+	\item In a union of manifolds
+	\item Has some hierarchical structure.
+	\item Has permutation-invariance with respect to weights in each layer.
+\end{itemize}
+
+Also, importantly, each image $f$ is not a smooth function: its a combination of a "simple" in some sense partition of the image into smooth enough regions.
+
+Let's formulate the extension of the manifold hypothesis to this case.
+
+\subsection{ASTs}
+
+\begin{definition}[AND--OR Abstract Syntax Tree]
+	Let $\mathcal X$ be an input space and $\phi:\mathcal X\to\mathbb R^d$ an embedding.
+	An \emph{AND--OR abstract syntax tree (AST)} is defined recursively as:
+
+	\begin{itemize}
+		\item \textbf{Atom (Leaf):}
+		      \[
+			      T(x) = g(x), \qquad g \in \mathcal G,
+		      \]
+		      where $\mathcal G$ is a class of simple local models (e.g.\ linear or affine functions).
+
+		\item \textbf{AND node:}
+		      \[
+			      T(x) = \mathbb I\bigl[C_1(x)\wedge\cdots\wedge C_k(x)\bigr]\cdot T'(x),
+		      \]
+		      where each $C_i(x)$ is a constraint and $T'$ is a subtree.
+
+		\item \textbf{OR node:}
+		      \[
+			      T(x) = \sum_{j=1}^m \mathbb I\bigl[C_j(x)\bigr]\cdot T_j(x),
+		      \]
+		      where $\{C_j\}_{j=1}^m$ form a partition of $\mathcal X$ and $T_j$ are subtrees.
+	\end{itemize}
+
+	The constraints $C(x)$ are typically hyperplane tests of the form
+	\[
+		C(x) := \langle w, \phi(x)\rangle \ge 0 .
+	\]
+\end{definition}
+
+
+\paragraph{Semantics.}
+\begin{itemize}
+	\item AND nodes represent conjunctions of constraints and correspond to intersections
+	      of half-spaces or cross-products of independent factors.
+	\item OR nodes represent partitions of the input space into disjoint regions.
+	\item Each root-to-leaf path defines a region
+	      \[
+		      \mathcal X_\ell = \bigcap_{C \in \text{path}(\ell)} C,
+	      \]
+	      on which the function reduces to a simple local model.
+\end{itemize}
+
+\paragraph{Example: 1D Piecewise Linear Function}
+Let
+\[
+	f(x)=
+	\begin{cases}
+		a_1 x + b_1, & x \le t, \\
+		a_2 x + b_2, & x > t.
+	\end{cases}
+\]
+
+This function admits the AND--OR representation
+\[
+	f(x)
+	=
+	\mathbb I[x\le t]\,(a_1x+b_1)
+	+
+	\mathbb I[x>t]\,(a_2x+b_2).
+\]
+
+Equivalently, as an AST:
+\[
+	\texttt{OR}\Bigl(
+	\texttt{AND}(x\le t,\ \texttt{LINEAR}(a_1,b_1)),
+	\texttt{AND}(x>t,\ \texttt{LINEAR}(a_2,b_2))
+	\Bigr).
+\]
+
+\paragraph{Example: Hierarchical Partition}
+Let $t_1 < t_2$ and
+\[
+	f(x)=
+	\begin{cases}
+		a_1x+b_1, & x\le t_1,        \\
+		a_2x+b_2, & t_1 < x \le t_2, \\
+		a_3x+b_3, & x>t_2.
+	\end{cases}
+\]
+
+Then $f$ can be written as
+\[
+	f(x)=
+	\mathbb I[x\le t_2]
+	\Bigl(
+	\mathbb I[x\le t_1](a_1x+b_1)
+	+
+	\mathbb I[t_1<x\le t_2](a_2x+b_2)
+	\Bigr)
+	+
+	\mathbb I[x>t_2](a_3x+b_3).
+\]
+
+This corresponds to a depth--2 AND--OR tree.
+
+
+\paragraph{Example: ReLU as AND--OR}
+For $w\in\mathbb R^d$,
+\[
+	\mathrm{ReLU}(\langle w,x\rangle)
+	=
+	\mathbb I[\langle w,x\rangle\ge0]\langle w,x\rangle
+	+
+	\mathbb I[\langle w,x\rangle<0]\cdot 0.
+\]
+
+Thus a ReLU unit is an OR node with two AND branches.
+A finite ReLU network corresponds to a (possibly large) AND--OR tree,
+whose leaves are linear functions and whose OR structure encodes the
+activation pattern partition.
 
 
 
