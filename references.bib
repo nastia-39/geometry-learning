@@ -3661,3 +3661,285 @@
   keywords = {eigenspaces,PCA},
   file = {/Users/aalokhina3/Zotero/storage/Y5EV9SVN/Zwald and Blanchard - 2005 - On the Convergence of Eigenspaces in Kernel Principal Component Analysis.pdf}
 }
+
+
+@article{mildenhall2021nerf,
+  title={Nerf: Representing scenes as neural radiance fields for view synthesis},
+  author={Mildenhall, Ben and Srinivasan, Pratul P and Tancik, Matthew and Barron, Jonathan T and Ramamoorthi, Ravi and Ng, Ren},
+  journal={Communications of the ACM},
+  volume={65},
+  number={1},
+  pages={99--106},
+  year={2021},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{pumarola2021d,
+  title={D-nerf: Neural radiance fields for dynamic scenes},
+  author={Pumarola, Albert and Corona, Enric and Pons-Moll, Gerard and Moreno-Noguer, Francesc},
+  booktitle={Proceedings of the IEEE/CVF conference on computer vision and pattern recognition},
+  pages={10318--10327},
+  year={2021}
+}
+
+@misc{gao2025nerfneuralradiancefield,
+      title={NeRF: Neural Radiance Field in 3D Vision: A Comprehensive Review (Updated Post-Gaussian Splatting)}, 
+      author={Kyle Gao and Yina Gao and Hongjie He and Dening Lu and Linlin Xu and Jonathan Li},
+      year={2025},
+      eprint={2210.00379},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2210.00379}, 
+}
+
+@inproceedings{10.1007/978-3-031-19824-3_20,
+author = {Chen, Anpei and Xu, Zexiang and Geiger, Andreas and Yu, Jingyi and Su, Hao},
+title = {TensoRF: Tensorial Radiance Fields},
+year = {2022},
+isbn = {978-3-031-19823-6},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+url = {https://doi.org/10.1007/978-3-031-19824-3_20},
+doi = {10.1007/978-3-031-19824-3_20},
+abstract = {We present TensoRF, a novel approach to model and reconstruct radiance fields. Unlike NeRF that purely uses MLPs, we model the radiance field of a scene as a 4D tensor, which represents a 3D voxel grid with per-voxel multi-channel features.  Our central idea is to factorize the 4D scene tensor into multiple compact low-rank tensor components. We demonstrate that applying traditional CANDECOMP/PARAFAC (CP) decomposition – that factorizes tensors into rank-one components with compact vectors – in our framework leads to improvements over vanilla NeRF. To further boost performance, we introduce a novel vector-matrix (VM) decomposition that relaxes the low-rank constraints for two modes of a tensor and factorizes tensors into compact vector and matrix factors. Beyond superior rendering quality, our models with CP and VM decompositions lead to a significantly lower memory footprint in comparison to previous and concurrent works that directly optimize per-voxel features. Experimentally, we demonstrate that TensoRF with CP decomposition achieves fast reconstruction (<30 min) with better rendering quality and even a smaller model size (<4 MB) compared to NeRF. Moreover, TensoRF with VM decomposition further boosts rendering quality and outperforms previous state-of-the-art methods, while reducing the reconstruction time (<10 min) and retaining a compact model size (<75 MB).},
+booktitle = {Computer Vision – ECCV 2022: 17th European Conference, Tel Aviv, Israel, October 23–27, 2022, Proceedings, Part XXXII},
+pages = {333–350},
+numpages = {18},
+location = {Tel Aviv, Israel}
+}
+
+
+@INPROCEEDINGS{9577688,
+  author={Yu, Alex and Ye, Vickie and Tancik, Matthew and Kanazawa, Angjoo},
+  booktitle={2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, 
+  title={pixelNeRF: Neural Radiance Fields from One or Few Images}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={4576-4585},
+  keywords={Convolutional codes;Solid modeling;Computer vision;Three-dimensional displays;Image resolution;Computer architecture;Benchmark testing},
+  doi={10.1109/CVPR46437.2021.00455}}
+
+
+
+@INPROCEEDINGS{9578751,
+  author={Tancik, Matthew and Mildenhall, Ben and Wang, Terrance and Schmidt, Divi and Srinivasan, Pratul P. and Barron, Jonathan T. and Ng, Ren},
+  booktitle={2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)}, 
+  title={Learned Initializations for Optimizing Coordinate-Based Neural Representations}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={2845-2854},
+  keywords={Solid modeling;Three-dimensional displays;Limiting;Shape;Trajectory;Pattern recognition;Task analysis},
+  doi={10.1109/CVPR46437.2021.00287}}
+
+
+
+@article{10.1145/3528223.3530127,
+author = {M\"{u}ller, Thomas and Evans, Alex and Schied, Christoph and Keller, Alexander},
+title = {Instant neural graphics primitives with a multiresolution hash encoding},
+year = {2022},
+issue_date = {July 2022},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {41},
+number = {4},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/3528223.3530127},
+doi = {10.1145/3528223.3530127},
+abstract = {Neural graphics primitives, parameterized by fully connected neural networks, can be costly to train and evaluate. We reduce this cost with a versatile new input encoding that permits the use of a smaller network without sacrificing quality, thus significantly reducing the number of floating point and memory access operations: a small neural network is augmented by a multiresolution hash table of trainable feature vectors whose values are optimized through stochastic gradient descent. The multiresolution structure allows the network to disambiguate hash collisions, making for a simple architecture that is trivial to parallelize on modern GPUs. We leverage this parallelism by implementing the whole system using fully-fused CUDA kernels with a focus on minimizing wasted bandwidth and compute operations. We achieve a combined speedup of several orders of magnitude, enabling training of high-quality neural graphics primitives in a matter of seconds, and rendering in tens of milliseconds at a resolution of 1920\texttimes{}1080.},
+journal = {ACM Trans. Graph.},
+month = jul,
+articleno = {102},
+numpages = {15},
+keywords = {GPUs, encodings, function approximation, hashing, image synthesis, neural networks, parallel computation}
+}
+
+
+@INPROCEEDINGS{9710464,
+  author={Reiser, Christian and Peng, Songyou and Liao, Yiyi and Geiger, Andreas},
+  booktitle={2021 IEEE/CVF International Conference on Computer Vision (ICCV)}, 
+  title={KiloNeRF: Speeding up Neural Radiance Fields with Thousands of Tiny MLPs}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={14315-14325},
+  keywords={Training;Visualization;Computer vision;Costs;Computational modeling;Fitting;Rendering (computer graphics);Image and video synthesis;Efficient training and inference methods},
+  doi={10.1109/ICCV48922.2021.01407}}
+
+
+@misc{rabby2024beyondpixelscomprehensivereviewevolution,
+      title={BeyondPixels: A Comprehensive Review of the Evolution of Neural Radiance Fields}, 
+      author={AKM Shahariar Azad Rabby and Chengcui Zhang},
+      year={2024},
+      eprint={2306.03000},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2306.03000}, 
+}
+@inproceedings{50730,title	= {H-NeRF: Neural Radiance Fields for Rendering and Temporal Reconstruction of Humans in Motion},author	= {Hongyi Xu and Thiemo Alldieck and Cristian Sminchisescu},year	= {2021},URL	= {https://arxiv.org/pdf/2110.13746.pdf},booktitle	= {Advances in Neural Information Processing Systems (NeurIPS)}}
+
+
+@misc{wang2022nerfneuralradiancefields,
+      title={NeRF--: Neural Radiance Fields Without Known Camera Parameters}, 
+      author={Zirui Wang and Shangzhe Wu and Weidi Xie and Min Chen and Victor Adrian Prisacariu},
+      year={2022},
+      eprint={2102.07064},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2102.07064}, 
+}
+
+@InProceedings{decompdiffusion,
+  title = 	 {Compositional Image Decomposition with Diffusion Models},
+  author =       {Su, Jocelin and Liu, Nan and Wang, Yanbo and Tenenbaum, Joshua B. and Du, Yilun},
+  booktitle = 	 {Proceedings of the 41st International Conference on Machine Learning},
+  pages = 	 {46823--46842},
+  year = 	 {2024},
+  volume = 	 {235},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {21--27 Jul},
+  publisher =    {PMLR},
+}
+
+
+@inproceedings{DBLP:conf/iccv/0010DLT023,
+  author={Nan Liu and Yilun Du and Shuang Li and Joshua B. Tenenbaum and Antonio Torralba},
+  title={Unsupervised Compositional Concepts Discovery with Text-to-Image Generative Models},
+  year={2023},
+  cdate={1672531200000},
+  pages={2085-2095},
+  booktitle={ICCV}
+}
+
+
+@inproceedings{
+liu2021learning,
+title={Learning to Compose Visual Relations},
+author={Nan Liu and Shuang Li and Yilun Du and Joshua B. Tenenbaum and Antonio Torralba},
+booktitle={Advances in Neural Information Processing Systems},
+editor={A. Beygelzimer and Y. Dauphin and P. Liang and J. Wortman Vaughan},
+year={2021},
+}
+
+
+@inproceedings{composition_position,
+author = {Du, Yilun and Kaelbling, Leslie},
+title = {Position: compositional generative modeling: a single model is not all you need},
+year = {2024},
+publisher = {JMLR.org},
+abstract = {Large monolithic generative models trained on massive amounts of data have become an increasingly dominant approach in AI research. We argue that we should instead construct large generative systems by composing smaller generative models together. We show how such a compositional generative approach enables us to learn distributions in a more data-efficient manner, enabling generalization to parts of the data distribution unseen at training time. We further show how this enables us to program and construct new generative models for tasks completely unseen at training. Finally, we show that in many cases, we can discover compositional components from data.},
+booktitle = {Proceedings of the 41st International Conference on Machine Learning},
+articleno = {466},
+numpages = {12},
+location = {Vienna, Austria},
+series = {ICML'24}
+}
+
+
+@inproceedings{10.1007/978-3-031-19790-1_26,
+author = {Liu, Nan and Li, Shuang and Du, Yilun and Torralba, Antonio and Tenenbaum, Joshua B.},
+title = {Compositional Visual Generation with Composable Diffusion Models},
+year = {2022},
+isbn = {978-3-031-19789-5},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+url = {https://doi.org/10.1007/978-3-031-19790-1_26},
+doi = {10.1007/978-3-031-19790-1_26},
+abstract = {Large text-guided diffusion models, such as DALLE-2, are able to generate stunning photorealistic images given natural language descriptions. While such models are highly flexible, they struggle to understand the composition of certain concepts, such as confusing the attributes of different objects or relations between objects. In this paper, we propose an alternative structured approach for compositional generation using diffusion models. An image is generated by composing a set of diffusion models, with each of them modeling a certain component of the image. To do this, we interpret diffusion models as energy-based models in which the data distributions defined by the energy functions may be explicitly combined. The proposed method can generate scenes at test time that are substantially more complex than those seen in training, composing sentence descriptions, object relations, human facial attributes, and even generalizing to new combinations that are rarely seen in the real world. We further illustrate how our approach may be used to compose pre-trained text-guided diffusion models and generate photorealistic images containing all the details described in the input descriptions, including the binding of certain object attributes that have been shown difficult for DALLE-2. These results point to the effectiveness of the proposed method in promoting structured generalization for visual generation.},
+booktitle = {Computer Vision – ECCV 2022: 17th European Conference, Tel Aviv, Israel, October 23–27, 2022, Proceedings, Part XVII},
+pages = {423–439},
+numpages = {17},
+keywords = {Compositionality, Diffusion models, Energy-based models, Visual generation},
+location = {Tel Aviv, Israel}
+}
+
+
+@inproceedings{bagautdinov2018modeling,
+  title={{Modeling facial geometry using compositional VAEs}},
+  author={Bagautdinov, Timur and Wu, Chenglei and Saragih, Jason and Fua, Pascal and Sheikh, Yaser},
+  booktitle={Proceedings of the IEEE conference on computer vision and pattern recognition},
+  pages={3877--3886},
+  year={2018}
+}
+
+@misc{
+du2023reduce,
+title={Reduce, Reuse, Recycle: Compositional Generation with Energy-Based Diffusion Models and {MCMC}},
+author={Yilun Du and Conor Durkan and Robin Strudel and Joshua B. Tenenbaum and Sander Dieleman and Rob Fergus and Jascha Sohl-Dickstein and Arnaud Doucet and Will Sussman Grathwohl},
+year={2023},
+}
+
+@inproceedings{
+    du2021unsupervised,
+    title={Unsupervised Learning of Compositional Energy Concepts},
+    author={Yilun Du and Shuang Li and Yash Sharma and Joshua B. Tenenbaum and Igor Mordatch},
+    booktitle={Advances in Neural Information Processing Systems},
+    editor={A. Beygelzimer and Y. Dauphin and P. Liang and J. Wortman Vaughan},
+    year={2021},
+}
+
+
+@article{lecun2006tutorial,
+  title={A tutorial on energy-based learning},
+  author={LeCun, Yann and Chopra, Sumit and Hadsell, Raia and Ranzato, M and Huang, Fujie and others},
+  journal={Predicting structured data},
+  volume={1},
+  number={0},
+  year={2006}
+}
+
+
+@article{du2020compositional,
+  title={Compositional visual generation with energy based models},
+  author={Du, Yilun and Li, Shuang and Mordatch, Igor},
+  journal={Advances in Neural Information Processing Systems},
+  volume={33},
+  pages={6637--6647},
+  year={2020}
+}
+
+@misc{song2021trainenergybasedmodels,
+      title={How to Train Your Energy-Based Models}, 
+      author={Yang Song and Diederik P. Kingma},
+      year={2021},
+      eprint={2101.03288},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+}
+
+
+@inproceedings{du2019implicit,
+  title     = {Implicit Generation and Modeling with Energy Based Models},
+  author    = {Du, Yilun and Mordatch, Igor},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {32},
+  year      = {2019},
+}
+
+@inproceedings{
+zhu2024learning,
+title={Learning Energy-Based Models by Cooperative Diffusion Recovery Likelihood},
+author={Yaxuan Zhu and Jianwen Xie and Ying Nian Wu and Ruiqi Gao},
+booktitle={The Twelfth International Conference on Learning Representations},
+year={2024},
+}
+
+@misc{elmoznino2025incontextlearningoccamsrazor,
+      title={In-context learning and Occam's razor}, 
+      author={Eric Elmoznino and Tom Marty and Tejas Kasetty and Leo Gagnon and Sarthak Mittal and Mahan Fathi and Dhanya Sridhar and Guillaume Lajoie},
+      year={2025},
+      eprint={2410.14086},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2410.14086}, 
+}
+
+@article{rasmussen2000occam,
+  title={Occam's razor},
+  author={Rasmussen, Carl and Ghahramani, Zoubin},
+  journal={Advances in neural information processing systems},
+  volume={13},
+  year={2000}
+}
+

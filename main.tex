@@ -1,43 +1,33 @@
 \documentclass{article}
+\usepackage{neurips_2026}
+\input{macros}
 
 
-\usepackage[utf8]{inputenc}   % MUST come before biblatex
-\usepackage[T1]{fontenc}
-\usepackage{csquotes}         % recommended for biblatex
+\newcommand{\nastia}[1]{\textcolor{pink}{[Nastia says: #1]}}
+\newcommand{\emile}[1]{\textcolor{blue}{[Emile says: #1]}}
+\newcommand{\pan}[1]{\textcolor{magenta}{[Pan says: #1]}}
+\newcommand{\wenjing}[1]{\textcolor{pink}{[Wenjing says: #1]}}
 
-\usepackage[
-    backend=biber,
-    style=alphabetic, % or whatever you want
-]{biblatex}
 
-% \usepackage[round]{natbib}
-% \renewcommand{\bibsection}{\subsubsection*{\bibname}}
+\makeatother
 
-\usepackage[utf8]{inputenc} % allow utf-8 input
-\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
-\usepackage{hyperref}       % hyperlinks
-\usepackage{url}            % simple URL typesetting
-\usepackage{booktabs}       % professional-quality tables
-\usepackage{amsfonts}       % blackboard math symbols
-\usepackage{nicefrac}       % compact symbols for 1/2, etc.
-% \usepackage{microtype}      % microtypography
-\usepackage{xcolor}         % colors
-\usepackage[normalem]{ulem} % for \sout (strikethrough)
+% \input{header}
+  
 
-\input{header}
-\input{commands}
+ % \title{Transformers can Learn the Energy Spaces of Functions}
+\title{An Energy-Based View on the Manifold Hypothesis}
 
-\addbibresource{ref.bib}
-\title{Transformers can Learn the Energy Spaces of Functions} 
-\date{December 2025}
+\author{}
 
 \begin{document}
 \maketitle
 
 \newcommand{\manifold}{\mathcal{M}}
-\renewcommand{\dataset}{{D}}
+\newcommand{\dataset}{{D}}
 
-
+\begin{abstract}
+    A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure. However, the real-world latent variables that images are drawn from are continuous, not discrete, and therefore cannot be completely captured by a finite manifold. Moreover, the assumption does not properly capture the union of manifolds, stratified spaces, and manifolds with singularities and boundaries. Drawing upon recent advances in energy-based models, we provide an energy-based perspective on the real-world latents, describing an Occam's razor style analog for the manifold hypothesis, which is more amenable to recent literature in the field. We theoretically prove that our construction recovers the manifold hypothesis for coarse functions, and validate it with numerical examples.
+\end{abstract}
 % \section{Definitions and Previous Results}
 
 % \begin{definition}
@@ -549,100 +539,305 @@
 
 % \section{Unifying things again}
 
-\section{Preliminaries}
 
-\begin{definition}[Polish space]
-	A metric space $(X,d)$ is called a \emph{Polish space} if it is
-	\begin{enumerate}
-		\item complete, i.e., every Cauchy sequence in $(X,d)$ converges to a point in $X$;
-		\item separable, i.e., there exists a countable dense subset $D \subset X$.
-	\end{enumerate}
-\end{definition}
-
-Typical examples of Polish spaces include $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces, Hilbert spaces, and function spaces such as $L^2(M)$ or $H^s(M)$ when $M$ is a compact manifold.
+\section{Introduction}
 
 
-\begin{definition}[Sigma-algebra]
-	Let $X$ be a set. A collection $\mathcal A \subset 2^X$ is called a \emph{$\sigma$-algebra} on $X$ if:
-	\begin{enumerate}
-		\item $X \in \mathcal A$;
-		\item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
-		\item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
-		      $\bigcup_{n=1}^\infty A_n \in \mathcal A$.
-	\end{enumerate}
-\end{definition}
+\newpage
 
-It follows immediately that $\varnothing \in \mathcal A$ and that $\mathcal A$ is also closed under countable intersections.
+\subsection{Related Works}
+ \paragraph{NERF}
+\cite{mildenhall2021nerf, pumarola2021d, 50730, wang2022nerfneuralradiancefields, rabby2024beyondpixelscomprehensivereviewevolution, 9710464, 10.1145/3528223.3530127, 9578751, 9577688, 10.1007/978-3-031-19824-3_20}
+
+ 
+
+ \paragraph{Energy-based models} \cite{song2021trainenergybasedmodels, du2019implicit, lecun2006tutorial, zhu2024learning, du2021unsupervised, du2020compositional}
 
 
+ \paragraph{Compositional generation} \cite{decompdiffusion, liu2021learning, 10.1007/978-3-031-19790-1_26, DBLP:conf/iccv/0010DLT023, composition_position,  bagautdinov2018modeling}
 
-\begin{definition}[Borel $\sigma$-algebra]
-	Let $(X,d)$ be a metric space. The \emph{Borel $\sigma$-algebra} on $X$, denoted by $\mathcal B(X)$, is the smallest $\sigma$-algebra containing all open subsets of $X$:
-	\[
-		\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
-	\]
-\end{definition}
+\paragraph{Occam's razor} \cite{elmoznino2025incontextlearningoccamsrazor, rasmussen2000occam}
+ 
 
-If $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it the canonical measurable structure for probability theory.
+\newpage
+
+\section{Problem Setting}
+
+\paragraph{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$). 
+% \begin{definition}[Polish space]
+% 	A metric space $(X,d)$ is called a \emph{Polish space} if it is
+% 	\begin{enumerate}
+% 		\item complete, i.e., every Cauchy sequence in $(X,d)$ converges to a point in $X$;
+% 		\item separable, i.e., there exists a countable dense subset $D \subset X$.
+% 	\end{enumerate}
+% \end{definition}
+For instance, $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces, Hilbert spaces, and function spaces such as $L^2(M)$ or $H^s(M)$ (when $M$ is a compact manifold) are all Polish spaces.
+% \begin{definition}[Sigma-algebra]
+% 	Let $X$ be a set. A collection $\mathcal A \subset 2^X$ is called a \emph{$\sigma$-algebra} on $X$ if:
+% 	\begin{enumerate}
+% 		\item $X \in \mathcal A$;
+% 		\item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
+% 		\item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
+% 		      $\bigcup_{n=1}^\infty A_n \in \mathcal A$.
+% 	\end{enumerate}
+% \end{definition}
+% It follows immediately that $\varnothing \in \mathcal A$ and that $\mathcal A$ is also closed under countable intersections.
+% \begin{definition}[Borel $\sigma$-algebra]
+% 	Let $(X,d)$ be a metric space. The \emph{Borel $\sigma$-algebra} on $X$, denoted by $\mathcal B(X)$, is the smallest $\sigma$-algebra containing all open subsets of $X$:
+% 	\[
+% 		\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
+% 	\]
+% \end{definition}
+Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it a canonical measurable structure in probability theory, where $\mathcal{B}(X)$ is the Borel $\sigma$-algebra on $X$.
 
 
 
-\begin{definition}[Measurable function]
-	Let $(X,\mathcal B(X))$ be a measurable space. A function
-	\[
-		R : X \to [0,\infty]
-	\]
-	is said to be \emph{measurable} if for every Borel set $A \subset [0,\infty]$,
-	\[
-		R^{-1}(A) \in \mathcal B(X).
-	\]
-	Equivalently, $R$ is measurable if and only if the sublevel sets
-	\[
-		\{ f \in X : R(f) \le t \} \in \mathcal B(X)
-		\quad \text{for all } t \in \mathbb{R}.
-	\]
-\end{definition}
+% \begin{definition}[Measurable function]
+% 	Let $(X,\mathcal B(X))$ be a measurable space. A function
+% 	\[
+% 		R : X \to [0,\infty]
+% 	\]
+% 	is said to be \emph{measurable} if for every Borel set $A \subset [0,\infty]$,
+% 	\[
+% 		R^{-1}(A) \in \mathcal B(X).
+% 	\]
+% 	Equivalently, $R$ is measurable if and only if the sublevel sets
+% 	\[
+% 		\{ f \in X : R(f) \le t \} \in \mathcal B(X)
+% 		\quad \text{for all } t \in \mathbb{R}.
+% 	\]
+% \end{definition}
 
 
-\begin{definition}[Gibbs measure induced by a regularizer]
-	Let $(X,d)$ be a Polish space, let $\mathcal B(X)$ be its Borel $\sigma$-algebra, and let $\nu$ be a $\sigma$-finite Borel measure on $X$.
-	Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
-	\[
-		Z_\lambda := \int_X e^{-\lambda R(f)} \, \nu(df) < \infty.
-	\]
-	The \emph{Gibbs measure} associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$ defined by
-	\[
-		\pi_\lambda(df)
+\begin{definition}[Gibbs measure induced by a regularizer] {
+	Let $(X,d)$ be a Polish space and $\nu$ be a $\sigma$-finite Borel measure on $X$.	Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
+	\begin{equation}
+		Z_\lambda \coloneqq\int_X e^{-\lambda R(f)}   \nu(\mathrm df) < \infty.
+	\end{equation}
+	Then, the Gibbs measure associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$, given by}
+	\begin{equation}
+		\pi_\lambda(\mathrm df)
 		=
-		\frac{1}{Z_\lambda} e^{-\lambda R(f)} \, \nu(df).
-	\]
+		\frac{1}{Z_\lambda} e^{-\lambda R(f)}  \nu(\mathrm df).
+	\end{equation}
 \end{definition}
 
-Equivalently, $\pi_\lambda$ is absolutely continuous with respect to $\nu$, with Radon--Nikodym derivative
-\[
-	\frac{d\pi_\lambda}{d\nu}(f)
-	=
-	\frac{1}{Z_\lambda} e^{-\lambda R(f)}.
-\]
-
-
-Given observations $y$ with likelihood $p(y \mid f)$, the posterior distribution induced by the Gibbs prior is
-\[
-	\pi_\lambda(df \mid y)
-	\propto
-	p(y \mid f)\, e^{-\lambda R(f)} \, \nu(df).
-\]
-
-The maximum a posteriori (MAP) estimator is therefore given by
-\[
+% Equivalently, $\pi_\lambda$ is absolutely continuous with respect to $\nu$, with Radon--Nikodym derivative
+% \[
+% 	\frac{d\pi_\lambda}{d\nu}(f)
+% 	=
+% 	\frac{1}{Z_\lambda} e^{-\lambda R(f)}.
+% \]
+\begin{remark}
+\emph{Given observations $y$ with likelihood $p(y \mid f)$, the posterior distribution induced by the Gibbs prior is $\pi_\lambda(\mathrm df \mid y) \propto	p(y \mid f)  e^{-\lambda R(f)} \nu(\mathrm df)$. The maximum a posteriori (MAP) estimator is therefore given by
+\begin{equation}
 	\hat f_{\mathrm{MAP}}
 	=
 	\arg\min_{f \in X}
 	\Big(
 	- \log p(y \mid f) + \lambda R(f)
 	\Big),
+\end{equation}
+which coincides with regularized empirical risk minimization.}
+\end{remark}
+
+
+\section{Manifold Hypothesis}
+
+A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure.
+
+\begin{assumption}[Manifold Hypothesis]
+	Let $\chi \subset \mathbb{R}^D$ be the ambient space and let $\mathcal{D}$ be a probability distribution on $\chi$.
+	There exists a $d$-dimensional manifold $\mathcal{M} \subset \chi$, with $d \ll D$, such that
+	\[
+		\mathbb{P}_{x \sim \mathcal{D}}\big( \mathrm{dist}(x,\mathcal{M}) \le \varepsilon \big) \ge 1 - \delta,
+	\]
+	for sufficiently small $\varepsilon, \delta > 0$.
+\end{assumption}
+
+In practice, data rarely concentrate on a single smooth manifold. Rather, they are better modeled as lying on \emph{unions of manifolds}, or more generally on \emph{stratified spaces} composed of pieces of varying intrinsic dimensions, potentially with singularities and boundaries.
+
+Why small $d$ is important?
+\begin{itemize}
+	\item Generalization error depends on the intrinsic dimension $d$ of the manifold.
+	\item The number of samples $n$ needed to learn the manifold increases with $d$.
+	\item The complexity of the model increases with $d$.
+	\item Can get a small embedding.
+\end{itemize}
+
+\paragraph{Shortcomings}
+\begin{itemize}
+	\item Doesn't properly capture union of manifolds.
+	\item Doesn't properly capture stratified spaces.
+	\item Doesn't properly capture manifolds with singularities and boundaries.
+	\item What about infinite-dimensional data? Cause images come from infinite-dimensional continuous functions.
+\end{itemize}
+
+\emile{would be nice to elaborate on the above, and to point to specific instances where assuming it has some ``catastrophic'' consequences. that could go into a motivating examples section}
+
+\paragraph{Example: Vision Data}
+
+Each 2d image (or 3d scene or a point cloud) can be modeled $f: \Real^2 \to \Real^3$ as a function from coordinates to RGB (or XYZ) values. That's how NeRFS work:
+
+\paragraph{Neural Radiance Fields (NeRFs).} \emile{this actually looks very relevant. would be worth doing a deeper dive into this}
+A \emph{Neural Radiance Field} models a 3D scene as a continuous function
+\[
+	f_\theta : (\mathbf{x}, \mathbf{d}) \;\mapsto\; (\sigma, \mathbf{c}),
 \]
-which coincides with regularized empirical risk minimization.
+where
+\begin{itemize}
+	\item $\mathbf{x} \in \mathbb{R}^3$ denotes a spatial location,
+	\item $\mathbf{d} \in \mathbb{S}^2$ denotes a viewing direction,
+	\item $\sigma \in \mathbb{R}_{\ge 0}$ is the volume density at $\mathbf{x}$,
+	\item $\mathbf{c} \in \mathbb{R}^3$ is the emitted RGB color in direction $\mathbf{d}$.
+\end{itemize}
+
+The key idea is that the scene is represented neither as a mesh, nor as a voxel grid,
+nor as a point cloud, but as a \emph{continuous radiance field} parameterized by a neural network.
+
+In a similar way, each 2d image can be modeled as a function from coordinates to RGB values: $f: \Real^2 \to \Real^3$ and the embedding of this function would the weights of the corresponding ReLU network. The regular manifold hypothesis doesn't properly capture this structure that:
+\begin{itemize}
+	\item In a union of manifolds
+	\item Has some hierarchical structure.
+	\item Has permutation-invariance with respect to weights in each layer.
+\end{itemize}
+
+Also, importantly, each image $f$ is not a smooth function: its a combination of a "simple" in some sense partition of the image into smooth enough regions.
+
+\section{A Manifold Hypothesis for Energy-Based Functions}
+
+Let's formulate the extension of the manifold hypothesis to this case. \emile{more generally, need to define energy functions, why they're relevant to this problem, and what characteristics do we want our manifold hypothesis to have?}
+
+\subsection{ASTs}
+
+\begin{definition}[AND--OR Abstract Syntax Tree]
+	Let $\mathcal X$ be an input space and $\phi:\mathcal X\to\mathbb R^d$ an embedding.
+	An \emph{AND--OR abstract syntax tree (AST)} is defined recursively as:
+
+	\begin{itemize}
+		\item \textbf{Atom (Leaf):}
+		      \[
+			      T(x) = g(x), \qquad g \in \mathcal G,
+		      \]
+		      where $\mathcal G$ is a class of simple local models (e.g.\ linear or affine functions).
+
+		\item \textbf{AND node:}
+		      \[
+			      T(x) = \mathbb I\bigl[C_1(x)\wedge\cdots\wedge C_k(x)\bigr]\cdot T'(x),
+		      \]
+		      where each $C_i(x)$ is a constraint and $T'$ is a subtree.
+
+		\item \textbf{OR node:}
+		      \[
+			      T(x) = \sum_{j=1}^m \mathbb I\bigl[C_j(x)\bigr]\cdot T_j(x),
+		      \]
+		      where $\{C_j\}_{j=1}^m$ form a partition of $\mathcal X$ and $T_j$ are subtrees.
+	\end{itemize}
+
+	The constraints $C(x)$ are typically hyperplane tests of the form
+	\[
+		C(x) := \langle w, \phi(x)\rangle \ge 0 .
+	\]
+\end{definition}
+
+
+\paragraph{Semantics.}
+\begin{itemize}
+	\item AND nodes represent conjunctions of constraints and correspond to intersections
+	      of half-spaces or cross-products of independent factors.
+	\item OR nodes represent partitions of the input space into disjoint regions.
+	\item Each root-to-leaf path defines a region
+	      \[
+		      \mathcal X_\ell = \bigcap_{C \in \text{path}(\ell)} C,
+	      \]
+	      on which the function reduces to a simple local model.
+\end{itemize}
+
+\paragraph{Example: 1D Piecewise Linear Function}
+Let
+\[
+	f(x)=
+	\begin{cases}
+		a_1 x + b_1, & x \le t, \\
+		a_2 x + b_2, & x > t.
+	\end{cases}
+\]
+
+This function admits the AND--OR representation
+\[
+	f(x)
+	=
+	\mathbb I[x\le t]\,(a_1x+b_1)
+	+
+	\mathbb I[x>t]\,(a_2x+b_2).
+\]
+
+Equivalently, as an AST:
+\[
+	\texttt{OR}\Bigl(
+	\texttt{AND}(x\le t,\ \texttt{LINEAR}(a_1,b_1)),
+	\texttt{AND}(x>t,\ \texttt{LINEAR}(a_2,b_2))
+	\Bigr).
+\]
+
+\paragraph{Example: Hierarchical Partition}
+Let $t_1 < t_2$ and
+\[
+	f(x)=
+	\begin{cases}
+		a_1x+b_1, & x\le t_1,        \\
+		a_2x+b_2, & t_1 < x \le t_2, \\
+		a_3x+b_3, & x>t_2.
+	\end{cases}
+\]
+
+Then $f$ can be written as
+\[
+	f(x)=
+	\mathbb I[x\le t_2]
+	\Bigl(
+	\mathbb I[x\le t_1](a_1x+b_1)
+	+
+	\mathbb I[t_1<x\le t_2](a_2x+b_2)
+	\Bigr)
+	+
+	\mathbb I[x>t_2](a_3x+b_3).
+\]
+
+This corresponds to a depth--2 AND--OR tree.
+
+
+\paragraph{Example: ReLU as AND--OR}
+For $w\in\mathbb R^d$,
+\[
+	\mathrm{ReLU}(\langle w,x\rangle)
+	=
+	\mathbb I[\langle w,x\rangle\ge0]\langle w,x\rangle
+	+
+	\mathbb I[\langle w,x\rangle<0]\cdot 0.
+\]
+
+Thus a ReLU unit is an OR node with two AND branches.
+A finite ReLU network corresponds to a (possibly large) AND--OR tree,
+whose leaves are linear functions and whose OR structure encodes the
+activation pattern partition.\\
+
+\emile{What kind of non-trivial theoretical results to validate this construction would be the most insightful? One thing is that for coarse/non-granular functions, it should sort of recover the original manifold hypothesis? What are the theoretical results pertaining to manifold hypothesis in the other papers we've been reading? Can we establish any analogs?}
+
+
+\emile{What is the simplest possible way to empirically validate anything that we've constructed (after constructing it)?}
+
+
+
+
+\newpage
+
+\bibliography{references}
+\bibliographystyle{plainnat}
+
+\newpage
+\appendix
+
 
 \section{Learning the regularizer}
 
@@ -1177,7 +1372,7 @@ If our domain is curved manifold $\domain$ we can W.L.O.G. (by Takahashi's thm h
 	L \in R^{n \times n}: L_{ij}
 	 & = \exp\left(\frac{-(x_i - x_j)^\top P_i Q^{-1} P_i  (x_i - x_j)^\top}{\epsilon} \right)                                                               \\
 	 & = \exp \left(-\frac{\left(x_j-\left(x_i^{\top} x_j\right) x_i\right)^{\top} Q^{-1} \left(x_j-\left(x_i^{\top} x_j\right) x_i\right)}{\epsilon}\right)
-\end{align*}
+\end{align*}  
 
 Note, that all the exp terms are kind of similar to the original transformer softmax terms. I think, softmax should be replaced by those. The final idea is that a transformish NN with infinite amount of heads approximates the distribution over $Q$.
 
@@ -1279,8 +1474,7 @@ TODO: move this
 \end{proposition}
 
 
-
-\end{theorem}
+ 
 \begin{proposition}[Bilevel learning of $\theta$ as a MAP surrogate]
 	Let $R_\theta(f)=\langle \theta,\Phi(f)\rangle$ and define the inner estimator
 	\[
@@ -1296,184 +1490,6 @@ TODO: move this
 	\]
 	In contrast, maximum-likelihood learning of $\theta$ for the induced Gibbs model includes an additional global complexity term $\log Z(\theta)$, which is generally not captured by the bilevel objective unless explicitly approximated (e.g., via Laplace/Occam corrections).
 \end{proposition}
-
-\section{Manifold Hypothesis and its Shortcomings}
-
-A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure.
-
-\begin{assumption}[Manifold Hypothesis]
-	Let $\chi \subset \mathbb{R}^D$ be the ambient space and let $\mathcal{D}$ be a probability distribution on $\chi$.
-	There exists a $d$-dimensional manifold $\mathcal{M} \subset \chi$, with $d \ll D$, such that
-	\[
-		\mathbb{P}_{x \sim \mathcal{D}}\big( \mathrm{dist}(x,\mathcal{M}) \le \varepsilon \big) \ge 1 - \delta,
-	\]
-	for sufficiently small $\varepsilon, \delta > 0$.
-\end{assumption}
-
-In practice, data rarely concentrate on a single smooth manifold. Rather, they are better modeled as lying on \emph{unions of manifolds}, or more generally on \emph{stratified spaces} composed of pieces of varying intrinsic dimensions, potentially with singularities and boundaries.
-
-Why small $d$ is important?
-\begin{itemize}
-	\item Generalization error depends on the intrinsic dimension $d$ of the manifold.
-	\item The number of samples $n$ needed to learn the manifold increases with $d$.
-	\item The complexity of the model increases with $d$.
-	\item Can get a small embedding.
-\end{itemize}
-
-\paragraph{Shortcomings}
-\begin{itemize}
-	\item Doesn't properly capture union of manifolds.
-	\item Doesn't properly capture stratified spaces.
-	\item Doesn't properly capture manifolds with singularities and boundaries.
-	\item What about infinite-dimensional data? Cause images come from infinite-dimensional continuous functions.
-\end{itemize}
-
-\paragraph{Example: Vision Data}
-
-Each 2d image (or 3d scene or a point cloud) can be modeled $f: \Real^2 \to \Real^3$ as a function from coordinates to RGB (or XYZ) values. That's how NeRFS work:
-
-\paragraph{Neural Radiance Fields (NeRFs).}
-A \emph{Neural Radiance Field} models a 3D scene as a continuous function
-\[
-	f_\theta : (\mathbf{x}, \mathbf{d}) \;\mapsto\; (\sigma, \mathbf{c}),
-\]
-where
-\begin{itemize}
-	\item $\mathbf{x} \in \mathbb{R}^3$ denotes a spatial location,
-	\item $\mathbf{d} \in \mathbb{S}^2$ denotes a viewing direction,
-	\item $\sigma \in \mathbb{R}_{\ge 0}$ is the volume density at $\mathbf{x}$,
-	\item $\mathbf{c} \in \mathbb{R}^3$ is the emitted RGB color in direction $\mathbf{d}$.
-\end{itemize}
-
-The key idea is that the scene is represented neither as a mesh, nor as a voxel grid,
-nor as a point cloud, but as a \emph{continuous radiance field} parameterized by a neural network.
-
-In a similar way, each 2d image can be modeled as a function from coordinates to RGB values: $f: \Real^2 \to \Real^3$ and the embedding of this function would the weights of the corresponding ReLU network. The regular manifold hypothesis doesn't properly capture this structure that:
-\begin{itemize}
-	\item In a union of manifolds
-	\item Has some hierarchical structure.
-	\item Has permutation-invariance with respect to weights in each layer.
-\end{itemize}
-
-Also, importantly, each image $f$ is not a smooth function: its a combination of a "simple" in some sense partition of the image into smooth enough regions.
-
-Let's formulate the extension of the manifold hypothesis to this case.
-
-\subsection{ASTs}
-
-\begin{definition}[AND--OR Abstract Syntax Tree]
-	Let $\mathcal X$ be an input space and $\phi:\mathcal X\to\mathbb R^d$ an embedding.
-	An \emph{AND--OR abstract syntax tree (AST)} is defined recursively as:
-
-	\begin{itemize}
-		\item \textbf{Atom (Leaf):}
-		      \[
-			      T(x) = g(x), \qquad g \in \mathcal G,
-		      \]
-		      where $\mathcal G$ is a class of simple local models (e.g.\ linear or affine functions).
-
-		\item \textbf{AND node:}
-		      \[
-			      T(x) = \mathbb I\bigl[C_1(x)\wedge\cdots\wedge C_k(x)\bigr]\cdot T'(x),
-		      \]
-		      where each $C_i(x)$ is a constraint and $T'$ is a subtree.
-
-		\item \textbf{OR node:}
-		      \[
-			      T(x) = \sum_{j=1}^m \mathbb I\bigl[C_j(x)\bigr]\cdot T_j(x),
-		      \]
-		      where $\{C_j\}_{j=1}^m$ form a partition of $\mathcal X$ and $T_j$ are subtrees.
-	\end{itemize}
-
-	The constraints $C(x)$ are typically hyperplane tests of the form
-	\[
-		C(x) := \langle w, \phi(x)\rangle \ge 0 .
-	\]
-\end{definition}
-
-
-\paragraph{Semantics.}
-\begin{itemize}
-	\item AND nodes represent conjunctions of constraints and correspond to intersections
-	      of half-spaces or cross-products of independent factors.
-	\item OR nodes represent partitions of the input space into disjoint regions.
-	\item Each root-to-leaf path defines a region
-	      \[
-		      \mathcal X_\ell = \bigcap_{C \in \text{path}(\ell)} C,
-	      \]
-	      on which the function reduces to a simple local model.
-\end{itemize}
-
-\paragraph{Example: 1D Piecewise Linear Function}
-Let
-\[
-	f(x)=
-	\begin{cases}
-		a_1 x + b_1, & x \le t, \\
-		a_2 x + b_2, & x > t.
-	\end{cases}
-\]
-
-This function admits the AND--OR representation
-\[
-	f(x)
-	=
-	\mathbb I[x\le t]\,(a_1x+b_1)
-	+
-	\mathbb I[x>t]\,(a_2x+b_2).
-\]
-
-Equivalently, as an AST:
-\[
-	\texttt{OR}\Bigl(
-	\texttt{AND}(x\le t,\ \texttt{LINEAR}(a_1,b_1)),
-	\texttt{AND}(x>t,\ \texttt{LINEAR}(a_2,b_2))
-	\Bigr).
-\]
-
-\paragraph{Example: Hierarchical Partition}
-Let $t_1 < t_2$ and
-\[
-	f(x)=
-	\begin{cases}
-		a_1x+b_1, & x\le t_1,        \\
-		a_2x+b_2, & t_1 < x \le t_2, \\
-		a_3x+b_3, & x>t_2.
-	\end{cases}
-\]
-
-Then $f$ can be written as
-\[
-	f(x)=
-	\mathbb I[x\le t_2]
-	\Bigl(
-	\mathbb I[x\le t_1](a_1x+b_1)
-	+
-	\mathbb I[t_1<x\le t_2](a_2x+b_2)
-	\Bigr)
-	+
-	\mathbb I[x>t_2](a_3x+b_3).
-\]
-
-This corresponds to a depth--2 AND--OR tree.
-
-
-\paragraph{Example: ReLU as AND--OR}
-For $w\in\mathbb R^d$,
-\[
-	\mathrm{ReLU}(\langle w,x\rangle)
-	=
-	\mathbb I[\langle w,x\rangle\ge0]\langle w,x\rangle
-	+
-	\mathbb I[\langle w,x\rangle<0]\cdot 0.
-\]
-
-Thus a ReLU unit is an OR node with two AND branches.
-A finite ReLU network corresponds to a (possibly large) AND--OR tree,
-whose leaves are linear functions and whose OR structure encodes the
-activation pattern partition.
-
-
 
 
 \end{document}
