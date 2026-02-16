@@ -26,7 +26,7 @@
 \newcommand{\dataset}{{D}}
 
 \begin{abstract}
-    A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure. However, the real-world latent variables that images are drawn from are continuous, not discrete, and therefore cannot be completely captured by a finite manifold. Moreover, the assumption does not properly capture the union of manifolds, stratified spaces, and manifolds with singularities and boundaries. Drawing upon recent advances in energy-based models, we provide an energy-based perspective on the real-world latents, describing an Occam's razor style analog for the manifold hypothesis, which is more amenable to recent literature in the field. We theoretically prove that our construction recovers the manifold hypothesis for coarse functions, and validate it with numerical examples.
+	A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure. However, the real-world latent variables that images are drawn from are continuous, not discrete, and therefore cannot be completely captured by a finite manifold. Moreover, the assumption does not properly capture the union of manifolds, stratified spaces, and manifolds with singularities and boundaries. Drawing upon recent advances in energy-based models, we provide an energy-based perspective on the real-world latents, describing an Occam's razor style analog for the manifold hypothesis, which is more amenable to recent literature in the field. We theoretically prove that our construction recovers the manifold hypothesis for coarse functions, and validate it with numerical examples.
 \end{abstract}
 % \section{Definitions and Previous Results}
 
@@ -546,24 +546,26 @@
 \newpage
 
 \subsection{Related Works}
- \paragraph{NERF}
+\paragraph{NERF}
 \cite{mildenhall2021nerf, pumarola2021d, 50730, wang2022nerfneuralradiancefields, rabby2024beyondpixelscomprehensivereviewevolution, 9710464, 10.1145/3528223.3530127, 9578751, 9577688, 10.1007/978-3-031-19824-3_20}
 
- 
-
- \paragraph{Energy-based models} \cite{song2021trainenergybasedmodels, du2019implicit, lecun2006tutorial, zhu2024learning, du2021unsupervised, du2020compositional}
 
 
- \paragraph{Compositional generation} \cite{decompdiffusion, liu2021learning, 10.1007/978-3-031-19790-1_26, DBLP:conf/iccv/0010DLT023, composition_position,  bagautdinov2018modeling}
+\paragraph{Energy-based models} \cite{song2021trainenergybasedmodels, du2019implicit, lecun2006tutorial, zhu2024learning, du2021unsupervised, du2020compositional}
+
+
+\paragraph{Compositional generation} \cite{decompdiffusion, liu2021learning, 10.1007/978-3-031-19790-1_26, DBLP:conf/iccv/0010DLT023, composition_position,  bagautdinov2018modeling}
 
 \paragraph{Occam's razor} \cite{elmoznino2025incontextlearningoccamsrazor, rasmussen2000occam}
- 
+
 
 \newpage
 
 \section{Problem Setting}
 
-\paragraph{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$). 
+\paragraph{Supervised Learning 101.} Observing data $D = \{(x_i, y_i)\}_{i=1}^n$ we want to learn a deterministic function $f^*: \mathcal{X} \to \Real$ such that $f^*(x_i) = y_i$ for all $i=1,\ldots,n$. Usually, we know the input space $\mathcal{X}$ via some base distribution $\nu_0$ on $\mathcal{X}$, for instance, uniformly distribution over a compact set $\mathcal{X} \subset \mathbb{R}^d$. Moreover, we assume that smoother or more predictable the function $f^*$ is, the better it generalizes to new data.
+
+\paragraph{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$).
 % \begin{definition}[Polish space]
 % 	A metric space $(X,d)$ is called a \emph{Polish space} if it is
 % 	\begin{enumerate}
@@ -609,18 +611,143 @@ Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity pr
 % \end{definition}
 
 
-\begin{definition}[Gibbs measure induced by a regularizer] {
-	Let $(X,d)$ be a Polish space and $\nu$ be a $\sigma$-finite Borel measure on $X$.	Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
-	\begin{equation}
-		Z_\lambda \coloneqq\int_X e^{-\lambda R(f)}   \nu(\mathrm df) < \infty.
-	\end{equation}
-	Then, the Gibbs measure associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$, given by}
-	\begin{equation}
-		\pi_\lambda(\mathrm df)
-		=
-		\frac{1}{Z_\lambda} e^{-\lambda R(f)}  \nu(\mathrm df).
-	\end{equation}
+% \begin{definition}[Gibbs measure induced by a regularizer] {
+% 		Let $(X,d)$ be a Polish space and $\nu$ be a $\sigma$-finite Borel measure on $X$.	Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
+% 		\begin{equation}
+% 			Z_\lambda \coloneqq\int_X e^{-\lambda R(f)}   \nu(\mathrm df) < \infty.
+% 		\end{equation}
+% 		Then, the Gibbs measure associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$, given by}
+% 	\begin{equation}
+% 		\pi_\lambda(\mathrm df)
+% 		=
+% 		\frac{1}{Z_\lambda} e^{-\lambda R(f)}  \nu(\mathrm df).
+% 	\end{equation}
+% \end{definition}
+
+
+
+\begin{definition}[Measure space with Dirichlet form]
+	Let $(X,\mathcal{F},\mu)$ be a $\sigma$-finite measure space.
+	A \emph{Dirichlet form} on $L^2(\mu)$ is a pair
+	$(\mathcal{E},\mathcal{D}(\mathcal{E}))$ such that:
+
+	\begin{enumerate}
+		\item $\mathcal{D}(\mathcal{E}) \subset L^2(\mu)$ is a dense linear subspace;
+
+		\item $\mathcal{E} : \mathcal{D}(\mathcal{E}) \times \mathcal{D}(\mathcal{E}) \to \mathbb{R}$
+		      is a symmetric bilinear form;
+
+		\item (Non-negativity)
+		      \[
+			      \mathcal{E}(f,f) \ge 0
+			      \qquad \forall f \in \mathcal{D}(\mathcal{E});
+		      \]
+
+		\item (Closedness)
+		      $\mathcal{D}(\mathcal{E})$ is complete with respect to the norm
+		      \[
+			      \|f\|_{\mathcal{E}}^2
+			      :=
+			      \|f\|_{L^2(\mu)}^2
+			      +
+			      \mathcal{E}(f,f);
+		      \]
+
+		\item (Markov property)
+		      for every $f \in \mathcal{D}(\mathcal{E})$, the truncation
+		      $
+			      \tilde f := (0 \vee f) \wedge 1
+		      $
+		      satisfies
+		      \[
+			      \tilde f \in \mathcal{D}(\mathcal{E})
+			      \quad \text{and} \quad
+			      \mathcal{E}(\tilde f,\tilde f)
+			      \le
+			      \mathcal{E}(f,f).
+		      \]
+	\end{enumerate}
+
+	The triple $(X,\mathcal{F},\mu,\mathcal{E})$ is called a
+	\emph{measure space endowed with a Dirichlet form}.
 \end{definition}
+
+The Dirichlet form encodes the geometry of the learning space via the energy functional: $\mathcal{E}(f,f)$ is the energy of the function $f$. Enforcing the Markov property allows us to define stochastic processes on the learning space: semi-group generated by $\mathcal{E}$ is a Markov semigroup.
+
+The main idea of learning is that if $x_1 \approx x_2$ then $f(x_1) \approx f(x_2)$ for a function $f$. Dirichlet form enforces precisely this property. As it encodes the geometry of the learning space, it allows us to define a generalized Laplacian $L$ on $L^2(\mu)$ and Sobolev classes of functions on $X$.
+
+\begin{definition}[Generalized Laplacian]
+	Let $(X,\mathcal{F},\mu,\mathcal{E})$ be a measure space endowed with a Dirichlet form. There exists a unique self-adjoint operator $L$ on $L^2(\mu)$ such that
+	\[
+		\mathcal{E}(f, g) = \langle f, L g \rangle_{L^2(\mu)}, \qquad \forall\, f \in \cD(\mathcal{E}),\; g \in \cD(L).
+	\]
+	The operator $L$ admits a spectral decomposition $L \phi_j = \lambda_j \phi_j$, with
+	\[
+		0 = \lambda_0 \leq \lambda_1 \leq \lambda_2 \leq \cdots, \qquad \langle \phi_j, \phi_k \rangle_{L^2(\mu)} = \delta_{jk}.
+	\]
+\end{definition}
+
+The Markov property of the Dirichlet form $\mathcal{E}$ implies that $e^{tL}$ is a Markov semigroup. Hence, our distribution $\mu$ is a stable state of the system: given a base distribution $\nu_0$ on $\mathcal{X}$, the distribution $\mu$ is the limit of the Markov process $e^{tL} \nu_0$ as $t \to \infty$.
+
+\begin{definition}[Effective dimension]
+	The \emph{effective dimension} of the learning space $(X, \mathcal{F}, \mu, \mathcal{E})$ is the quantity $d_{\mathrm{eff}} \in (0, \infty)$ such that the eigenvalues of the corresponding Laplacian operator $L: L^2(\mu) \to L^2(\mu)$ satisfy
+	\[
+		\lambda_j \asymp j^{2/d_{\mathrm{eff}}} \qquad \text{as } j \to \infty,
+	\]
+	or equivalently, the eigenvalue counting function satisfies
+	\[
+		N(\lambda) := \#\{j : \lambda_j \leq \lambda\} \asymp \lambda^{d_{\mathrm{eff}}/2} \qquad \text{as } \lambda \to \infty.
+	\]
+\end{definition}
+
+
+\begin{definition}[Spectral Sobolev class]
+	For smoothness $s > 0$ and radius $R > 0$, the \emph{spectral Sobolev class}
+	of order $s$ is
+	\[
+		\mathcal{H}^s_\mu(R)
+		:=
+		\Bigl\{
+		f \in L^2(\mu)
+		:
+		\| f \|_{\mathcal{H}^s}^2
+		:=
+		\sum_{j \geq 1} \lambda_j^{s}\, \hat{f}_j^{\,2}
+		\leq R^2
+		\Bigr\},
+		\qquad
+		\hat{f}_j := \langle f, \phi_j \rangle_{L^2(\mu)}.
+	\]
+	The condition $f \in \mathcal{H}^s_\mu(R)$ requires the spectral coefficients
+	to decay as $|\hat{f}_j| \leq R\, \lambda_j^{-s/2} \asymp R\, j^{-s/d_{\mathrm{eff}}}$:
+	higher smoothness $s$ enforces faster decay and hence greater regularity
+	with respect to the geometry encoded by $\mathcal{E}$.
+\end{definition}
+
+
+
+% Our learning guarantees hold if the effective dimension is small. This is well-know as bias-variance tradeoff.
+
+
+
+
+
+
+% \begin{proposition}[Hypothesis 1:]
+% 	Given observations
+% \end{proposition}
+
+% \begin{proposition}[Laplacian and spectrum]
+% Given a learning space $(\cX, \mu, \cE)$, there exists a unique non-negative self-adjoint operator $\cL$ on $L^2(\cX, \mu)$ such that
+% \[
+% 	\cE(f, g) = \langle f, \cL g \rangle_{L^2(\mu)}, \qquad \forall\, f \in \cD(\cE),\; g \in \cD(\cL).
+% \]
+% The operator $\cL$ admits a spectral decomposition $\cL \phi_j = \lambda_j \phi_j$, with
+% \[
+% 	0 = \lambda_0 \leq \lambda_1 \leq \lambda_2 \leq \cdots, \qquad \langle \phi_j, \phi_k \rangle_{L^2(\mu)} = \delta_{jk}.
+% \]
+% \end{proposition}
+
 
 % Equivalently, $\pi_\lambda$ is absolutely continuous with respect to $\nu$, with Radon--Nikodym derivative
 % \[
@@ -628,18 +755,20 @@ Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity pr
 % 	=
 % 	\frac{1}{Z_\lambda} e^{-\lambda R(f)}.
 % \]
-\begin{remark}
-\emph{Given observations $y$ with likelihood $p(y \mid f)$, the posterior distribution induced by the Gibbs prior is $\pi_\lambda(\mathrm df \mid y) \propto	p(y \mid f)  e^{-\lambda R(f)} \nu(\mathrm df)$. The maximum a posteriori (MAP) estimator is therefore given by
-\begin{equation}
-	\hat f_{\mathrm{MAP}}
-	=
-	\arg\min_{f \in X}
-	\Big(
-	- \log p(y \mid f) + \lambda R(f)
-	\Big),
-\end{equation}
-which coincides with regularized empirical risk minimization.}
-\end{remark}
+
+
+% \begin{remark}
+% 	\emph{Given observations $y$ with likelihood $p(y \mid f)$, the posterior distribution induced by the Gibbs prior is $\pi_\lambda(\mathrm df \mid y) \propto	p(y \mid f)  e^{-\lambda R(f)} \nu(\mathrm df)$. The maximum a posteriori (MAP) estimator is therefore given by
+% 		\begin{equation}
+% 			\hat f_{\mathrm{MAP}}
+% 			=
+% 			\arg\min_{f \in X}
+% 			\Big(
+% 			- \log p(y \mid f) + \lambda R(f)
+% 			\Big),
+% 		\end{equation}
+% 		which coincides with regularized empirical risk minimization.}
+% \end{remark}
 
 
 \section{Manifold Hypothesis}
@@ -673,6 +802,9 @@ Why small $d$ is important?
 	\item What about infinite-dimensional data? Cause images come from infinite-dimensional continuous functions.
 \end{itemize}
 
+
+
+
 \emile{would be nice to elaborate on the above, and to point to specific instances where assuming it has some ``catastrophic'' consequences. that could go into a motivating examples section}
 
 \paragraph{Example: Vision Data}
@@ -704,9 +836,18 @@ In a similar way, each 2d image can be modeled as a function from coordinates to
 
 Also, importantly, each image $f$ is not a smooth function: its a combination of a "simple" in some sense partition of the image into smooth enough regions.
 
-\section{A Manifold Hypothesis for Energy-Based Functions}
+\section{A Manifold Hypothesis But Make It About Effective Dimension}
 
 Let's formulate the extension of the manifold hypothesis to this case. \emile{more generally, need to define energy functions, why they're relevant to this problem, and what characteristics do we want our manifold hypothesis to have?}
+
+
+\begin{assumption}[Effective Dimension Hypothesis]
+	All the observed data $x_i$ come from a learning space $(X, \mathcal{F}, \mu, \mathcal{E})$ with small effective dimension even if the ambient space  $(X, \mathcal{F}, \nu_0, \mathcal{E})$ has large effective dimension where $\nu_0$ is the base distribution on $\mathcal{X}$:
+	\[
+		d_{\mathrm{eff}}(X, \mathcal{F}, \mu, \mathcal{E}) \ll d_{\mathrm{eff}}(X, \mathcal{F}, \nu_0, \mathcal{E})
+	\]
+\end{assumption}
+
 
 \subsection{ASTs}
 
@@ -1372,7 +1513,7 @@ If our domain is curved manifold $\domain$ we can W.L.O.G. (by Takahashi's thm h
 	L \in R^{n \times n}: L_{ij}
 	 & = \exp\left(\frac{-(x_i - x_j)^\top P_i Q^{-1} P_i  (x_i - x_j)^\top}{\epsilon} \right)                                                               \\
 	 & = \exp \left(-\frac{\left(x_j-\left(x_i^{\top} x_j\right) x_i\right)^{\top} Q^{-1} \left(x_j-\left(x_i^{\top} x_j\right) x_i\right)}{\epsilon}\right)
-\end{align*}  
+\end{align*}
 
 Note, that all the exp terms are kind of similar to the original transformer softmax terms. I think, softmax should be replaced by those. The final idea is that a transformish NN with infinite amount of heads approximates the distribution over $Q$.
 
@@ -1474,7 +1615,7 @@ TODO: move this
 \end{proposition}
 
 
- 
+
 \begin{proposition}[Bilevel learning of $\theta$ as a MAP surrogate]
 	Let $R_\theta(f)=\langle \theta,\Phi(f)\rangle$ and define the inner estimator
 	\[
