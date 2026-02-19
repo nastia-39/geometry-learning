@@ -2,7 +2,7 @@
 \usepackage{neurips_2026}
 \input{macros}
 
-
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\nastia}[1]{\textcolor{pink}{[Nastia says: #1]}}
 \newcommand{\emile}[1]{\textcolor{blue}{[Emile says: #1]}}
 \newcommand{\pan}[1]{\textcolor{magenta}{[Pan says: #1]}}
@@ -952,10 +952,12 @@ Let us formulate the extension of the manifold hypothesis to this case. \emile{m
 	% \]
 \end{assumption}
 
-This assumption ensures two things: existence of the efficient coordinate system in the space $\mathcal{X}$ and efficient learning rate for smooth functions. Moreover, this assumption of the underlying learning space is strictly stronger than the manifold hypothesis and unifies multiple learning problems, e.g. classical kernel methods, flow matching/diffusion models and transformers.
+This assumption ensures two things: existence of the efficient coordinate system in the space $\mathcal{X}$ and efficient learning rate for functions in Besov spaces. Moreover, this assumption of the underlying learning space is strictly stronger than the manifold hypothesis and unifies multiple learning problems, e.g. classical kernel methods, flow matching/diffusion models and transformers.
 
 
 \subsection{Generalization Error}
+
+hehe
 
 \begin{proposition}[Bias-variance tradeoff]
 	Let $f^* \in \mathcal{H}^s_\mu(R)$ and suppose we observe
@@ -1049,6 +1051,8 @@ This assumption ensures two things: existence of the efficient coordinate system
 
 
 \begin{theorem}[Minimax rate over Besov balls \cite{donohoDensityEstimationWavelet1996}]
+
+	\todo{Replace $\Real^d$ by $\mathcal{X}$}
 	Let $f \in \mathcal{B}^s_{p,q}(R) \subset L^r(\mathbb{R}^d)$ with
 	$s > d(1/p - 1/r)_+$. Then the minimax $L^r$ estimation rate from
 	$n$ noisy samples is
