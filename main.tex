@@ -542,6 +542,9 @@
 
 \section{Introduction}
 
+If pictures are discretized objects in $\R^{d}$, where $d=n^2$ is the dimension of the image.
+
+We consider raw objects $f:[0,1]^2\to \mathbb{R}^3$ corresponding to depixelated RGB pictures.
 
 \newpage
 
@@ -563,9 +566,7 @@
 
 \section{Problem Setting}
 
-\paragraph{Supervised Learning 101.} Observing data $D = \{(x_i, y_i)\}_{i=1}^n$ we want to learn a deterministic function $f^*: \mathcal{X} \to \Real$ such that $f^*(x_i) = y_i$ for all $i=1,\ldots,n$. Usually, we know the input space $\mathcal{X}$ via some base distribution $\nu_0$ on $\mathcal{X}$, for instance, uniformly distribution over a compact set $\mathcal{X} \subset \mathbb{R}^d$. Moreover, we assume that smoother or more predictable the function $f^*$ is, the better it generalizes to new data.
-
-\paragraph{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$).
+\textbf{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$).
 % \begin{definition}[Polish space]
 % 	A metric space $(X,d)$ is called a \emph{Polish space} if it is
 % 	\begin{enumerate}
@@ -592,6 +593,8 @@ For instance, $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces,
 % \end{definition}
 Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it a canonical measurable structure in probability theory, where $\mathcal{B}(X)$ is the Borel $\sigma$-algebra on $X$.  
 
+
+\textbf{Supervised Learning.} From data $D = \{(x_i, y_i)\}_{i=1}^n$ we seek to learn a  target function $f^*: \mathcal{X} \to \Real$ such that $f^*(x_i) = y_i$ for all $i=1,\ldots,n$. Usually, we know the input space $\mathcal{X}$ via some base distribution $\nu_0$ on $\mathcal{X}$, for instance, uniformly distribution over a compact set $\mathcal{X} \subset \mathbb{R}^d$. Moreover, we assume that smoother or more predictable the function $f^*$ is, the better it generalizes to new data.
 
 
 % \begin{definition}[Measurable function]
@@ -975,8 +978,7 @@ This assumption ensures two things: existence of the efficient coordinate system
 
 
 \subsection{Generalization Error}
-
-hehe
+ 
 
 \begin{proposition}[Bias-variance tradeoff]
 	Let $f^* \in \mathcal{H}^s_\mu(R)$ and suppose we observe
@@ -1100,7 +1102,6 @@ hehe
 
 \subsection{Flow Matching}
 
-\subsection{Transformers}
 \newpage
 
 
