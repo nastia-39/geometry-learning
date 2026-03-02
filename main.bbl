@@ -1,0 +1,184 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bagautdinov et~al.(2018)Bagautdinov, Wu, Saragih, Fua, and
+  Sheikh]{bagautdinov2018modeling}
+Timur Bagautdinov, Chenglei Wu, Jason Saragih, Pascal Fua, and Yaser Sheikh.
+\newblock {Modeling facial geometry using compositional VAEs}.
+\newblock In \emph{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 3877--3886, 2018.
+
+\bibitem[Chen et~al.(2022)Chen, Xu, Geiger, Yu, and
+  Su]{10.1007/978-3-031-19824-3_20}
+Anpei Chen, Zexiang Xu, Andreas Geiger, Jingyi Yu, and Hao Su.
+\newblock Tensorf: Tensorial radiance fields.
+\newblock In \emph{Computer Vision – ECCV 2022: 17th European Conference, Tel
+  Aviv, Israel, October 23–27, 2022, Proceedings, Part XXXII}, page
+  333–350, Berlin, Heidelberg, 2022. Springer-Verlag.
+\newblock ISBN 978-3-031-19823-6.
+\newblock \doi{10.1007/978-3-031-19824-3_20}.
+\newblock URL \url{https://doi.org/10.1007/978-3-031-19824-3_20}.
+
+\bibitem[Du and Kaelbling(2024)]{composition_position}
+Yilun Du and Leslie Kaelbling.
+\newblock Position: compositional generative modeling: a single model is not
+  all you need.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine
+  Learning}, ICML'24. JMLR.org, 2024.
+
+\bibitem[Du and Mordatch(2019)]{du2019implicit}
+Yilun Du and Igor Mordatch.
+\newblock Implicit generation and modeling with energy based models.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~32, 2019.
+
+\bibitem[Du et~al.(2020)Du, Li, and Mordatch]{du2020compositional}
+Yilun Du, Shuang Li, and Igor Mordatch.
+\newblock Compositional visual generation with energy based models.
+\newblock \emph{Advances in Neural Information Processing Systems},
+  33:\penalty0 6637--6647, 2020.
+
+\bibitem[Du et~al.(2021)Du, Li, Sharma, Tenenbaum, and
+  Mordatch]{du2021unsupervised}
+Yilun Du, Shuang Li, Yash Sharma, Joshua~B. Tenenbaum, and Igor Mordatch.
+\newblock Unsupervised learning of compositional energy concepts.
+\newblock In A.~Beygelzimer, Y.~Dauphin, P.~Liang, and J.~Wortman Vaughan,
+  editors, \emph{Advances in Neural Information Processing Systems}, 2021.
+
+\bibitem[Elmoznino et~al.(2025)Elmoznino, Marty, Kasetty, Gagnon, Mittal,
+  Fathi, Sridhar, and Lajoie]{elmoznino2025incontextlearningoccamsrazor}
+Eric Elmoznino, Tom Marty, Tejas Kasetty, Leo Gagnon, Sarthak Mittal, Mahan
+  Fathi, Dhanya Sridhar, and Guillaume Lajoie.
+\newblock In-context learning and occam's razor, 2025.
+\newblock URL \url{https://arxiv.org/abs/2410.14086}.
+
+\bibitem[LeCun et~al.(2006)LeCun, Chopra, Hadsell, Ranzato, Huang,
+  et~al.]{lecun2006tutorial}
+Yann LeCun, Sumit Chopra, Raia Hadsell, M~Ranzato, Fujie Huang, et~al.
+\newblock A tutorial on energy-based learning.
+\newblock \emph{Predicting structured data}, 1\penalty0 (0), 2006.
+
+\bibitem[Liu et~al.(2021)Liu, Li, Du, Tenenbaum, and Torralba]{liu2021learning}
+Nan Liu, Shuang Li, Yilun Du, Joshua~B. Tenenbaum, and Antonio Torralba.
+\newblock Learning to compose visual relations.
+\newblock In A.~Beygelzimer, Y.~Dauphin, P.~Liang, and J.~Wortman Vaughan,
+  editors, \emph{Advances in Neural Information Processing Systems}, 2021.
+
+\bibitem[Liu et~al.(2022)Liu, Li, Du, Torralba, and
+  Tenenbaum]{10.1007/978-3-031-19790-1_26}
+Nan Liu, Shuang Li, Yilun Du, Antonio Torralba, and Joshua~B. Tenenbaum.
+\newblock Compositional visual generation with composable diffusion models.
+\newblock In \emph{Computer Vision – ECCV 2022: 17th European Conference, Tel
+  Aviv, Israel, October 23–27, 2022, Proceedings, Part XVII}, page 423–439,
+  Berlin, Heidelberg, 2022. Springer-Verlag.
+\newblock ISBN 978-3-031-19789-5.
+\newblock \doi{10.1007/978-3-031-19790-1_26}.
+\newblock URL \url{https://doi.org/10.1007/978-3-031-19790-1_26}.
+
+\bibitem[Liu et~al.(2023)Liu, Du, Li, Tenenbaum, and
+  Torralba]{DBLP:conf/iccv/0010DLT023}
+Nan Liu, Yilun Du, Shuang Li, Joshua~B. Tenenbaum, and Antonio Torralba.
+\newblock Unsupervised compositional concepts discovery with text-to-image
+  generative models.
+\newblock In \emph{ICCV}, pages 2085--2095, 2023.
+
+\bibitem[Mildenhall et~al.(2021)Mildenhall, Srinivasan, Tancik, Barron,
+  Ramamoorthi, and Ng]{mildenhall2021nerf}
+Ben Mildenhall, Pratul~P Srinivasan, Matthew Tancik, Jonathan~T Barron, Ravi
+  Ramamoorthi, and Ren Ng.
+\newblock Nerf: Representing scenes as neural radiance fields for view
+  synthesis.
+\newblock \emph{Communications of the ACM}, 65\penalty0 (1):\penalty0 99--106,
+  2021.
+
+\bibitem[M\"{u}ller et~al.(2022)M\"{u}ller, Evans, Schied, and
+  Keller]{10.1145/3528223.3530127}
+Thomas M\"{u}ller, Alex Evans, Christoph Schied, and Alexander Keller.
+\newblock Instant neural graphics primitives with a multiresolution hash
+  encoding.
+\newblock \emph{ACM Trans. Graph.}, 41\penalty0 (4), July 2022.
+\newblock ISSN 0730-0301.
+\newblock \doi{10.1145/3528223.3530127}.
+\newblock URL \url{https://doi.org/10.1145/3528223.3530127}.
+
+\bibitem[Pumarola et~al.(2021)Pumarola, Corona, Pons-Moll, and
+  Moreno-Noguer]{pumarola2021d}
+Albert Pumarola, Enric Corona, Gerard Pons-Moll, and Francesc Moreno-Noguer.
+\newblock D-nerf: Neural radiance fields for dynamic scenes.
+\newblock In \emph{Proceedings of the IEEE/CVF conference on computer vision
+  and pattern recognition}, pages 10318--10327, 2021.
+
+\bibitem[Rabby and
+  Zhang(2024)]{rabby2024beyondpixelscomprehensivereviewevolution}
+AKM Shahariar~Azad Rabby and Chengcui Zhang.
+\newblock Beyondpixels: A comprehensive review of the evolution of neural
+  radiance fields, 2024.
+\newblock URL \url{https://arxiv.org/abs/2306.03000}.
+
+\bibitem[Rasmussen and Ghahramani(2000)]{rasmussen2000occam}
+Carl Rasmussen and Zoubin Ghahramani.
+\newblock Occam's razor.
+\newblock \emph{Advances in neural information processing systems}, 13, 2000.
+
+\bibitem[Reiser et~al.(2021)Reiser, Peng, Liao, and Geiger]{9710464}
+Christian Reiser, Songyou Peng, Yiyi Liao, and Andreas Geiger.
+\newblock Kilonerf: Speeding up neural radiance fields with thousands of tiny
+  mlps.
+\newblock In \emph{2021 IEEE/CVF International Conference on Computer Vision
+  (ICCV)}, pages 14315--14325, 2021.
+\newblock \doi{10.1109/ICCV48922.2021.01407}.
+
+\bibitem[Song and Kingma(2021)]{song2021trainenergybasedmodels}
+Yang Song and Diederik~P. Kingma.
+\newblock How to train your energy-based models, 2021.
+
+\bibitem[Su et~al.(2024)Su, Liu, Wang, Tenenbaum, and Du]{decompdiffusion}
+Jocelin Su, Nan Liu, Yanbo Wang, Joshua~B. Tenenbaum, and Yilun Du.
+\newblock Compositional image decomposition with diffusion models.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine
+  Learning}, volume 235 of \emph{Proceedings of Machine Learning Research},
+  pages 46823--46842. PMLR, 21--27 Jul 2024.
+
+\bibitem[Tancik et~al.(2021)Tancik, Mildenhall, Wang, Schmidt, Srinivasan,
+  Barron, and Ng]{9578751}
+Matthew Tancik, Ben Mildenhall, Terrance Wang, Divi Schmidt, Pratul~P.
+  Srinivasan, Jonathan~T. Barron, and Ren Ng.
+\newblock Learned initializations for optimizing coordinate-based neural
+  representations.
+\newblock In \emph{2021 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 2845--2854, 2021.
+\newblock \doi{10.1109/CVPR46437.2021.00287}.
+
+\bibitem[Wang et~al.(2022)Wang, Wu, Xie, Chen, and
+  Prisacariu]{wang2022nerfneuralradiancefields}
+Zirui Wang, Shangzhe Wu, Weidi Xie, Min Chen, and Victor~Adrian Prisacariu.
+\newblock Nerf--: Neural radiance fields without known camera parameters, 2022.
+\newblock URL \url{https://arxiv.org/abs/2102.07064}.
+
+\bibitem[Xu et~al.(2021)Xu, Alldieck, and Sminchisescu]{50730}
+Hongyi Xu, Thiemo Alldieck, and Cristian Sminchisescu.
+\newblock H-nerf: Neural radiance fields for rendering and temporal
+  reconstruction of humans in motion.
+\newblock In \emph{Advances in Neural Information Processing Systems
+  (NeurIPS)}, 2021.
+\newblock URL \url{https://arxiv.org/pdf/2110.13746.pdf}.
+
+\bibitem[Yu et~al.(2021)Yu, Ye, Tancik, and Kanazawa]{9577688}
+Alex Yu, Vickie Ye, Matthew Tancik, and Angjoo Kanazawa.
+\newblock pixelnerf: Neural radiance fields from one or few images.
+\newblock In \emph{2021 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 4576--4585, 2021.
+\newblock \doi{10.1109/CVPR46437.2021.00455}.
+
+\bibitem[Zhu et~al.(2024)Zhu, Xie, Wu, and Gao]{zhu2024learning}
+Yaxuan Zhu, Jianwen Xie, Ying~Nian Wu, and Ruiqi Gao.
+\newblock Learning energy-based models by cooperative diffusion recovery
+  likelihood.
+\newblock In \emph{The Twelfth International Conference on Learning
+  Representations}, 2024.
+
+\end{thebibliography}

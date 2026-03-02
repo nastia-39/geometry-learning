@@ -595,9 +595,9 @@ Some shortcomings of the manifold hypothesis are that \begin{itemize}
 
 Each 2d image (or 3d scene or a point cloud) can be modeled $f: \Real^2 \to \Real^3$ as a function from coordinates to RGB (or XYZ) values. That's how NeRFS work:
 
-\paragraph{Neural Radiance Fields (NeRFs).} 
+\paragraph{Neural Radiance Fields (NeRFs).}
 \cite{mildenhall2021nerf, pumarola2021d, 50730, wang2022nerfneuralradiancefields, rabby2024beyondpixelscomprehensivereviewevolution, 9710464, 10.1145/3528223.3530127, 9578751, 9577688, 10.1007/978-3-031-19824-3_20}
- \emile{this actually looks very relevant. would be worth doing a deeper dive into this}
+\emile{this actually looks very relevant. would be worth doing a deeper dive into this}
 A \emph{Neural Radiance Field} models a 3D scene as a continuous function
 \[
 	f_\theta : (\mathbf{x}, \mathbf{d}) \;\mapsto\; (\sigma, \mathbf{c}),
@@ -651,7 +651,7 @@ For instance, $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces,
 % 		\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
 % 	\]
 % \end{definition}
-Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it a canonical measurable structure in probability theory, where $\mathcal{B}(X)$ is the Borel $\sigma$-algebra on $X$.  
+Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it a canonical measurable structure in probability theory, where $\mathcal{B}(X)$ is the Borel $\sigma$-algebra on $X$.
 
 
 \textbf{Supervised Learning.} From data $D = \{(x_i, y_i)\}_{i=1}^n$ we seek to learn a  target function $f^*: \mathcal{X} \to \Real$ such that $f^*(x_i) = y_i$ for all $i=1,\ldots,n$. Usually, we know the input space $\mathcal{X}$ via some base distribution $\nu_0$ on $\mathcal{X}$, for instance, uniformly distribution over a compact set $\mathcal{X} \subset \mathbb{R}^d$. Moreover, we assume that smoother or more predictable the function $f^*$ is, the better it generalizes to new data.
@@ -973,7 +973,7 @@ This assumption ensures two things: existence of the efficient coordinate system
 
 
 \subsection{Generalization Error}
- 
+
 
 \begin{proposition}[Bias-variance tradeoff]
 	Let $f^* \in \mathcal{H}^s_\mu(R)$ and suppose we observe
@@ -1094,93 +1094,93 @@ This assumption ensures two things: existence of the efficient coordinate system
 \subsection{Compression}
 
 
-\begin{theorem} 
-Lower bound on the number of bits to represent a function $f$ up to the accuracy $\epsilon$ is given by
-\begin{align*}
-	bits(f, \epsilon) \geq \ldots
-\end{align*}
+\begin{theorem}
+	Lower bound on the number of bits to represent a function $f$ up to the accuracy $\epsilon$ is given by
+	\begin{align*}
+		bits(f, \epsilon) \geq \ldots
+	\end{align*}
 
 
 \end{theorem}
 
 
-\section{Set Up} 
+\section{Set Up}
 
 
 
-Common belief about the data but make it abstract: 
+Common belief about the data but make it abstract:
 \begin{itemize}
-    \item Observed data $x_1, \ldots, x_n$ comes from some space $X$ (e.g. $\Real^D$)
-    \item We know some "sparse" distribution over $X$: $\nu_0$ (e.g. Gaussian, Uniform)
-    \item However, we believe that the data comes from some "compact" or "concentrated" distribution $\mu$ over $X$ (e.g. $d$-dim manifold $M \subset \Real^{D})$
+	\item Observed data $x_1, \ldots, x_n$ comes from some space $X$ (e.g. $\Real^D$)
+	\item We know some "sparse" distribution over $X$: $\nu_0$ (e.g. Gaussian, Uniform)
+	\item However, we believe that the data comes from some "compact" or "concentrated" distribution $\mu$ over $X$ (e.g. $d$-dim manifold $M \subset \Real^{D})$
 \end{itemize}
-If that is the case, we have better hope to learn functions $f: X \to \Real$: more concentration -- faster rates. 
+If that is the case, we have better hope to learn functions $f: X \to \Real$: more concentration -- faster rates.
 
 
-First, define the data space and equip it with the differentiation property. 
+First, define the data space and equip it with the differentiation property.
 
 \begin{itemize}
-    \item Let $X$ be a set
-    \item an algebra of functions $f: X \rightarrow \mathbb{R}$, $\mathcal{A}$ 
-    \item $D: \mathcal{A} \rightarrow \mathcal{M}$ a derivation into some module $\mathcal{M}$ equipped with a pointwise inner product $\langle\cdot, \cdot\rangle_x$
-    \item Leibniz rule: $D(f g)=f D g+g D f$.
-    \item Hence, the carre du champ operator is $\Gamma(f, g)(x) = \langle Df, Dg \rangle_x$. It generalizes square-gradient concept.
-\end{itemize}
-
-Now let us add a measure $\nu$ over $X$. That defines: 
-\begin{itemize}
-    \item Dirichle form $\mathcal{E}_{\nu}(f, g) = \int_{X} \Gamma(f, g) d \nu(x)$ (\todo{maybe add some assumptions on this})
-    \item Self-adjoint Laplacian $L_{\nu}$ such that $\mathcal{E}_{\nu}(f, f) = \langle f, L_{\nu} f\rangle_{\nu}$
-    \item Markov semi-group: $e^{-tL_{\nu}}$, it defines a diffusion that converges to $\nu$.
-    \item The iterated carré du champ (or $\Gamma^{\nu}_2$ operator) is:
-        $$
-        \Gamma^{\nu}_2(f, g)=\frac{1}{2}(L_{\nu} \Gamma(f, g)-\Gamma(f, L_{\nu} g)-\Gamma(g, L_{\nu} f))
-        $$
-        and
-        $$
-        \Gamma^{\nu}_2(f):=\Gamma^{\nu}_2(f, f) = \frac{1}{2}\left(L_{\nu}|D f|^2-2\langle D f, D(L_{\nu} f)\rangle\right)
-        $$
-
+	\item Let $X$ be a set
+	\item an algebra of functions $f: X \rightarrow \mathbb{R}$, $\mathcal{A}$
+	\item $D: \mathcal{A} \rightarrow \mathcal{M}$ a derivation into some module $\mathcal{M}$ equipped with a pointwise inner product $\langle\cdot, \cdot\rangle_x$
+	\item Leibniz rule: $D(f g)=f D g+g D f$.
+	\item Hence, the carre du champ operator is $\Gamma(f, g)(x) = \langle Df, Dg \rangle_x$. It generalizes square-gradient concept.
 \end{itemize}
 
-Alright, what defines the "concentration" of a measure $\nu$? What structural assumption gives up hope to learn functions on it? 
+Now let us add a measure $\nu$ over $X$. That defines:
+\begin{itemize}
+	\item Dirichle form $\mathcal{E}_{\nu}(f, g) = \int_{X} \Gamma(f, g) d \nu(x)$ (\todo{maybe add some assumptions on this})
+	\item Self-adjoint Laplacian $L_{\nu}$ such that $\mathcal{E}_{\nu}(f, f) = \langle f, L_{\nu} f\rangle_{\nu}$
+	\item Markov semi-group: $e^{-tL_{\nu}}$, it defines a diffusion that converges to $\nu$.
+	\item The iterated carré du champ (or $\Gamma^{\nu}_2$ operator) is:
+	      $$
+		      \Gamma^{\nu}_2(f, g)=\frac{1}{2}(L_{\nu} \Gamma(f, g)-\Gamma(f, L_{\nu} g)-\Gamma(g, L_{\nu} f))
+	      $$
+	      and
+	      $$
+		      \Gamma^{\nu}_2(f):=\Gamma^{\nu}_2(f, f) = \frac{1}{2}\left(L_{\nu}|D f|^2-2\langle D f, D(L_{\nu} f)\rangle\right)
+	      $$
+
+\end{itemize}
+
+Alright, what defines the "concentration" of a measure $\nu$? What structural assumption gives up hope to learn functions on it?
 
 \section{Key Assumption And Its Consequences}
 
 \begin{definition}[Curvature–Dimension Condition]\label{def:cd}
-For $\rho \in \Real, N \in (0, \infty)$, $\nu$ satisfies $CD(\rho, \Gamma)$ if for all $f \in \mathcal{A}$
-    $$\Gamma_2^{\nu}(f, f) \geq \rho \Gamma(f, f)+ \frac{1}{N} \left(L_{\nu} f\right)^2$$
-    Intuitively: $\rho \sim$  curvature parameter, $N \sim$ dimension
+	For $\rho \in \Real, N \in (0, \infty)$, $\nu$ satisfies $CD(\rho, \Gamma)$ if for all $f \in \mathcal{A}$
+	$$\Gamma_2^{\nu}(f, f) \geq \rho \Gamma(f, f)+ \frac{1}{N} \left(L_{\nu} f\right)^2$$
+	Intuitively: $\rho \sim$  curvature parameter, $N \sim$ dimension
 \end{definition}
 
 \subsection{Sub-Exponential Concentration}
 
 \begin{definition}[Log-Sobolev Inequality]
-Given $\mu$ for there is a constant $C_{LS}$ such that the following holds for any $f: X \to \Real$
-    $$\operatorname{Ent}_\mu\left(f^2\right) \leq 2 C_{LS} \int\|D f\|^2 d \mu$$
-    where $\operatorname{Ent}_\mu(g)=\int g \log g d \mu-\int g d \mu \cdot \log \int g d \mu$ for $g \geq 0$.
+	Given $\mu$ for there is a constant $C_{LS}$ such that the following holds for any $f: X \to \Real$
+	$$\operatorname{Ent}_\mu\left(f^2\right) \leq 2 C_{LS} \int\|D f\|^2 d \mu$$
+	where $\operatorname{Ent}_\mu(g)=\int g \log g d \mu-\int g d \mu \cdot \log \int g d \mu$ for $g \geq 0$.
 \end{definition}
 
 \begin{lemma}
-    Assuming $\Gamma_2^{\mu}(f, f) \geq \rho \Gamma(f, f)$ for all $f \in \mathcal{A}$ then $C_{LS}\leq \frac{1}{\rho}$ 
+	Assuming $\Gamma_2^{\mu}(f, f) \geq \rho \Gamma(f, f)$ for all $f \in \mathcal{A}$ then $C_{LS}\leq \frac{1}{\rho}$
 \end{lemma}
 
-Consequences: 
+Consequences:
 \begin{theorem}[Hypercontractivity, Gross 1975]
-    The LSI is equivalent  to hypercontractivity of the semigroup: for $1<p<q<\infty$,
-    $$
-    \left\|P_t f\right\|_{L^q(\mu)} \leq\|f\|_{L^p(\mu)} \quad \text { when } t \geq \frac{C_{L S}}{2} \log \frac{q-1}{p-1}
-    $$
+	The LSI is equivalent  to hypercontractivity of the semigroup: for $1<p<q<\infty$,
+	$$
+		\left\|P_t f\right\|_{L^q(\mu)} \leq\|f\|_{L^p(\mu)} \quad \text { when } t \geq \frac{C_{L S}}{2} \log \frac{q-1}{p-1}
+	$$
 \end{theorem}
 
 \begin{theorem}[Sub-Gaussian concentration]
-     For $f$ with $\Gamma(f, f) \leq 1$,$ \mu$--a.e., the Herbst argument gives   
-    $$
-    \mu\left(f-\mathbb{E}_\mu f \geq t\right) \leq \exp \left(-\frac{t^2}{2 C_{L S}}\right)
-    $$
+	For $f$ with $\Gamma(f, f) \leq 1$,$ \mu$--a.e., the Herbst argument gives
+	$$
+		\mu\left(f-\mathbb{E}_\mu f \geq t\right) \leq \exp \left(-\frac{t^2}{2 C_{L S}}\right)
+	$$
 \end{theorem}
 
-The smaller $C_{LS}$ -- the better. 
+The smaller $C_{LS}$ -- the better.
 
 \subsection{Effective Dimension}
 
@@ -1188,47 +1188,99 @@ The smaller $C_{LS}$ -- the better.
 
 As we introduced Definition \ref{def:cd} that captures the "compactness" of the measure, we can say now that  $\mu \ll \nu$ if
 \begin{gather*}
-     \mu \in CD(\rho_\mu, N_{\mu}), \nu \in CD(\rho_\nu, N_{\nu}) \\
-     \text{ and } \\
-     \rho_\mu > \rho_\nu, N_{\mu} < N_{\nu}
+	\mu \in CD(\rho_\mu, N_{\mu}), \nu \in CD(\rho_\nu, N_{\nu}) \\
+	\text{ and } \\
+	\rho_\mu > \rho_\nu, N_{\mu} < N_{\nu}
 \end{gather*}
 
-The following theorem captures what density $\frac{d \mu}{d \nu}$ "simplifies" the measure. 
+The following theorem captures what density $\frac{d \mu}{d \nu}$ "simplifies" the measure.
 
 \begin{theorem}[Perturbation of $\operatorname{CD}(\rho, N)$]
-\todo{double check, add a proof, better notation}
+	\todo{double check, add a proof, better notation}
 
-Let $\left(X, \mathcal{A}, \Gamma, \mu_0\right)$ be a Markov diffusion structure with generator $L_0$ satisfying $\operatorname{CD}(\rho, N):$
+	Let $\left(X, \mathcal{A}, \Gamma, \mu_0\right)$ be a Markov diffusion structure with generator $L_0$ satisfying $\operatorname{CD}(\rho, N):$
 
-$$
-\Gamma_2^{(0)}(f, f) \geq \rho \Gamma(f, f)+\frac{1}{N}\left(L_0 f\right)^2 \quad \text { for all } f \in \mathcal{A}
-$$
-
-
-Let $U \in \mathcal{A}$ satisfy:
-\begin{itemize}
-    \item Abstract $\kappa$-convexity: $\quad \Gamma(f, \Gamma(U, f))-\frac{1}{2} \Gamma(U, \Gamma(f, f)) \geq \kappa \Gamma(f, f) \quad$ for all $f$
-    \item Bounded abstract gradient: $\quad \Gamma(U, U) \leq M \quad \mu_0$-a.e.
-\end{itemize}
-
-Let $d \mu=Z^{-1} e^{-U} d \mu_0$ with $L_U f=L_0 f-\Gamma(U, f)$.
-Then for any $\varepsilon \in(0,1),\left(L_U, \Gamma, \mu\right)$ satisfies $\operatorname{CD}\left(\rho^{\prime}, N^{\prime}\right)$ with
-
-$$
-\rho^{\prime}=\rho+\kappa-\frac{(1 / \varepsilon-1) M}{N}, \quad N^{\prime}=\frac{N}{1-\varepsilon}
-$$
+	$$
+		\Gamma_2^{(0)}(f, f) \geq \rho \Gamma(f, f)+\frac{1}{N}\left(L_0 f\right)^2 \quad \text { for all } f \in \mathcal{A}
+	$$
 
 
-In particular, $C_{L S}(\mu) \leq \frac{1}{\rho^{\prime}}$ whenever $\rho^{\prime}>0$.
+	Let $U \in \mathcal{A}$ satisfy:
+	\begin{itemize}
+		\item Abstract $\kappa$-convexity: $\quad \Gamma(f, \Gamma(U, f))-\frac{1}{2} \Gamma(U, \Gamma(f, f)) \geq \kappa \Gamma(f, f) \quad$ for all $f$
+		\item Bounded abstract gradient: $\quad \Gamma(U, U) \leq M \quad \mu_0$-a.e.
+	\end{itemize}
+
+	Let $d \mu=Z^{-1} e^{-U} d \mu_0$ with $L_U f=L_0 f-\Gamma(U, f)$.
+	Then for any $\varepsilon \in(0,1),\left(L_U, \Gamma, \mu\right)$ satisfies $\operatorname{CD}\left(\rho^{\prime}, N^{\prime}\right)$ with
+
+	$$
+		\rho^{\prime}=\rho+\kappa-\frac{(1 / \varepsilon-1) M}{N}, \quad N^{\prime}=\frac{N}{1-\varepsilon}
+	$$
+
+
+	In particular, $C_{L S}(\mu) \leq \frac{1}{\rho^{\prime}}$ whenever $\rho^{\prime}>0$.
 \end{theorem}
 
 \section{Diffusion Models}
 
-Forward process (adding noise): 
+\todo{Add noise schedule maybe.}
 
-Backward process (denoising):
+\paragraph{Forward process: $\mu \to \nu_0$} Density $p_t = \mu_t / \nu_0$ evolves according to the diffusion equation:
 
-Prior
+$$
+	\frac{\partial p_t}{\partial t} = L_{\nu_0} p_t \implies p_t = e^{tL_{\nu_0}} \nu_0
+$$
+
+
+
+\paragraph{Backward process: $\nu_0 \to \mu$} Density $p_t$ evolves according to the diffusion+drift equation:
+$$
+	\frac{\partial p_t}{\partial t} = L_{\nu_0} p_t - \nabla \cdot (p_t \nabla \log p_t)
+$$
+
+To be able to reverse it back, we need to learn $\nabla \log p_t$. Let us look at the very first $\delta$  step of the forward process (corresponding to the very last $\delta$ step of the backward process) and learn a score function for that step $s(\cdot) = \nabla \log p_{T} = \nabla \log \frac{d\mu}{d\nu}$. The minimization problem is:
+
+\begin{align*}
+	\min_s \underbrace{\mathbb{E}_{p_T} \left[ \left\| s(\cdot) - \nabla \log p_{T} \right\|^2 \right]}_{\text{data term}} +
+	\underbrace{R(s)}_{\text{regularizer term}}
+\end{align*}
+
+
+
+While the data term is straightforward, the regularizer term is to be chosen. Assuming $d \mu=Z^{-1} e^{-U} d \mu_0 \Rightarrow \nabla \log p_{T} = - D U$. Our prior (hope) for $U$ is that it concentrates the measure better, specifically, that by Definition \ref{def:cd}
+$U \in \mathcal{A}$ satisfies:
+\begin{itemize}
+	\item $\kappa$-convexity: $\quad \Gamma(f, \Gamma(U, f))-\frac{1}{2} \Gamma(U, \Gamma(f, f)) \geq \kappa \Gamma(f, f) \quad$ for all $f$
+	\item Bounded gradient: $\quad \Gamma(U, U) \leq M \quad \mu_0$-a.e.
+\end{itemize}
+
+% Let us loos at these two conditions one by one.
+% \paragraph{$\kappa$-convexity.}
+Define the abstract Hessian as a map from 1-forms to bilinear forms on $D(\mathcal{A})$ :
+
+$$
+	H_v(f):=\langle D f, D\langle v, D f\rangle\rangle-\frac{1}{2}\langle v, D\langle D f, D f\rangle\rangle
+$$
+
+
+This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.
+
+Hence, the set
+$$\mathcal{C}_{\kappa, M}=\left\{v \in \mathcal{M}: H_v(f) \geq \kappa \Gamma(f, f) \text{ and } \langle v, v \rangle \leq M \quad \forall f \in \mathcal{A} \right\}$$
+
+\begin{lemma}[Very rough sketch]
+	Define $W$ as \todo{a fixed set of very cool points from $\mathcal{C}_{\kappa, M}$}. Then for every $v \in \mathcal{C}_{\kappa, M}$ the following problem has a unique solution:
+	\begin{align*}
+		\min_{\omega \in \mathfrak{M}_+(W)} \| \omega \|_{TV}
+		\text{ such that }
+		\int_{w \in W} w d \omega(w) = f
+	\end{align*}
+\end{lemma}
+
+
+
+
 
 \subsection{References}
 
@@ -1236,7 +1288,7 @@ https://djalil.chafai.net/blog/2023/01/12/log-sobolev-and-bakry-emery/
 
 
 
- 
+
 
 \section{Energy-Based Model Perspective on Effective Dimension}
 need framework that shows that
@@ -1367,11 +1419,11 @@ activation pattern partition.\\
 
 \emile{What kind of non-trivial theoretical results to validate this construction would be the most insightful? One thing is that for coarse/non-granular functions, it should sort of recover the original manifold hypothesis? What are the theoretical results pertaining to manifold hypothesis in the other papers we've been reading? Can we establish any analogs?}
 
-      
+
 \emile{What is the simplest possible way to empirically validate anything that we've constructed (after constructing it)?}
 
 \begin{theorem}
-    equivalency between effective dimension and energy?
+	equivalency between effective dimension and energy?
 \end{theorem}
 
 
