@@ -1140,10 +1140,9 @@ Now let us add a measure $\nu$ over $X$. That defines:
 	      $$
 		      \Gamma^{\nu}_2(f):=\Gamma^{\nu}_2(f, f) = \frac{1}{2}\left(L_{\nu}|D f|^2-2\langle D f, D(L_{\nu} f)\rangle\right)
 	      $$
-
 \end{itemize}
 
-Alright, what defines the "concentration" of a measure $\nu$? What structural assumption gives up hope to learn functions on it?
+Alright, what defines the "concentration" of a measure $\nu$? What structural assumption would give us hope to learn functions on it?
 
 \section{Key Assumption And Its Consequences}
 
@@ -1184,7 +1183,28 @@ The smaller $C_{LS}$ -- the better.
 
 \subsection{Effective Dimension}
 
+\begin{definition}[Effective dimension]
+	The \emph{effective dimension} of  $(X, \mathcal{A}, \Gamma, \mu)$ is the quantity $d_{\mathrm{eff}} \in (0, \infty)$ such that the eigenvalues of the corresponding Laplacian operator $L: L^2(\mu) \to L^2(\mu)$ satisfy
+	\[
+		\lambda_j \asymp j^{2/d_{\mathrm{eff}}} \qquad \text{as } j \to \infty,
+	\]
+	or equivalently, the eigenvalue counting function satisfies
+	\[
+		N(\lambda) := \#\{j : \lambda_j \leq \lambda\} \asymp \lambda^{d_{\mathrm{eff}}/2} \qquad \text{as } \lambda \to \infty.
+	\]
+
+	Or, more generally
+
+	$$\operatorname{tr} e^{t L} \sim t^{-d_{\mathrm{eff}} / 2} \quad \text{as } t \to 0^{+}$$
+\end{definition}
+
+
+
 \section{Back to comparing two measures}
+
+\newcommand{\basemeasure}{\mu_0}
+\newcommand{\targetmeasure}{\mu}
+
 
 As we introduced Definition \ref{def:cd} that captures the "compactness" of the measure, we can say now that  $\mu \ll \nu$ if
 \begin{gather*}
@@ -1226,25 +1246,25 @@ The following theorem captures what density $\frac{d \mu}{d \nu}$ "simplifies" t
 
 \todo{Add noise schedule maybe.}
 
-\paragraph{Forward process: $\mu \to \nu_0$} Density $p_t = \mu_t / \nu_0$ evolves according to the diffusion equation:
+\paragraph{Forward process: $\mu \to \basemeasure$} Density $p_t = \mu_t / \basemeasure$ evolves according to the diffusion equation:
 
 $$
-	\frac{\partial p_t}{\partial t} = L_{\nu_0} p_t \implies p_t = e^{tL_{\nu_0}} \nu_0
+	\frac{\partial p_t}{\partial t} = L_{\basemeasure} p_t \implies p_t = e^{tL_{\basemeasure}} \basemeasure
 $$
 
 
 
-\paragraph{Backward process: $\nu_0 \to \mu$} Density $p_t$ evolves according to the diffusion+drift equation:
+\paragraph{Backward process: $\basemeasure \to \mu$} Density $p_t$ evolves according to the diffusion+drift equation:
 $$
-	\frac{\partial p_t}{\partial t} = L_{\nu_0} p_t - \nabla \cdot (p_t \nabla \log p_t)
+	\frac{\partial p_t}{\partial t} = L_{\basemeasure} p_t - \nabla \cdot (p_t \nabla \log p_t)
 $$
 
 To be able to reverse it back, we need to learn $\nabla \log p_t$. Let us look at the very first $\delta$  step of the forward process (corresponding to the very last $\delta$ step of the backward process) and learn a score function for that step $s(\cdot) = \nabla \log p_{T} = \nabla \log \frac{d\mu}{d\nu}$. The minimization problem is:
 
-\begin{align*}
+\begin{align}\label{eq:s-min}
 	\min_s \underbrace{\mathbb{E}_{p_T} \left[ \left\| s(\cdot) - \nabla \log p_{T} \right\|^2 \right]}_{\text{data term}} +
 	\underbrace{R(s)}_{\text{regularizer term}}
-\end{align*}
+\end{align}
 
 
 
@@ -1266,17 +1286,34 @@ $$
 
 This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.
 
-Hence, the set
-$$\mathcal{C}_{\kappa, M}=\left\{v \in \mathcal{M}: H_v(f) \geq \kappa \Gamma(f, f) \text{ and } \langle v, v \rangle \leq M \quad \forall f \in \mathcal{A} \right\}$$
+Hence, the following set is convex:
+$$\mathcal{C}_{\kappa, M}=\left\{v \in D(\mathcal{A}): H_v(f) \geq \kappa \Gamma(f, f) \text{ and } \langle v, v \rangle \leq M \quad \forall f \in \mathcal{A} \right\}$$
+
+First let us compute its covering number.
+\begin{lemma}
+	The covering number of $\mathcal{C}_{\kappa, M}$ is at most $N(M, \kappa) = \frac{M}{\kappa}$.
+\end{lemma}
+
+
+
 
 \begin{lemma}[Very rough sketch]
-	Define $W$ as \todo{a fixed set of very cool points from $\mathcal{C}_{\kappa, M}$}. Then for every $v \in \mathcal{C}_{\kappa, M}$ the following problem has a unique solution:
+	Define $W_{\kappa, M}$ as \todo{a fixed set of very cool points from $\mathcal{C}_{\kappa, M}$}. Then for every $v \in \mathcal{C}_{\kappa, M}$ the following problem has a unique solution:
 	\begin{align*}
-		\min_{\omega \in \mathfrak{M}_+(W)} \| \omega \|_{TV}
+		\min_{\omega \in \mathfrak{M}_+(W_{\kappa, M})} \| \omega \|_{TV}
 		\text{ such that }
-		\int_{w \in W} w d \omega(w) = f
+		\int_{w \in W_{\kappa, M}} w d \omega(w) = f
 	\end{align*}
 \end{lemma}
+
+Hence, if we know the set $W_{\kappa, M}$ then \Cref{eq:s-min} can be rewritten as:
+
+\begin{align*}
+	\min_{\omega \in \mathfrak{M}_+(W)}
+	\mathbb{E}_{p_T} \left[ \left\| \int_{w \in W_{\kappa, M}} w d \omega(w) - \nabla \log p_{T} \right\|^2 \right]
+	+
+	\| \omega \|_{TV}
+\end{align*}
 
 
 

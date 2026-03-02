@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.6)  2 MAR 2026 13:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.9.6)  2 MAR 2026 14:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -859,17 +859,17 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 Package natbib Warning: Citation `donohoDensityEstimationWavelet1996' on page 5 undefined on input line 1069.
 
 [5] [6] [7]
-LaTeX Font Info:    Trying to load font information for U+euf on input line 1278.
+LaTeX Font Info:    Trying to load font information for U+euf on input line 1306.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/ueuf.fd
 File: ueuf.fd 2013/01/14 v3.01 Euler Fraktur
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-euf.cfg
 File: mt-euf.cfg 2006/07/03 v1.1 microtype config. file: AMS Euler Fraktur (RS)
-) [8]
-Underfull \hbox (badness 10000) in paragraph at lines 1415--1419
+) [8] [9]
+Underfull \hbox (badness 10000) in paragraph at lines 1452--1456
 
  []
 
-[9] [10] (./main.bbl [11]) [12]
+[10] (./main.bbl [11]) [12]
 
 Package natbib Warning: There were undefined citations.
 
@@ -882,18 +882,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 2CA404B16A7024DB4863BC2FB888DD71;2509.
  ) 
 Here is how much of TeX's memory you used:
- 28975 strings out of 474116
- 554614 string characters out of 5743683
- 1947187 words of memory out of 5000000
- 50480 multiletter control sequences out of 15000+600000
+ 28984 strings out of 474116
+ 554742 string characters out of 5743683
+ 1948187 words of memory out of 5000000
+ 50486 multiletter control sequences out of 15000+600000
  610089 words of font info for 239 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 89i,17n,100p,1060b,699s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,17n,100p,1060b,619s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/euler/eufm7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (12 pages, 316422 bytes).
+Output written on main.pdf (12 pages, 319494 bytes).
 PDF statistics:
- 383 PDF objects out of 1000 (max. 8388607)
- 323 compressed objects within 4 object streams
- 92 named destinations out of 1000 (max. 500000)
+ 387 PDF objects out of 1000 (max. 8388607)
+ 327 compressed objects within 4 object streams
+ 95 named destinations out of 1000 (max. 500000)
  55957 words of extra memory for PDF output out of 61914 (max. 10000000)
 
