@@ -1144,7 +1144,7 @@ Now let us add a measure $\nu$ over $X$. That defines:
 
 Alright, what defines the "concentration" of a measure $\nu$? What structural assumption would give us hope to learn functions on it?
 
-\section{Key Assumption And Its Consequences}
+\section{Key Assumptions}
 
 \begin{definition}[Curvature–Dimension Condition]\label{def:cd}
 	For $\rho \in \Real, N \in (0, \infty)$, $\nu$ satisfies $CD(\rho, \Gamma)$ if for all $f \in \mathcal{A}$
@@ -1198,9 +1198,67 @@ The smaller $C_{LS}$ -- the better.
 	$$\operatorname{tr} e^{t L} \sim t^{-d_{\mathrm{eff}} / 2} \quad \text{as } t \to 0^{+}$$
 \end{definition}
 
+The smaller $d_{\mathrm{eff}}$ -- the better.
 
 
-\section{Back to comparing two measures}
+
+\begin{corollary}
+	If $\nu$ satisfies $CD(\rho, \Gamma)$ then $d_{\mathrm{eff}} \leq N$
+\end{corollary}
+
+\section{Supervised Learning: Learning a Function From Data}
+
+Adding a prior $p(f) \propto e^{-E(f)}$ over functions $f: X \to \Real$ the supervised learning problem is equivalent to the following optimization problem:
+\begin{align*}
+	\hat f_n =  \min_f  \sum_{i=1}^n \| f(x_i) - y_i \|^2 + E(f)
+\end{align*}
+
+Note, that $E(f)$ defines sublevel sets $\mathcal{F}_r=\{f: E(f) \leq r\}$. The generalization error of $\hat{f}_n$ decomposes as:
+
+$$
+	\mathbb{E}\left\|f^*-\hat{f}_n\right\|_{L^2}^2 \leq \underbrace{\inf _{f: E(f) \leq r}\left\|f-f^*\right\|^2}_{\text {bias: how well } \mathcal{F}_r \text { approximates } f^*}+\underbrace{\varepsilon_n^2(r)}_{\text {variance: estimation error within } \mathcal{F}_r}
+$$
+
+
+\begin{definition}[Sublevel set]
+	Given a convex functional $E: \mathcal{A} \rightarrow \mathbb{R} \cup\{+\infty\}$, a radius $r>0$, and a metric $d$ on $\mathcal{A}$, the sublevel set is:
+	$$
+		\mathcal{B}_r(E)=\{f \in \mathcal{A}: E(f) \leq r\}
+	$$
+\end{definition}
+
+\begin{definition}[Covering number]
+	The $\epsilon$-covering number is:
+
+	$$
+		N\left(\epsilon, \mathcal{B}_r(E), d\right)=\min \left\{m \in \mathbb{N}: \exists f_1, \ldots, f_m \in \mathcal{A} \text { s.t. } \mathcal{B}_r(E) \subseteq \bigcup_{i=1}^m\left\{g: d\left(g, f_i\right) \leq \epsilon\right\}\right\}
+	$$
+
+	The natural metric in our setting is $d(f, g)=\|f-g\|_{L^2(\mu)}=\left(\int_X(f-g)^2 d \mu\right)^{1 / 2}$
+\end{definition}
+
+\begin{definition}[Metric entropy]
+	$$
+		\mathcal{H}\left(\epsilon, \mathcal{B}_r(E), d\right)=\log N\left(\epsilon, \mathcal{B}_r(E), d\right)
+	$$
+\end{definition}
+
+The smaller the metric entropy -- the less samples we need to learn a function from data.
+
+Lets consider 3 simple enough cases of what $E(f)$ can be:
+\begin{enumerate}
+	\item Given convex $g: \Real \to \Real$ define $E(f) = \int_X g(f(x)) d \mu(x)$
+	\item $E(f) = \mathcal{E}_{\mu}(f, f)$
+	\item Given $\phi: \Real \to \Real$ define $E(f) = \langle f, \phi(L_{\mu}) f \rangle$
+\end{enumerate}
+
+
+\begin{proposition}
+	For $E(f) = \int_X g(f(x)) d \mu(x)$
+	The covering number of $\mathcal{B}_r(E)$ is at most $N(r, E) = \frac{1}{r} \int_0^r \mathcal{H}(\epsilon, \mathcal{B}_r(E), d) d \epsilon$.
+\end{proposition}
+
+
 
 \newcommand{\basemeasure}{\mu_0}
 \newcommand{\targetmeasure}{\mu}
