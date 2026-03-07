@@ -26,7 +26,17 @@
 
 
 \begin{abstract}
-	Despite remarkable success of Transformers across various domains, such as language modeling and computer vision, their theoretical understanding is still limited. Their power of an in context learning and generalization to unseen tasks, as well as the training dymanics and interpretability are still not well understood. In this paper, we discuss how a Transformer-like Energy-Based Model can provably learn a distribution over a function space. We consider linear families of energy functionals and show how in the mean-field limit of the model heads, it can recover the parameter with provable approximation and generalization guarantees. Our findings give an insight into the unsupervised training dynamics of Transformers-like models, the role of the positional encodings and the importance of the regularization for the generalization properties. We evaluate our architecture on synthetic and real-world benchmarks to support our theoretical findings.
+	Transformers with billions of parameters have achieved remarkable success across various domains, such as language modeling and computer vision.
+	%
+	Existing works analyze the empirically observed phenomena, such as training dynamics, in-context learning (ICL) generalization, depth/width effects, scaling laws, only in isolation and in very restricted settings (single-layer, linear regression, fixed width), leaving open whether they are manifestations of a single underlying mechanism.
+	%
+	In this paper, we show how a Transformer-like Energy-Based Model (TEBM) can provably learn a Gibbs distribution over a function space $f \propto \exp(-\energy_{\theta}(f))$ from noisy observations $f_j(x_i) + \epsilon$.
+	%
+	We consider linear families of energy functionals and show how in the mean-field regime, where the number of heads $\to \infty$, training a TEBM recovers the parameter $\theta$ with provable approximation and generalization guarantees.
+	%
+	Our findings prove the convergence of the unsupervised training dynamics of TEBMs, the emergence of scaling laws in the considered setting, and the necessity of the regularization of $\theta$ for the generalization properties of the ICL.
+	%
+	We evaluate our architecture on synthetic and real-world benchmarks to support our theoretical findings.
 \end{abstract}
 
 % \begin{theorem}[Main Result]
@@ -647,7 +657,7 @@ The corresponding regularizer weights energy by frequency and induces a spectral
 
 \section{Connection to Transformers And Its Implications}
 
-In most of the examples above, the key step of implementing a (sub)gradient descent for the inner problem is to compute the discrete (anisotropic) Laplacian $\Delta_Q f$ for some PSD matrix $Q$. The original Laplacian $\Delta_Q$ can be approximated by its discrete version $\hat \Delta_Q \in \Real^{n \times n}$ computed on a set of points $x_1, \ldots, x_n \in \domain$:
+In most of the examples above, the key step of implementing a (sub)gradient descent for the inner problem is to compute the discrete (anisotropic) Laplacian $\Delta_Q$ for some PSD matrix $Q$. The original Laplacian $\Delta_Q$ can be approximated by its discrete version $\hat \Delta_Q \in \Real^{n \times n}$ computed on a set of points $x_1, \ldots, x_n \in \domain$:
 \begin{gather*}
 	% \label{eq:discrete-laplacian}
 	\hat \Delta_Q = I - D^{-1/2} W D^{-1/2} \quad \text{where} \\
