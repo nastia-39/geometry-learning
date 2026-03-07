@@ -1,0 +1,682 @@
+\documentclass{article}
+\usepackage{neurips_2026}
+\input{../macros}
+
+\makeatother
+
+% \input{header}
+  
+
+ % \title{Transformers can Learn the Energy Spaces of Functions}
+\title{Provable Learning of Linear Energy Models over Function Spaces}
+\newcommand{\energy}{{E}}
+\newcommand{\nsamples}{{n}}
+\newcommand{\nfunctions}{{m}}
+\author{}
+
+\begin{document}
+
+
+\maketitle
+
+% \newcommand{\manifold}{\mathcal{M}}
+% \newcommand{\dataset}{{D}}
+
+\section{Introduction}
+
+
+\begin{abstract}
+	Despite remarkable success of Transformers across various domains, such as language modeling and computer vision, their theoretical understanding is still limited. Their power of an in context learning and generalization to unseen tasks, as well as the training dymanics and interpretability are still not well understood. In this paper, we discuss how a Transformer-like Energy-Based Model can provably learn a distribution over a function space. We consider linear families of energy functionals and show how in the mean-field limit of the model heads, it can recover the parameter with provable approximation and generalization guarantees. Our findings give an insight into the unsupervised training dynamics of Transformers-like models, the role of the positional encodings and the importance of the regularization for the generalization properties. We evaluate our architecture on synthetic and real-world benchmarks to support our theoretical findings.
+\end{abstract}
+
+% \begin{theorem}[Main Result]
+% 	\begin{align*}
+% 		error = n^{-\alpha} + m^{-\beta} + H^{-\gamma} + D^{-\delta} + T^{-\tau}
+% 	\end{align*}
+% \end{theorem}
+
+This paper makes the following contributions:
+\begin{itemize}
+	\item \textbf{Learning distributions over functions.}
+	      We formulate the problem of learning a distribution $\nu$ over a function space
+	      $\ffam$ from noisy observations as a regularized optimization problem.
+	      We model $\nu$ as an exponential family with sufficient statistic $\Phi \colon \ffam \to \Real^d$,
+	      so that $p(f) \propto \exp(-\langle \theta, \Phi(f) \rangle)$,
+	      and state generalization guarantees for several (semi-)parametric choices of $\Phi$.
+
+	\item \textbf{Connection to in-context learning.}
+	      We draw a connection of this problem to the in-context learning in Transformer-like Energy-Based Models, discuss how it can explain the convergence to the optimal solution, the empirically observed scaling laws, the role of the positional encodings and the importance of the regularization for the generalization properties.
+
+	\item \textbf{Architectural implications and empirical validation.}
+	      Guided by the optimization problem, we propose a modification of the Transformer
+	      architecture that enforces the structural assumptions of our framework.
+	      Experiments on both synthetic and real-world benchmarks demonstrate improvements
+	      in size-generalization, interpretability, and computational efficiency.
+\end{itemize}
+
+\newpage
+
+\section{Related Work}
+
+Several works have showed that a fixed Transformer can implemet a gradient descent for a simple class of functions such as linear regression, Bayesian inference, etc.
+
+
+
+
+\section{Problem Setup}\label{sec:set-up}
+
+We are given a manifold $\domain$ equipped with a probability measure $\mu$,
+a function space $\ffam$ of functions $f \colon \domain \to \Real$,
+endowed with an \emph{unknown} probability measure $\nu$ over $\ffam$.
+We observe a dataset $\dataset = \left\{ D^{(1)}, \ldots, D^{(\nfunctions)} \right\}$ consisting of $\nfunctions$ observations $D^{(j)}$ of functions $f_1, \ldots, f_{\nfunctions} \overset{\text{i.i.d.}}{\sim} \nu(\ffam)$,
+each evaluated at $\nsamples$ points drawn from $\mu$:
+\begin{gather*}
+	x_1, \ldots, x_{\nsamples} \overset{\text{i.i.d.}}{\sim} \mu(\domain), \qquad
+	\epsilon_{j,i} \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2), \\
+	\dataset = \Bigl\{
+	\bigl\{ (x_i,\, f_j(x_i) + \epsilon_{j,i}) \bigr\}_{i=1}^{\nsamples}
+	\Bigr\}_{j=1}^{\nfunctions}.
+\end{gather*}
+
+Our goal is to learn the measure $\nu$ over $\ffam$.
+Given $\nu$, predicting a new function $f \sim \nu$ from noisy observations
+$\{(x_i, y_i)\}_{i=1}^{\nsamples}$, where $y_i = f(x_i) + \epsilon_i$ and
+$\epsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$,
+reduces to MAP estimation:
+\begin{align*}
+	\hat{f}_m
+	= \arg\min_{f \in \ffam}
+	\sum_{i=1}^{\nsamples} \bigl| y_i - f(x_i) \bigr|^2
+	- \log \nu(f).
+\end{align*}
+
+
+\paragraph{Connection to ICL in Transformers.}
+
+The setup described above is closely related to in-context learning in Transformers.
+Given a prompt $(x_1, y_1), \ldots, (x_{\nsamples}, y_{\nsamples})$, where $x_i$ are positional encodings
+and $y_i$ are tokens, the task is to predict the next token at position $x_{\nsamples+1}$.
+Each prompt can be viewed as a noisy observation of a latent function $f \sim \nu(\ffam)$,
+and distinct prompts correspond to distinct draws from $\nu(\ffam)$.
+The Transformer thus implicitly learns the shared structure across functions,
+that is, the measure $\nu$ itself, and uses it to generalize within a new context.
+
+\section{Learning Energy Functionals In Theory And Practice}
+
+In this section, we derive an optimization problem to address the goal described in \Cref{sec:set-up}.
+
+% \subsection{Assumptions}
+
+\begin{assumption}
+	The function domain $\domain$ is a smooth Riemannian manifold embedded in a Euclidean space $\domain \subset \Real^d$ equipped with a Riemannian metric $\langle \cdot, \cdot \rangle$ and  a probability measure $\mu$ over it.
+\end{assumption}
+
+\begin{assumption}[Gibbs distribution]
+	We assume that the probability measure $\nu$ over $\ffam$ is a Gibbs distribution induced by a convex energy functional $E_{\theta}: \ffam \to \Real^+$ and a reference measure (\todo{define})$\nu_0$ on $\ffam$:
+	\[
+		\nu(f) = \frac{1}{Z_{\theta}} \exp(-E_{\theta}(f))
+	\]
+	where $Z_{\theta} = \int_{f \in \ffam} \exp(-E_{\theta}(f)) \nu_0(df)$ is a normalizing constant and $E_{\theta}$ is a family of functionals parametrized by $\theta \in \Theta$.
+\end{assumption}
+
+\subsection{Function Extrapolation}
+
+First, let us see how knowing the energy functional enables function extrapolation.
+Suppose we observe $D = \{(x_i, y_i)\}_{i=1}^{\nsamples}$ with $y_i = f(x_i) + \epsilon_i$,
+$\epsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$, and wish to predict
+$y_{m+1} = f(x_{m+1})$ at a new point $x_{m+1}$.
+Given the Gibbs prior $p(f) \propto \exp(-\energy(f))$,
+we recover $f$ via MAP estimation:
+\begin{align*}
+	\hat{f}_{\nsamples}
+	 & = \argmax_{f \in \ffam}\;
+	% p(f \mid \dataset_m)                                \\
+	%  & = \argmax_{f \in \ffam}\;
+	p\left(D \mid f\right)\, p(f)
+	= \argmin_{f \in \ffam}\;
+	\frac{1}{\sigma^2}\sum_{i=1}^{\nsamples} \bigl|y_i - f(x_i)\bigr|^2
+	+ \energy(f).
+\end{align*}
+This estimation will have a generalization guarantee of extrapolating $f$ to a new point $x_{\nsamples+1} \sim \mu$ via the following theorem:
+\begin{theorem}[]\label{thm:f-generalization}
+	\todo{add theorem}
+\end{theorem}
+
+For example, assuming that our function is $s$-smooth on $\domain \subset \Real^d$ then \Cref{thm:f-generalization} recovers the standard rate ${O}\left( \nsamples^{-2s/(2s+d)} \right)$ of the minimax rate of estimation of a smooth function from $\nsamples$ noisy observations.
+
+
+\subsection{Likelihood}
+
+
+As we mentioned, the family of the energy functionals $E_{\theta}$ depends on some parameter $\theta$. Hence, our goal is to learn the parameter $\theta$ by maximizing the likelihood of the observed data. First, let us consider a simpler case, when we are given full functions $\dataset = \{f_1, \ldots, f_{\nfunctions}\}$, not just empirical samples $f_i(x_j) + \epsilon$ and we want to learn the parameter $\theta$ by maximizing the likelihood of the observed data.
+\begin{align*}
+	\min_\theta -\log p_\theta(\dataset) =  \frac{1}{\nfunctions} \sum_{i=1}^{\nfunctions} \energy_{\theta}(f_i) + \log Z(\theta)
+\end{align*}
+where  $Z(\theta) = \int_{f \in \ffam} \exp(-\energy_{\theta}(f)) \nu(df)$ is a normalizing constant, $\nu$ base reference measure on $\ffam$.
+
+
+
+% Assuming $R_\theta(f) = \langle \theta, \Phi(f) \rangle$ (linear in $\theta$) out problem is convex, yaaaaay! Parameter $\theta$ can be here an infinite-dimensional measure or a vector, hence, the minimization problem can be solved by gradient descent on $\theta$.
+
+% The gradient of the data term is
+% \[
+% 	\nabla_\theta
+% 	\left(
+% 	\frac{1}{T}\sum_{t=1}^T \langle \theta,\Phi(f^{(t)})\rangle
+% 	\right)
+% 	=
+% 	\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)})\eqqcolon \mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right].
+% \]
+
+% For the partition function term, differentiation under the integral yields
+% \begin{align*}
+% 	\nabla_\theta \log Z(\theta)
+% 	 & =
+% 	\frac{1}{Z(\theta)} \nabla_\theta Z(\theta)             \\
+% 	 & =
+% 	\frac{1}{Z(\theta)}
+% 	\int \left(-\Phi(f)\right)
+% 	\exp\!\big(-\langle \theta,\Phi(f)\rangle\big)\,\nu(df) \\
+% 	 & =
+% 	- \mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right].
+% \end{align*}
+
+% Combining the two terms, the gradient of the objective is
+% \[
+% 	\boxed{
+% 		\nabla_\theta \mathcal L(\theta)
+% 		=
+% 		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+% 		-
+% 		\mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right],
+% 	}.
+% \]
+
+
+
+% A gradient descent step with step size $\eta>0$ is therefore given by
+% \[
+% 	\boxed{
+% 		\theta_{k+1}
+% 		=
+% 		\theta_k
+% 		-
+% 		\eta
+% 		\left(
+% 		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+% 		-
+% 		\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
+% 		\right).
+% 	}
+% \]
+
+% If $\theta$ is constrained (e.g., $\theta \ge 0$ or $\theta$ lies in a simplex), the update is followed by projection onto the feasible set $\Theta$:
+% \[
+% 	\theta_{k+1}
+% 	=
+% 	\Pi_\Theta
+% 	\left[
+% 		\theta_k
+% 		-
+% 		\eta
+% 		\left(
+% 		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+% 		-
+% 		\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
+% 		\right)
+% 		\right].
+% \]
+
+% At a stationary point $\theta^\star$, the optimality condition is the moment-matching identity
+% \[
+% 	\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
+% 	=
+% 	\mathbb E_{f \sim p_{\theta^\star}}\!\left[\Phi(f)\right].
+% \]
+% $\Phi(f)$ here a statistic extractor on function space.
+
+% \section{Back to the problem}
+% Given all distribution over functions minimizing the negative log-likelihood is
+% \begin{align*}
+% 	\min_\theta \mathcal{L}(\theta) =
+% 	% \underbrace{
+% 	\lambda \int_{f} R_\theta(f)d\pi(f)
+% 	% }_{\text{energy of functions}}
+% 	+
+% 	\log Z(\theta)
+% \end{align*}
+% where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$.
+
+% However, everything we observe is just a discrete sample. Hence, given the empirical observations of functions $\{ f_i \}_{i=1}^\nfunctions$ our minimization looks like
+% \begin{align*}
+% 	\min_\theta \mathcal{L}(\theta) =  \frac{1}{\nfunctions} \sum_{i=1}^{\nfunctions} \energy_{\theta}(f_i) + \log Z(\theta)
+% \end{align*}
+
+Now, back to the original problem, where each function $f$ is given by its values: $D = \{(x_i, y_i)\}_{i=1}^{\nsamples}$ such that $y_i = f(x_i) + \epsilon_i$, $\epsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$.
+% Note, that
+% \begin{align*}
+% 	\log p_{\theta}(D_Y | f, D_X) \propto - \frac{1}{\sigma^2}\sum_{(x, y) \in D} \|y - f(x)\|_2^2
+% 	= \log p\left(D \mid f\right) \Rightarrow \\
+% 	-\log p_\theta\left(D_Y \mid D_X\right)=-\log \int \exp \left(-\log p\left(D \mid f\right)-\energy_{\theta}(f)\right) \nu(d f)+\log Z(\theta)
+% \end{align*}
+So given an observation $D^{(i)} = \{(x_j, y_j)\}_{j=1}^{\nsamples}$ our optimization problem turns into
+\begin{gather}\label{eq:loss-w-data}
+	\min_\theta \mathcal{L}(\theta) =
+	-\frac{1}{\nfunctions} \sum_{i=1}^{\nfunctions}
+	% \underbrace{
+	\log p_\theta\left(D^{(i)} \right)
+	% \log \int_{f \in \ffam} \exp \left(-\log p\left(D^{(i)} \mid f\right)-\energy_{\theta}(f)\right) \nu(d f)
+	% }
+	% _
+	% {L_\theta(D^{(i)})}
+	+\log Z(\theta) \\
+	\nonumber
+	\text{where } \log p_\theta\left(D^{(i)} \right) = \log \int_{f \in \ffam} \exp \left(-\log p\left(D^{(i)} \mid f\right)-\energy_{\theta}(f)\right) \nu(d f)
+\end{gather}
+
+Unfortunately, in practice each term $\log p_\theta\left(D^{(i)} \right)$ is intractable. However, we can approximate it by a bilevel optimization problem.
+
+\subsection{Bilevel Optimization Via Masking}\label{sec:masking}
+
+% Assume:
+% \begin{itemize}
+%     \item The dataset $D$ is large (large $n$ )
+%     \item  Noise variance $\sigma^2$ is small
+%     \item The regularizer $R_\theta$ is coercive
+% \end{itemize}
+
+% Then the functional
+% $$
+% E_\theta(D, f):=\ell(D, f)+\lambda R_\theta(f)
+% $$
+
+% has a unique minimizer
+% $
+% \hat{f}_\theta:=\arg \min _f E_\theta(D, f)
+% $.
+% Around $\hat{f}_\theta$, the energy grows quadratically. Hence, the posterior over $f$,
+% $
+% p_\theta(f \mid D) \propto e^{-E_\theta(D, f)},
+% $
+% is sharply concentrated near $\hat{f}_\theta$
+
+
+% \subsection{Posterior concentration around the MAP estimator}
+
+In this section, we discuss how to approximate our intractable convex optimization problem \eqref{eq:loss-w-data} by a bi-level non-convex optimization problem via masking approach. Fix a parameter $\theta$ and a dataset $D=\{(x_j,y_j)\}_{j=1}^n$.
+Define
+$
+	L_\theta(f, D)
+	:=
+	\ell(D,f)+\lambda \energy_{\theta}(f),
+$
+where $\ell(D,f)$ denotes the empirical negative log-likelihood and
+$\energy_{\theta}$ is an energy functional.
+
+% Assume the following:
+% \begin{enumerate}
+% 	\item The dataset $D$ is large (large $n$) and noise variance $\sigma^2$ is small
+% 	\item (\emph{Coercivity}) The functional $R_\theta$ is coercive on $X$
+% 	      modulo a finite-dimensional nullspace $\mathcal N$, i.e.,
+% 	      $\|f\|_X\to\infty$ with $f\perp\mathcal N$ implies $R_\theta(f)\to\infty$.
+% 	\item (\emph{Strict convexity}) The functional $\ell(D,\cdot)$ is strictly
+% 	      convex on $X/\mathcal N$.
+% 	\item (\emph{Regularity}) The map $f\mapsto E_\theta(f)$ is twice
+% 	      differentiable in a neighborhood of its minimizer.
+% \end{enumerate}
+
+% Under these assumptions, 
+Note, for a fixed $\theta$ the minimizing $L_\theta(f, D)$ with respect to $f$ is unique:
+$
+	\hat f_\theta
+	=
+	\arg\min_{f\in \ffam} L_\theta(f, D)
+$
+% admits a unique solution modulo $\mathcal N$.
+Moreover, the posterior distribution
+$
+	p_\theta(f\mid D)
+	\propto
+	\exp\!\big(-L_\theta(f, D)\big)
+$
+concentrates in probability around $\hat f_\theta$ as either
+$n\to\infty$ or $\sigma^2 \to 0$.
+In particular, for any neighborhood $U$ of $\hat f_\theta$ in $\ffam$, $p_\theta(U\mid D) \longrightarrow 1$.
+% \subsection{Laplace approximation of the marginal likelihood}
+% \label{sec:laplace}
+%
+% Let $E_\theta(f)=\ell(D,f)+\lambda R_\theta(f)$ and let
+% $\hat f_\theta$ denote its unique minimizer.
+% Define the Hessian operator.  % acting on the tangent space of $X/\mathcal N$.
+Using a second-order Taylor expansion,
+$$
+	E_\theta(f)
+	=
+	E_\theta(\hat f_\theta)
+	+
+	\frac{1}{2}
+	\langle f-\hat f_\theta,\,
+	H_\theta (f-\hat f_\theta)\rangle
+	+
+	o(\|f-f^{*}_\theta\|_X^2).
+$$
+% substituting this expansion into the marginal likelihood integral yields
+% the Laplace approximation
+% \begin{equation}
+% 	\label{eq:laplace-approx}
+% 	\int_X
+% 	\exp\!\big(-L_\theta(f, D)\big)\,\nu(df)
+% 	\;\approx\;
+% 	\exp\!\big(-L_\theta(f^{*}_\theta, D)\big)
+% 	\int
+% 	\exp\!\left(
+% 	-\tfrac{1}{2}
+% 	\langle h, H_\theta h\rangle
+% 	\right)\,dh.
+% \end{equation}
+
+% The remaining integral is Gaussian and evaluates (up to a multiplicative
+% constant) to $(\det H_\theta)^{-1/2}$, where $\det H_\theta$ denotes a suitable
+% regularized determinant. Consequently,
+where Hessian operator $H_\theta := \nabla^2 E_\theta(\hat f_\theta)$ is the second-order derivative of the energy functional $E_\theta$, we can approximate the intractable integral as:
+\begin{equation}
+	\label{eq:laplace-result}
+	\int_X
+	\exp\!\big(-\log p\left(D \mid f\right) - \energy_{\theta}(f)\big)\,\nu(df)
+	\;\approx\;
+	\exp\!\big(-\log p\left(D \mid \hat f_\theta\right) - \energy_{\theta}(\hat f_\theta)\big)
+	(\det H_\theta)^{-1/2}.
+\end{equation}
+
+
+% \subsection{Decomposition of the marginal likelihood objective}
+\label{sec:objective-decomposition}
+
+Substituting the Laplace approximation \eqref{eq:laplace-result} into the
+negative log marginal likelihood yields
+\begin{equation}
+	\label{eq:laplace-objective}
+	-\log p_\theta(D)
+	\;\approx\;
+	\log p\left(D \mid \hat f_\theta\right)
+	+
+	\energy_{\theta}(\hat f_\theta)
+	+
+	\frac{1}{2}\log\det H_\theta
+	+
+	\log Z(\theta)
+\end{equation}
+up to additive constants independent of $\theta$. Using this approximation, we can turn the intractable convex optimization problem \eqref{eq:loss-w-data} into a tractable bilevel non-convex surrogate of it.
+%
+% This expression decomposes the marginal likelihood into four interpretable
+% components:
+% \begin{enumerate}
+% 	\item \emph{Data-fit term} $\ell(D,\hat f_\theta)$, measuring how well the
+% 	      MAP estimator explains the observations;
+% 	\item \emph{Regularization cost} $\lambda R_\theta(\hat f_\theta)$,
+% 	      encoding alignment between the learned function and the inductive bias
+% 	      imposed by $\theta$;
+% 	\item \emph{Local complexity (Occam) penalty}
+% 	      $\frac{1}{2}\log\det H_\theta$, which penalizes flat or unstable directions
+% 	      around the MAP solution;
+% 	\item \emph{Global complexity penalty} $-\log Z(\theta)$, measuring the
+% 	      overall volume of functions favored by the prior.
+% \end{enumerate}
+%
+% Together, these terms characterize the tradeoff between data fit,
+% regularization, and model complexity in the marginal likelihood objective.
+%
+% \section{Back to the optimization}
+%
+Given the collection of datasets $\mathcal{D} = \left\{\left(D^{(i)}, D^{(i)}_{\text{mask}}\right)\right\}_{i=1}^{\nfunctions}$.
+Substituting this into \Cref{eq:loss-w-data} we have
+\begin{gather}
+	\min_{\theta \in \Theta} \mathcal{L}(\theta) =
+	\frac{1}{\nfunctions} \sum_{i=1}^\nfunctions
+	\log p\left(D^{(i)}_{\text{mask}} \mid \hat f^{(i)}_\theta\right)
+	+
+	\energy_{\theta}\left(\hat f^{(i)}_\theta\right)
+	+
+	\frac{1}{2}\log\det H^{(i)}_\theta
+	-
+	\log Z(\theta) \quad \text{(outer problem)}
+	\nonumber
+	\\
+	\text{where } \hat f_\theta^{(i)} = \argmin_{f\in \ffam}
+	\log p\left(D^{(i)} \mid f\right)
+	+
+	\energy_{\theta}\left(f\right) \quad \text{(inner problem)}
+\end{gather}
+
+% This is bilever optimization. Even though it lost the convexity, it is tractable and can be solved in practice by alternating gradient descent. 
+The inner problem has parameter $\theta$ fixed and find the function $\hat f^{(i)}_\theta$ that minimizes the loss + energy functional. The outer problem then finds the parameter $\theta$ yields the best prediction of $\hat f^{(i)}_\theta$ on the masked dataset $D^{(i)}_{\text{masked}}$. Both problems are convex on their own but not jointly convex. However, we can solve it by alternating gradient descent with a following guarantee:
+\begin{theorem}
+	\todo{add theorem}
+\end{theorem}
+
+\paragraph{The Inner Problem.}
+For a dataset $D = \{(x_i, y_i)\}$ we have
+\begin{align*}
+	\hat f_\theta = \argmin_f
+	\log p\left(D \mid f\right)
+	+
+	\energy_{\theta}\left(f\right)
+	=
+	\argmin_f
+	\| f(x_i) - y_i\|_2^2
+	+
+	\langle \theta, \Phi(f) \rangle
+\end{align*}
+
+Note, that due to convexity, this can be solved by subgradient descent on $f$ with a step size $\eta > 0$:
+\begin{align*}
+	f^{(t+1)} = f^{(t)} - \eta \left[ 2\sum_{i=1}^{\nsamples} \bigl(f^{(t)}(x_i) - y_i\bigr) \delta_{x_i} + \nabla_f \energy_{\theta}(f^{(t)}) \right]
+\end{align*}
+where $\nabla_f \energy_{\theta}(f^{(t)})$ is a (sub)gradient of the energy functional.
+
+% Note, in all the examples that follow $\Phi(f)$ is convex in $f$.
+
+\paragraph{The Outer Problem.}
+
+
+
+\section{Families Of Energy Functionals}
+
+Here we look closer at specific linear families of energy functionals $\energy_{\theta} = \langle \theta, \Phi(f) \rangle$ defined by the statistic extractor $\Phi$. We discuss what inductive bias each choice of $\Phi$ induces, what generalization properties it can achieve and how a transformer forward pass can be similar to a (sub)gradient descent for the inner problem, and transformer training can be seen as a gradient descent on the outer problem.
+
+
+% \paragraph{Example 1 (Energy regularization).}
+% \[
+% 	\Phi : L^2(M) \to \mathbb{R},
+% 	\qquad
+% 	\Phi(f) := \|f\|_{L^2(M)}^2.
+% \]
+
+% The induced regularizer $R(f)=\|f\|_{L^2}^2$ corresponds to ridge/Tikhonov regularization.
+% This choice measures only the magnitude of $f$ and ignores geometric structure.
+
+
+% \subsection{First-Order Smoothness Bias}
+\paragraph{Notation}
+Let $\mathcal{Q} \subset \mathbf{S}_+^d$ be \todo{define}. Given a PSD matrix $Q$, let $\Delta_Q$ denotes the anisotropic Laplacian operator: $\Delta_Q f := \nabla\cdot(Q\nabla f)$. Total variation norm is defined as $\|g\|_{\mathcal M} := \int\limits_{x \in \domain} \|g(x)\|_{\mathcal M} \, dx$ where $g$ \todo{can be a Radon measure.}
+
+% \paragraph{Sobolev $H^1$ regularization.}
+% \[
+% 	\Phi : H^1(M) \to \mathbb{R},
+% 	\qquad
+% 	\Phi(f) := \int_M \|\nabla f(x)\|^2 \, dx.
+% \]
+
+% This feature measures global smoothness.
+% The null space consists of constant functions.
+
+\paragraph{Anisotropic Sobolev regularization.}
+Let $\theta$ be a measure over $\mathcal{Q}$. Let statistic $\Phi : H^1(M) \to \mathbb{R}^k$ be defined as $\Phi(f)(Q) := \int{x \in \domain} \| \nabla f(x) \|^2_{Q} \, dx$. Then:
+\begin{gather*}
+	\energy_{\theta}(f) = \int\limits_{Q \in \mathcal{Q}} \Phi(f)(Q) d\theta(Q)
+	\quad
+	\nabla_f \energy_{\theta}(f) = \int\limits_{Q \in \mathcal{Q}} \Delta_Q  f  d \theta(Q)
+\end{gather*}
+
+% \subsection{Total Variation and Sparsity}
+
+% \paragraph{First-order sparsity.}
+% $
+% 	\Phi : BV(M) \to \mathbb{R}_+,
+% 	\Phi(f) := \|\nabla f\|_{\mathcal M}.
+% $
+
+% This feature measures the total mass of the gradient as a Radon measure and promotes piecewise-constant functions.
+
+
+% \subsection{Second-Order and Curvature-Based Statistics}\label{par:anisotropic-second-order-tv}
+
+% \paragraph{Example 5 (Second-order total variation / splines).}
+% \[
+% 	\Phi : X \to \mathbb{R}_+,
+% 	\qquad
+% 	\Phi(f) := \|\Delta f\|_{\mathcal M},
+% \]
+% where $X$ is the space of functions with measure-valued Laplacian.
+
+% The null space consists of affine functions, and minimizers are adaptive splines.
+
+
+\paragraph{Anisotropic second-order TV}
+Define statistic $\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+)$ as $\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M}$. Then:
+\begin{gather*}
+	\energy_{\theta}(f) = \int_{\mathcal Q} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q)
+	\quad
+	\nabla_f \energy_{\theta}(f) = \int_{\mathcal Q} \Delta_Q \sign(\Delta_Q f) d\theta(Q)
+\end{gather*}
+This promotes sparse, geometry-aligned curvature and induces a Finsler total variation.
+
+
+\paragraph{Spectral energy features.}
+Let $\{\psi_k\}$ be eigenfunctions of a Laplacian on $M$.
+Define
+$
+	\Phi : L^2(M) \to \ell^1,
+	\Phi_k(f) := |\langle f,\psi_k\rangle|^2.
+$
+
+The corresponding regularizer weights energy by frequency and induces a spectral bias.
+
+
+% \subsection{Measure-Based and Neural Representations}
+
+% \paragraph{Example 8 (Barron / ReLU representation).}
+% Let
+% \[
+% 	f_\mu(x) = \int_{\mathbb S^{d-1}} \sigma(\langle w,x\rangle)\, d\mu(w),
+% \]
+% with $\mu$ a finite signed Radon measure.
+% Define
+% \[
+% 	\Phi : \mathcal B \to \mathcal M_+(\mathbb S^{d-1}),
+% 	\qquad
+% 	\Phi(f_\mu) := |\mu|.
+% \]
+
+% Here:
+% \begin{itemize}
+% 	\item domain: Barron space $\mathcal B$,
+% 	\item codomain: finite nonnegative measures,
+% 	\item regularizer: $R(f_\mu)=\|\mu\|_{\mathrm{TV}}$.
+% \end{itemize}
+
+% This promotes sparse ridge representations.
+
+
+% \paragraph{Example 9 (Finsler--TV / Radon--Laplacian).}
+% Combining the previous examples,
+% \[
+% 	\Phi : \mathcal B \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+% 	\qquad
+% 	\Phi(f_\mu)(Q) := \int \sqrt{w^\top Q w}\,|\mu|(dw).
+% \]
+
+% Equivalently,
+% \[
+% 	R(f_\mu)
+% 	=
+% 	\int_{\mathcal S_+} \Phi(f_\mu)(Q)\, d\theta(Q)
+% 	=
+% 	\int F(w)\,|\mu|(dw),
+% 	\quad
+% 	F(w):=\int \sqrt{w^\top Q w}\, d\theta(Q).
+% \]
+
+% This is a Finsler total variation norm on kink directions.
+
+
+% \subsection{How transformer forward pass can implement a (sub)gradient descent}
+
+% Now lets go through some of the examples in \Cref{par:anisotropic-second-order-tv}
+% to see how transformer-like networks can implement a (sub)gradient $g$ descent for the inner problem.
+
+% \paragraph{Energy regularization}
+
+% \[
+% 	\Phi : L^2(M) \to \mathbb{R},
+% 	\qquad
+% 	\Phi(f) := \|f\|_{L^2(M)}^2 \qquad R_\theta(f) = \theta \|f\|_{L^2(M)}^2
+% 	\qquad
+% 	g = 2f
+% \]
+
+
+
+% \paragraph{Anisotropic second-order TV}
+
+% \[
+% 	\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+),
+% 	\qquad
+% 	\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
+% 	\qquad
+% 	g = \int_{\mathcal S_+}  \Delta_Q \sign(\Delta_Q f) d\theta(Q)
+% \]
+% where $\Delta_Q f := \nabla\cdot(Q\nabla f)$.
+
+
+% As the functions are defined on a "flat" domain $\domain \subset R^{d}$, the discrete version of $\Delta_Q$ looks like:
+% \begin{align*}
+% 	L \in R^{n \times n}: L_{ij} = \exp\left(\frac{-\|x_i - x_j\|_{Q^{-1}}^2}{\epsilon} \right)
+% \end{align*}
+
+
+\section{Connection to Transformers And Its Implications}
+
+In most of the examples above, the key step of implementing a (sub)gradient descent for the inner problem is to compute the discrete (anisotropic) Laplacian $\Delta_Q f$ for some PSD matrix $Q$. The original Laplacian $\Delta_Q$ can be approximated by its discrete version $\hat \Delta_Q \in \Real^{n \times n}$ computed on a set of points $x_1, \ldots, x_n \in \domain$:
+\begin{gather*}
+	% \label{eq:discrete-laplacian}
+	\hat \Delta_Q = I - D^{-1/2} W D^{-1/2} \quad \text{where} \\
+	W_{ij} = \exp\left(\frac{-\langle x_i - x_j, \Pi_{x_i} Q^\dagger \Pi_{x_i} (x_i - x_j)\rangle}{\epsilon} \right) \quad \text{and} \quad D_{ii} = \sum_{j=1}^n W_{ij}.
+\end{gather*}
+
+Even though the attention mechanism is not exactly the same as the discrete Laplacian, it is similar to it in a few ways. The attention mechanism is a way to compute the weighted average ..... The discrete Laplacian is a way to compute the weighted average of the features of the points in the neighborhood of a given point.
+Consider a transformer-like architecture where the softmax attention is replaced with 2 different types of heads per layer:
+\begin{itemize}
+	\item 1 \textbf{linear} head: $y_{t+1} = (I )$
+	\item $H$ \textbf{diffusion} heads each parametrized by some $Q_{h} \in \mathcal{Q}$ and $\theta_{h} \in \Real^+$: $\bar y^{(t+1)} =  I - \eta \theta_h \Delta_{Q_h} \bar y^{(t)}$.
+\end{itemize}
+Then the forward pass of
+
+
+
+% If our domain is curved manifold $\domain$ we can W.L.O.G. (by Takahashi's thm hehe) assume that it's $\domain \in S^{d-1}$, hence, the discrete version of $\Delta_Q$ will require projection $P_i = I - x_i x_i^\top$:
+% \begin{align*}
+% 	L \in R^{n \times n}: L_{ij}
+% 	 & = \exp\left(\frac{-(x_i - x_j)^\top P_i Q^{-1} P_i  (x_i - x_j)^\top}{\epsilon} \right)                                    \\
+% 	 & = \exp \left(-\frac{(x_j^\top- x_j^\top x_i x_i^{\top})^\top Q^{-1} (x_j^\top- x_j^\top x_i x_i^{\top})}{\epsilon}\right)
+% 	\\
+% 	 & = \exp \left(-\frac{(x_j^\top- x_j^\top x_i x_i^{\top})^\top DD^\top (x_j^\top- x_j^\top x_i x_i^{\top})}{\epsilon}\right)
+% \end{align*}
+% \pagebreak
+\newpage
+
+\section{Experiments}
+
+
+
+\end{document}
