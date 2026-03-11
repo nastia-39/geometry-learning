@@ -613,7 +613,7 @@ Also, importantly, each image $f$ is not a smooth function: its a combination of
 
 \newpage
 
-\section{Problem Setting}
+\section{Preliminaries}
 
 \textbf{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$).
 % \begin{definition}[Polish space]
@@ -784,7 +784,7 @@ First, define the data space and equip it with the differentiation property.
 
 Now let us add a measure $\nu$ over $X$. That defines:
 \begin{itemize}
-	\item Dirichle form $\mathcal{E}_{\nu}(f, g) = \int_{X} \Gamma(f, g) d \nu(x)$ (\todo{maybe add some assumptions on this})
+	\item Dirichlet form $\mathcal{E}_{\nu}(f, g) = \int_{X} \Gamma(f, g) d \nu(x)$ (\todo{maybe add some assumptions on this})
 	\item Self-adjoint Laplacian $L_{\nu}$ such that $\mathcal{E}_{\nu}(f, f) = \langle f, L_{\nu} f\rangle_{\nu}$
 	\item Markov semi-group: $e^{-tL_{\nu}}$, it defines a diffusion that converges to $\nu$.
 	\item The iterated carré du champ (or $\Gamma^{\nu}_2$ operator) is:
@@ -861,6 +861,7 @@ The smaller $d_{\mathrm{eff}}$ -- the better.
 	If $\nu$ satisfies $CD(\rho, \Gamma)$ then $d_{\mathrm{eff}} \leq N$
 \end{corollary}
 
+\newpage
 \section{Supervised Learning: Learning a Function From Data}
 
 Adding a prior $p(f) \propto e^{-E(f)}$ over functions $f: X \to \Real$ the supervised learning problem is equivalent to the following optimization problem:
@@ -954,6 +955,8 @@ The following theorem captures what density $\frac{d \mu}{d \nu}$ "simplifies" t
 
 	In particular, $C_{L S}(\mu) \leq \frac{1}{\rho^{\prime}}$ whenever $\rho^{\prime}>0$.
 \end{theorem}
+
+\newpage
 
 \section{Diffusion Models}
 
