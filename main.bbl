@@ -1,4 +1,4 @@
-\begin{thebibliography}{24}
+\begin{thebibliography}{26}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -11,6 +11,15 @@ Timur Bagautdinov, Chenglei Wu, Jason Saragih, Pascal Fua, and Yaser Sheikh.
 \newblock {Modeling facial geometry using compositional VAEs}.
 \newblock In \emph{Proceedings of the IEEE conference on computer vision and
   pattern recognition}, pages 3877--3886, 2018.
+
+\bibitem[Bakry et~al.(2014)Bakry, Gentil, and
+  Ledoux]{bakryAnalysisGeometryMarkov2014a}
+Dominique Bakry, Ivan Gentil, and Michel Ledoux.
+\newblock \emph{Analysis and {{Geometry}} of {{Markov Diffusion Operators}}},
+  volume 348 of \emph{Grundlehren Der Mathematischen {{Wissenschaften}}}.
+\newblock Springer International Publishing, Cham, 2014.
+\newblock ISBN 978-3-319-00226-2 978-3-319-00227-9.
+\newblock \doi{10.1007/978-3-319-00227-9}.
 
 \bibitem[Chen et~al.(2022)Chen, Xu, Geiger, Yu, and
   Su]{10.1007/978-3-031-19824-3_20}
@@ -61,6 +70,13 @@ Eric Elmoznino, Tom Marty, Tejas Kasetty, Leo Gagnon, Sarthak Mittal, Mahan
 Yann LeCun, Sumit Chopra, Raia Hadsell, M~Ranzato, Fujie Huang, et~al.
 \newblock A tutorial on energy-based learning.
 \newblock \emph{Predicting structured data}, 1\penalty0 (0), 2006.
+
+\bibitem[Ledoux(2000)]{ledouxGeometryMarkovDiffusion2000}
+Michel Ledoux.
+\newblock The geometry of {{Markov}} diffusion generators.
+\newblock \emph{Annales de la Facult\'e des sciences de Toulouse :
+  Math\'ematiques}, 9\penalty0 (2):\penalty0 305--366, 2000.
+\newblock ISSN 2258-7519.
 
 \bibitem[Liu et~al.(2021)Liu, Li, Du, Tenenbaum, and Torralba]{liu2021learning}
 Nan Liu, Shuang Li, Yilun Du, Joshua~B. Tenenbaum, and Antonio Torralba.

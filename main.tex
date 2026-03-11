@@ -678,7 +678,8 @@ Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity pr
 
 
 
-\begin{definition}[Symmetric Dirichlet Space]
+\begin{definition}[Symmetric Dirichlet Space, \cite{bakryAnalysisGeometryMarkov2014a},section 3.4.*, \todo{*} Markov Triple]
+
 	Let $(X,\mathcal{F},\mu)$ be a $\sigma$-finite measure space.
 	A \emph{Dirichlet form} on $L^2(\mu)$ is a pair
 	$(\mathcal{E},\mathcal{D}(\mathcal{E}))$ such that:
@@ -801,11 +802,20 @@ Alright, what defines the "concentration" of a measure $\nu$? What structural as
 
 \section{Key Assumptions}
 
-\begin{definition}[Curvature–Dimension Condition]\label{def:cd}
-	For $\rho \in \Real, N \in (0, \infty)$, $\nu$ satisfies $CD(\rho, \Gamma)$ if for all $f \in \mathcal{A}$
+\begin{definition}[Curvature–Dimension Condition, \cite{ledouxGeometryMarkovDiffusion2000} (Definition 1.2)]\label{def:cd}
+	For $\rho \in \Real, N \in (0, \infty)$, $L_{\nu}$ satisfies $\CD(\rho, N)$ if for all $f \in \mathcal{A}$
 	$$\Gamma_2^{\nu}(f, f) \geq \rho \Gamma(f, f)+ \frac{1}{N} \left(L_{\nu} f\right)^2$$
 	Intuitively: $\rho \sim$  curvature parameter, $N \sim$ dimension
 \end{definition}
+
+\begin{example}
+	Examples of generators $L_{\nu}$ that satisfy the CD condition:
+	\begin{itemize}
+		\item An $n$-dimensional complete Riemannian manifold ( $M, g$ ) with Ricci curvature bounded below, or rather the Laplacian $\Delta$ on $M$, satisfies the inequality $\CD(R, n)$ with $R$ the infimum of the Ricci tensor and $n$ the geometric dimension.
+		\item  The classical Laplacian $\Delta$ on $\mathbb{R}^n$ satisfies $\CD(0, n)$,
+		\item  the Laplace-Beltrami operator on the unit sphere $S^n$ is of curvature dimension $\CD(n-1, n)$ since curvature is constant and equal to $n-1$ in this case.
+	\end{itemize}
+\end{example}
 
 \subsection{Sub-Exponential Concentration}
 
@@ -853,12 +863,12 @@ The smaller $C_{LS}$ -- the better.
 	$$\operatorname{tr} e^{t L} \sim t^{-d_{\mathrm{eff}} / 2} \quad \text{as } t \to 0^{+}$$
 \end{definition}
 
-The smaller $d_{\mathrm{eff}}$ -- the better.
+The smaller $\deff$ -- the better.
 
 
 
 \begin{corollary}
-	If $\nu$ satisfies $CD(\rho, \Gamma)$ then $d_{\mathrm{eff}} \leq N$
+	If $\nu$ satisfies $\CD(\rho, N)$ then $\deff \leq N$
 \end{corollary}
 
 \section{Supervised Learning: Learning a Function From Data}
@@ -1186,7 +1196,8 @@ activation pattern partition.\\
 
 \newpage
 
-\bibliography{references}
+\bibliography{references, ref}
+
 \bibliographystyle{plainnat}
 
 \newpage
@@ -1201,7 +1212,7 @@ activation pattern partition.\\
 % \qquad
 % \Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M},
 % \qquad
-% R_\theta(f) = \int_{\mathcal S_+} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q).
+% R_\theta(f) = \int_{\mathcal S_+} \|\Delta_Q f\|_{\mathcal M}\, d\theta(sQ).
 % \]
 % where $\Delta_Q f := \nabla\cdot(Q\nabla f)$. Computing subgradient we have
 % \begin{align*}
