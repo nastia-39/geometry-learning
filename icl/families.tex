@@ -1,0 +1,94 @@
+\begin{table}[h]
+	\centering
+	\begin{tabular}{p{3.6cm}p{3.6cm}p{4.6cm}p{4.6cm}}
+		\toprule
+		Energy type                &
+		Energy $\energy_\theta(f)$ &
+		Gradient / Subgradient     &
+		Hessian $\nabla_f^2 \energy_\theta(f)$ \\
+		\midrule
+
+		Anisotropic Sobolev
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q}
+			\int_M \|\nabla f(x)\|_Q^2 \, dx \, d\theta(Q)
+		$
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q} \Delta_Q f \, d\theta(Q)
+		$
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q} \Delta_Q \, d\theta(Q)
+		$
+		(linear operator)
+		\\
+
+		Anisotropic second-order TV
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q}
+			\|\Delta_Q f\|_{\mathcal M}
+			\, d\theta(Q)
+		$
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q}
+			\Delta_Q \, \mathrm{sign}(\Delta_Q f)
+			\, d\theta(Q)
+		$
+		(subgradient)
+		                           &
+		Not defined
+		(singular second variation)
+		\\
+
+		Quadratic Laplacian energy
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q}
+			\int_M (\Delta_Q f)^2 dx
+			\, d\theta(Q)
+		$
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q}
+			\Delta_Q^2 f
+			\, d\theta(Q)
+		$
+		                           &
+		$\displaystyle
+			\int_{\mathcal Q}
+			\Delta_Q^2
+			\, d\theta(Q)
+		$
+		\\
+
+		Isotropic Sobolev
+		                           &
+		$\displaystyle
+			\int_M \|\nabla f\|^2 dx
+		$
+		                           &
+		$\Delta f$
+		                           &
+		$\Delta$
+		\\
+
+		Total variation
+		                           &
+		$\displaystyle
+			\|\nabla f\|_{\mathcal M}
+		$
+		                           &
+		$\mathrm{div}\!\left(\frac{\nabla f}{|\nabla f|}\right)$
+		(subgradient)
+		                           &
+		Not defined
+		\\
+
+		\bottomrule
+	\end{tabular}
+	\caption{Examples of energy functionals and their variational derivatives. $\Delta_Q := \mathrm{div}(Q\nabla \cdot)$ denotes the anisotropic Laplacian.}
+\end{table}
