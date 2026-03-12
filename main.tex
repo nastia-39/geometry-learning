@@ -613,194 +613,139 @@ Also, importantly, each image $f$ is not a smooth function: its a combination of
 
 \newpage
 
-\section{Preliminaries}
-
-\textbf{Notation.} We refer to a metric space $(X,d)$ as a Polish space if it is complete (every Cauchy sequence in $(X,d)$ converges to a point in $X$) and separable (there exists a countable dense subset $D\subset X$).
-% \begin{definition}[Polish space]
-% 	A metric space $(X,d)$ is called a \emph{Polish space} if it is
-% 	\begin{enumerate}
-% 		\item complete, i.e., every Cauchy sequence in $(X,d)$ converges to a point in $X$;
-% 		\item separable, i.e., there exists a countable dense subset $D \subset X$.
-% 	\end{enumerate}
-% \end{definition}
-For instance, $\mathbb{R}^n$ with the Euclidean metric, separable Banach spaces, Hilbert spaces, and function spaces such as $L^2(M)$ or $H^s(M)$ (when $M$ is a compact manifold) are all Polish spaces.
-% \begin{definition}[Sigma-algebra]
-% 	Let $X$ be a set. A collection $\mathcal A \subset 2^X$ is called a \emph{$\sigma$-algebra} on $X$ if:
-% 	\begin{enumerate}
-% 		\item $X \in \mathcal A$;
-% 		\item if $A \in \mathcal A$, then $A^c := X \setminus A \in \mathcal A$;
-% 		\item if $\{A_n\}_{n=1}^\infty \subset \mathcal A$, then
-% 		      $\bigcup_{n=1}^\infty A_n \in \mathcal A$.
-% 	\end{enumerate}
-% \end{definition}
-% It follows immediately that $\varnothing \in \mathcal A$ and that $\mathcal A$ is also closed under countable intersections.
-% \begin{definition}[Borel $\sigma$-algebra]
-% 	Let $(X,d)$ be a metric space. The \emph{Borel $\sigma$-algebra} on $X$, denoted by $\mathcal B(X)$, is the smallest $\sigma$-algebra containing all open subsets of $X$:
-% 	\[
-% 		\mathcal B(X) := \sigma\big(\{ U \subset X : U \text{ is open} \}\big).
-% 	\]
-% \end{definition}
-Moreover, if $X$ is Polish, then $(X,\mathcal B(X))$ enjoys strong regularity properties that make it a canonical measurable structure in probability theory, where $\mathcal{B}(X)$ is the Borel $\sigma$-algebra on $X$.
-
-
-\textbf{Supervised Learning.} From data $D = \{(x_i, y_i)\}_{i=1}^n$ we seek to learn a  target function $f^*: \mathcal{X} \to \Real$ such that $f^*(x_i) = y_i$ for all $i=1,\ldots,n$. Usually, we know the input space $\mathcal{X}$ via some base distribution $\nu_0$ on $\mathcal{X}$, for instance, uniformly distribution over a compact set $\mathcal{X} \subset \mathbb{R}^d$. Moreover, we assume that smoother or more predictable the function $f^*$ is, the better it generalizes to new data.
-
-
-% \begin{definition}[Measurable function]
-% 	Let $(X,\mathcal B(X))$ be a measurable space. A function
-% 	\[
-% 		R : X \to [0,\infty]
-% 	\]
-% 	is said to be \emph{measurable} if for every Borel set $A \subset [0,\infty]$,
-% 	\[
-% 		R^{-1}(A) \in \mathcal B(X).
-% 	\]
-% 	Equivalently, $R$ is measurable if and only if the sublevel sets
-% 	\[
-% 		\{ f \in X : R(f) \le t \} \in \mathcal B(X)
-% 		\quad \text{for all } t \in \mathbb{R}.
-% 	\]
-% \end{definition}
-
-
-% \begin{definition}[Gibbs measure induced by a regularizer] {
-% 		Let $(X,d)$ be a Polish space and $\nu$ be a $\sigma$-finite Borel measure on $X$.	Let $R : X \to [0,\infty]$ be a measurable functional such that for some $\lambda>0$,
-% 		\begin{equation}
-% 			Z_\lambda \coloneqq\int_X e^{-\lambda R(f)}   \nu(\mathrm df) < \infty.
-% 		\end{equation}
-% 		Then, the Gibbs measure associated with $R$ and $\nu$ is the probability measure $\pi_\lambda$ on $(X,\mathcal B(X))$, given by}
-% 	\begin{equation}
-% 		\pi_\lambda(\mathrm df)
-% 		=
-% 		\frac{1}{Z_\lambda} e^{-\lambda R(f)}  \nu(\mathrm df).
-% 	\end{equation}
-% \end{definition}
-
-
-
-\begin{definition}[Symmetric Dirichlet Space, \cite{bakryAnalysisGeometryMarkov2014a},section 3.4.*, \todo{*} Markov Triple]
-
-	Let $(X,\mathcal{F},\mu)$ be a $\sigma$-finite measure space.
-	A \emph{Dirichlet form} on $L^2(\mu)$ is a pair
-	$(\mathcal{E},\mathcal{D}(\mathcal{E}))$ such that:
-
-	\begin{enumerate}
-		\item $\mathcal{D}(\mathcal{E}) \subset L^2(\mu)$ is a dense linear subspace;
-
-		\item $\mathcal{E} : \mathcal{D}(\mathcal{E}) \times \mathcal{D}(\mathcal{E}) \to \mathbb{R}$
-		      is a symmetric bilinear form;
-
-		\item (Non-negativity)
-		      \[
-			      \mathcal{E}(f,f) \ge 0
-			      \qquad \forall f \in \mathcal{D}(\mathcal{E});
-		      \]
-
-		\item (Closedness)
-		      $\mathcal{D}(\mathcal{E})$ is complete with respect to the norm
-		      \[
-			      \|f\|_{\mathcal{E}}^2
-			      :=
-			      \|f\|_{L^2(\mu)}^2
-			      +
-			      \mathcal{E}(f,f);
-		      \]
-
-		\item (Markov property)
-		      for every $f \in \mathcal{D}(\mathcal{E})$, the truncation
-		      $
-			      \tilde f := (0 \vee f) \wedge 1
-		      $
-		      satisfies
-		      \[
-			      \tilde f \in \mathcal{D}(\mathcal{E})
-			      \quad \text{and} \quad
-			      \mathcal{E}(\tilde f,\tilde f)
-			      \le
-			      \mathcal{E}(f,f).
-		      \]
-	\end{enumerate}
-
-	The triple $(X,\mathcal{F},\mu,\mathcal{E})$ is called a
-	\emph{Symmetric Dirichlet Space}.
-\end{definition}
-
-The Dirichlet form encodes the geometry of the learning space via the energy functional: $\mathcal{E}(f,f)$ is the energy of the function $f$. Enforcing the Markov property allows us to define stochastic processes on the learning space: semi-group generated by $\mathcal{E}$ is a Markov semigroup.
-
-The main idea of learning is that if $x_1 \approx x_2$ then $f(x_1) \approx f(x_2)$ for a function $f$. Dirichlet form enforces precisely this property. As it encodes the geometry of the learning space, it allows us to define a generalized Laplacian $L$ on $L^2(\mu)$ and Sobolev classes of functions on $X$.
-
-\begin{definition}[Generalized Laplacian]
-	Let $(X,\mathcal{F},\mu,\mathcal{E})$ be a measure space endowed with a Dirichlet form. There exists a unique self-adjoint operator $L$ on $L^2(\mu)$ such that
-	\[
-		\mathcal{E}(f, g) = \langle f, L g \rangle_{L^2(\mu)}, \qquad \forall\, f \in \cD(\mathcal{E}),\; g \in \cD(L).
-	\]
-	The operator $L$ admits a spectral decomposition $L \phi_j = \lambda_j \phi_j$, with
-	\[
-		0 = \lambda_0 \leq \lambda_1 \leq \lambda_2 \leq \cdots, \qquad \langle \phi_j, \phi_k \rangle_{L^2(\mu)} = \delta_{jk}.
-	\]
-\end{definition}
-
-The Markov property of the Dirichlet form $\mathcal{E}$ implies that $e^{tL}$ is a Markov semigroup. Hence, our distribution $\mu$ is a stable state of the system: given a base distribution $\nu_0$ on $\mathcal{X}$, the distribution $\mu$ is the limit of the Markov process $e^{tL} \nu_0$ as $t \to \infty$.
-
-\begin{definition}[Effective dimension]
-	The \emph{effective dimension} of the learning space $(X, \mathcal{F}, \mu, \mathcal{E})$ is the quantity $d_{\mathrm{eff}} \in (0, \infty)$ such that the eigenvalues of the corresponding Laplacian operator $L: L^2(\mu) \to L^2(\mu)$ satisfy
-	\[
-		\lambda_j \asymp j^{2/d_{\mathrm{eff}}} \qquad \text{as } j \to \infty,
-	\]
-	or equivalently, the eigenvalue counting function satisfies
-	\[
-		N(\lambda) := \#\{j : \lambda_j \leq \lambda\} \asymp \lambda^{d_{\mathrm{eff}}/2} \qquad \text{as } \lambda \to \infty.
-	\]
-
-	Or, more generally
-
-	$$\operatorname{tr} e^{t L} \sim t^{-d_{\mathrm{eff}} / 2} \quad \text{as } t \to 0^{+}$$
-\end{definition}
-
-
-
 
 \section{Set Up}
 
 
+We work in an abstract setting that captures the common statistical belief
+that observed data $x_1,\ldots,x_n \in X$ concentrate on a low-dimensional
+structure, even when the ambient space $X$ is high-dimensional.
+Concretely, we fix a \emph{reference} distribution $\nu_0$ on $X$
+(e.g.\ Gaussian or uniform) encoding our prior knowledge about $X$,
+and posit that the data are drawn from a \emph{target} distribution $\mu$
+that is far more concentrated — e.g.\ supported on a $d$-dimensional
+manifold $M \subset \mathbb{R}^D$ with $d \ll D$.
+The benefit is quantitative: greater concentration of $\mu$ yields faster
+learning rates for functions $f: X \to \mathbb{R}$.
 
-Common belief about the data but make it abstract:
-\begin{itemize}
-	\item Observed data $x_1, \ldots, x_n$ comes from some space $X$ (e.g. $\Real^D$)
-	\item We know some "sparse" distribution over $X$: $\nu_0$ (e.g. Gaussian, Uniform)
-	\item However, we believe that the data comes from some "compact" or "concentrated" distribution $\mu$ over $X$ (e.g. $d$-dim manifold $M \subset \Real^{D})$
-\end{itemize}
-If that is the case, we have better hope to learn functions $f: X \to \Real$: more concentration -- faster rates.
+\paragraph{Differential structure.}
+To differentiate functions on $X$ we fix an \emph{algebra of test functions}
+$\mathcal{A}$ (a subset of $\mathbb{R}^X$ closed under pointwise products) and a
+\emph{derivation}
+\[
+	D : \mathcal{A} \;\longrightarrow\; \mathcal{M}
+\]
+into a module $\mathcal{M}$ equipped with a pointwise inner product
+$\langle\cdot,\cdot\rangle_x$, satisfying the Leibniz rule
+$D(fg) = fDg + gDf$.
+This gives rise to the \emph{carré du champ} operator
+\[
+	\Gamma(f,g)(x) := \langle Df(x),\, Dg(x)\rangle_x,
+\]
+which generalizes the square-gradient $|\nabla f|^2$ to the abstract setting.
+
+\paragraph{Dirichlet form and Laplacian.}
+Given any $\sigma$-finite measure $\nu$ on $(X,\mathcal{F})$, the carré du
+champ integrates to a \emph{Dirichlet form}:
+
+\begin{definition}[Symmetric Dirichlet Space {\cite[§3.4]{bakryAnalysisGeometryMarkov2014a}}]
+	Let $(X,\mathcal{F},\mu)$ be a $\sigma$-finite measure space.
+	A \emph{Dirichlet form} on $L^2(\mu)$ is a pair
+	$(\mathcal{E},\mathcal{D}(\mathcal{E}))$ where:
+	\begin{enumerate}
+		\item $\mathcal{D}(\mathcal{E})\subset L^2(\mu)$ is a dense linear subspace;
+		\item $\mathcal{E}:\mathcal{D}(\mathcal{E})\times\mathcal{D}(\mathcal{E})\to\mathbb{R}$
+		      is a symmetric bilinear form;
+		\item \textbf{(Non-negativity)} $\mathcal{E}(f,f)\ge 0$ for all
+		      $f\in\mathcal{D}(\mathcal{E})$;
+		\item \textbf{(Closedness)} $\mathcal{D}(\mathcal{E})$ is complete under
+		      $\|f\|_{\mathcal{E}}^2 := \|f\|_{L^2(\mu)}^2 + \mathcal{E}(f,f)$;
+		\item \textbf{(Markov property)} for every $f\in\mathcal{D}(\mathcal{E})$,
+		      the truncation $\tilde f := (0\vee f)\wedge 1$ satisfies
+		      $\tilde f\in\mathcal{D}(\mathcal{E})$ and
+		      $\mathcal{E}(\tilde f,\tilde f)\le\mathcal{E}(f,f)$.
+	\end{enumerate}
+	The quadruple $(X,\mathcal{F},\mu,\mathcal{E})$ is called a
+	\emph{Symmetric Dirichlet Space}.
+\end{definition}
+
+In our setting the Dirichlet form is
+\[
+	\mathcal{E}_\nu(f,g) = \int_X \Gamma(f,g)\,d\nu,
+\]
+so $\mathcal{E}_\nu(f,f)$ is the total gradient energy of $f$ under $\nu$.
+The Markov property is automatic from the Leibniz rule and the truncation
+behaviour of $\Gamma$.
+
+\begin{definition}[Generalized Laplacian]
+	To any Dirichlet form $(\mathcal{E}_\nu, \mathcal{D}(\mathcal{E}_\nu))$ on
+	$L^2(\nu)$ there corresponds a unique self-adjoint operator $L_\nu$ on
+	$L^2(\nu)$ satisfying
+	\[
+		\mathcal{E}_\nu(f,g) = \langle f,\, L_\nu g\rangle_{L^2(\nu)},
+		\qquad \forall\,f\in\mathcal{D}(\mathcal{E}_\nu),\;
+		g\in\mathcal{D}(L_\nu).
+	\]
+	$L_\nu$ admits a spectral decomposition $L_\nu\phi_j = \lambda_j\phi_j$ with
+	\[
+		0 = \lambda_0 \le \lambda_1 \le \lambda_2 \le \cdots,
+		\qquad
+		\langle\phi_j,\phi_k\rangle_{L^2(\nu)} = \delta_{jk}.
+	\]
+\end{definition}
+
+The Markov property ensures that $e^{-tL_\nu}$ is a Markov semigroup:
+starting from any initial distribution $\nu_0$ on $X$, the heat flow
+$e^{-tL_\nu}\nu_0$ converges to $\nu$ as $t\to\infty$, confirming that
+$\nu$ is the invariant measure of the diffusion.
+The \emph{iterated carré du champ} $\Gamma_2^{\nu}$ measures how $\Gamma$
+evolves under this semigroup:
+\[
+	\Gamma_2^\nu(f,g)
+	= \tfrac{1}{2}\!\left(L_\nu\Gamma(f,g) - \Gamma(f,L_\nu g)
+	- \Gamma(g,L_\nu f)\right),
+	\qquad
+	\Gamma_2^\nu(f) := \Gamma_2^\nu(f,f).
+\]
+The Bakry--Émery condition $\Gamma_2^\nu(f)\ge\rho\,\Gamma(f)$ ($\rho\in\mathbb{R}$)
+encodes a lower bound on the Ricci curvature of the underlying space.
+
+\paragraph{Spectral dimension.}
+The eigenvalue asymptotics of $L_\nu$ encode the intrinsic dimension of the
+learning space, providing the key rate parameter throughout the paper.
+
+\begin{definition}[Effective Dimension]
+	The \emph{effective dimension} of $(X,\mathcal{F},\nu,\mathcal{E}_\nu)$ is
+	the quantity $d_{\mathrm{eff}}\in(0,\infty)$ characterised by any of the
+	following equivalent asymptotics:
+	\begin{align*}
+		\lambda_j & \;\asymp\; j^{2/d_{\mathrm{eff}}}
+		          &                                         & \text{(eigenvalue growth)},                     \\
+		N(\lambda) := \#\{j:\lambda_j\le\lambda\}
+		          & \;\asymp\; \lambda^{d_{\mathrm{eff}}/2}
+		          &                                         & \text{(counting function)},                     \\
+		\operatorname{tr} e^{-tL_\nu}
+		          & \;\sim\; t^{-d_{\mathrm{eff}}/2}
+		          &                                         & \text{(heat-kernel trace, as }t\to 0^+\text{)}.
+	\end{align*}
+\end{definition}
+
+For a compact $d$-dimensional Riemannian manifold $M$, Weyl's law gives
+$d_{\mathrm{eff}} = d$, confirming that the effective dimension recovers the
+geometric dimension in the classical setting.
+
+\section{Effective Dimension Hypothesis}
+
+\begin{assumption}[Effective Dimension Hypothesis]
+	All the observed data $x_1, \ldots, x_n \in X$ come from a learning space $(X, \mathcal{A}, \mu)$ with small effective dimension even if the ambient space $(X, \mathcal{A}, \nu_0)$ has large effective dimension where $\nu_0$ is the base distribution on $X$:
+	\[
+		\deff(\mu) \ll \deff(\nu_0)
+	\]
+\end{assumption}
 
 
-First, define the data space and equip it with the differentiation property.
 
-\begin{itemize}
-	\item Let $X$ be a set
-	\item an algebra of functions $f: X \rightarrow \mathbb{R}$, $\mathcal{A}$
-	\item $D: \mathcal{A} \rightarrow \mathcal{M}$ a derivation into some module $\mathcal{M}$ equipped with a pointwise inner product $\langle\cdot, \cdot\rangle_x$
-	\item Leibniz rule: $D(f g)=f D g+g D f$.
-	\item Hence, the carre du champ operator is $\Gamma(f, g)(x) = \langle Df, Dg \rangle_x$. It generalizes square-gradient concept.
-\end{itemize}
-
-Now let us add a measure $\nu$ over $X$. That defines:
-\begin{itemize}
-	\item Dirichlet form $\mathcal{E}_{\nu}(f, g) = \int_{X} \Gamma(f, g) d \nu(x)$ (\todo{maybe add some assumptions on this})
-	\item Self-adjoint Laplacian $L_{\nu}$ such that $\mathcal{E}_{\nu}(f, f) = \langle f, L_{\nu} f\rangle_{\nu}$
-	\item Markov semi-group: $e^{-tL_{\nu}}$, it defines a diffusion that converges to $\nu$.
-	\item The iterated carré du champ (or $\Gamma^{\nu}_2$ operator) is:
-	      $$
-		      \Gamma^{\nu}_2(f, g)=\frac{1}{2}(L_{\nu} \Gamma(f, g)-\Gamma(f, L_{\nu} g)-\Gamma(g, L_{\nu} f))
-	      $$
-	      and
-	      $$
-		      \Gamma^{\nu}_2(f):=\Gamma^{\nu}_2(f, f) = \frac{1}{2}\left(L_{\nu}|D f|^2-2\langle D f, D(L_{\nu} f)\rangle\right)
-	      $$
-\end{itemize}
-
-Alright, what defines the "concentration" of a measure $\nu$? What structural assumption would give us hope to learn functions on it?
-
-\section{Key Assumptions}
+\section{Relevant Things}
 
 \begin{definition}[Curvature–Dimension Condition, \cite{ledouxGeometryMarkovDiffusion2000} (Definition 1.2)]\label{def:cd}
 	For $\rho \in \Real, N \in (0, \infty)$, $L_{\nu}$ satisfies $\CD(\rho, N)$ if for all $f \in \mathcal{A}$
@@ -848,22 +793,6 @@ The smaller $C_{LS}$ -- the better.
 
 \subsection{Effective Dimension}
 
-\begin{definition}[Effective dimension]
-	The \emph{effective dimension} of  $(X, \mathcal{A}, \Gamma, \mu)$ is the quantity $d_{\mathrm{eff}} \in (0, \infty)$ such that the eigenvalues of the corresponding Laplacian operator $L: L^2(\mu) \to L^2(\mu)$ satisfy
-	\[
-		\lambda_j \asymp j^{2/d_{\mathrm{eff}}} \qquad \text{as } j \to \infty,
-	\]
-	or equivalently, the eigenvalue counting function satisfies
-	\[
-		N(\lambda) := \#\{j : \lambda_j \leq \lambda\} \asymp \lambda^{d_{\mathrm{eff}}/2} \qquad \text{as } \lambda \to \infty.
-	\]
-
-	Or, more generally
-
-	$$\operatorname{tr} e^{t L} \sim t^{-d_{\mathrm{eff}} / 2} \quad \text{as } t \to 0^{+}$$
-\end{definition}
-
-The smaller $\deff$ -- the better.
 
 
 
