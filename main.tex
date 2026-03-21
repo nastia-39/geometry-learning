@@ -939,7 +939,7 @@ $$
 $$
 
 
-This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.
+This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.   
 
 Hence, the following set is convex:
 $$\mathcal{C}_{\kappa, M}=\left\{v \in D(\mathcal{A}): H_v(f) \geq \kappa \Gamma(f, f) \text{ and } \langle v, v \rangle \leq M \quad \forall f \in \mathcal{A} \right\}$$
@@ -995,128 +995,128 @@ should be hard to learn
 
 
 
-\subsection{ASTs}
+% \subsection{ASTs}
 
-\begin{definition}[AND--OR Abstract Syntax Tree]
-	Let $\mathcal X$ be an input space and $\phi:\mathcal X\to\mathbb R^d$ an embedding.
-	An \emph{AND--OR abstract syntax tree (AST)} is defined recursively as:
+% \begin{definition}[AND--OR Abstract Syntax Tree]
+% 	Let $\mathcal X$ be an input space and $\phi:\mathcal X\to\mathbb R^d$ an embedding.
+% 	An \emph{AND--OR abstract syntax tree (AST)} is defined recursively as:
 
-	\begin{itemize}
-		\item \textbf{Atom (Leaf):}
-		      \[
-			      T(x) = g(x), \qquad g \in \mathcal G,
-		      \]
-		      where $\mathcal G$ is a class of simple local models (e.g.\ linear or affine functions).
+% 	\begin{itemize}
+% 		\item \textbf{Atom (Leaf):}
+% 		      \[
+% 			      T(x) = g(x), \qquad g \in \mathcal G,
+% 		      \]
+% 		      where $\mathcal G$ is a class of simple local models (e.g.\ linear or affine functions).
 
-		\item \textbf{AND node:}
-		      \[
-			      T(x) = \mathbb I\bigl[C_1(x)\wedge\cdots\wedge C_k(x)\bigr]\cdot T'(x),
-		      \]
-		      where each $C_i(x)$ is a constraint and $T'$ is a subtree.
+% 		\item \textbf{AND node:}
+% 		      \[
+% 			      T(x) = \mathbb I\bigl[C_1(x)\wedge\cdots\wedge C_k(x)\bigr]\cdot T'(x),
+% 		      \]
+% 		      where each $C_i(x)$ is a constraint and $T'$ is a subtree.
 
-		\item \textbf{OR node:}
-		      \[
-			      T(x) = \sum_{j=1}^m \mathbb I\bigl[C_j(x)\bigr]\cdot T_j(x),
-		      \]
-		      where $\{C_j\}_{j=1}^m$ form a partition of $\mathcal X$ and $T_j$ are subtrees.
-	\end{itemize}
+% 		\item \textbf{OR node:}
+% 		      \[
+% 			      T(x) = \sum_{j=1}^m \mathbb I\bigl[C_j(x)\bigr]\cdot T_j(x),
+% 		      \]
+% 		      where $\{C_j\}_{j=1}^m$ form a partition of $\mathcal X$ and $T_j$ are subtrees.
+% 	\end{itemize}
 
-	The constraints $C(x)$ are typically hyperplane tests of the form
-	\[
-		C(x) := \langle w, \phi(x)\rangle \ge 0 .
-	\]
-\end{definition}
-
-
-\paragraph{Semantics.}
-\begin{itemize}
-	\item AND nodes represent conjunctions of constraints and correspond to intersections
-	      of half-spaces or cross-products of independent factors.
-	\item OR nodes represent partitions of the input space into disjoint regions.
-	\item Each root-to-leaf path defines a region
-	      \[
-		      \mathcal X_\ell = \bigcap_{C \in \text{path}(\ell)} C,
-	      \]
-	      on which the function reduces to a simple local model.
-\end{itemize}
-
-\paragraph{Example: 1D Piecewise Linear Function}
-Let
-\[
-	f(x)=
-	\begin{cases}
-		a_1 x + b_1, & x \le t, \\
-		a_2 x + b_2, & x > t.
-	\end{cases}
-\]
-
-This function admits the AND--OR representation
-\[
-	f(x)
-	=
-	\mathbb I[x\le t]\,(a_1x+b_1)
-	+
-	\mathbb I[x>t]\,(a_2x+b_2).
-\]
-
-Equivalently, as an AST:
-\[
-	\texttt{OR}\Bigl(
-	\texttt{AND}(x\le t,\ \texttt{LINEAR}(a_1,b_1)),
-	\texttt{AND}(x>t,\ \texttt{LINEAR}(a_2,b_2))
-	\Bigr).
-\]
-
-\paragraph{Example: Hierarchical Partition}
-Let $t_1 < t_2$ and
-\[
-	f(x)=
-	\begin{cases}
-		a_1x+b_1, & x\le t_1,        \\
-		a_2x+b_2, & t_1 < x \le t_2, \\
-		a_3x+b_3, & x>t_2.
-	\end{cases}
-\]
-
-Then $f$ can be written as
-\[
-	f(x)=
-	\mathbb I[x\le t_2]
-	\Bigl(
-	\mathbb I[x\le t_1](a_1x+b_1)
-	+
-	\mathbb I[t_1<x\le t_2](a_2x+b_2)
-	\Bigr)
-	+
-	\mathbb I[x>t_2](a_3x+b_3).
-\]
-
-This corresponds to a depth--2 AND--OR tree.
+% 	The constraints $C(x)$ are typically hyperplane tests of the form
+% 	\[
+% 		C(x) := \langle w, \phi(x)\rangle \ge 0 .
+% 	\]
+% \end{definition}
 
 
-\paragraph{Example: ReLU as AND--OR}
-For $w\in\mathbb R^d$,
-\[
-	\mathrm{ReLU}(\langle w,x\rangle)
-	=
-	\mathbb I[\langle w,x\rangle\ge0]\langle w,x\rangle
-	+
-	\mathbb I[\langle w,x\rangle<0]\cdot 0.
-\]
+% \paragraph{Semantics.}
+% \begin{itemize}
+% 	\item AND nodes represent conjunctions of constraints and correspond to intersections
+% 	      of half-spaces or cross-products of independent factors.
+% 	\item OR nodes represent partitions of the input space into disjoint regions.
+% 	\item Each root-to-leaf path defines a region
+% 	      \[
+% 		      \mathcal X_\ell = \bigcap_{C \in \text{path}(\ell)} C,
+% 	      \]
+% 	      on which the function reduces to a simple local model.
+% \end{itemize}
 
-Thus a ReLU unit is an OR node with two AND branches.
-A finite ReLU network corresponds to a (possibly large) AND--OR tree,
-whose leaves are linear functions and whose OR structure encodes the
-activation pattern partition.\\
+% \paragraph{Example: 1D Piecewise Linear Function}
+% Let
+% \[
+% 	f(x)=
+% 	\begin{cases}
+% 		a_1 x + b_1, & x \le t, \\
+% 		a_2 x + b_2, & x > t.
+% 	\end{cases}
+% \]
 
-\emile{What kind of non-trivial theoretical results to validate this construction would be the most insightful? One thing is that for coarse/non-granular functions, it should sort of recover the original manifold hypothesis? What are the theoretical results pertaining to manifold hypothesis in the other papers we've been reading? Can we establish any analogs?}
+% This function admits the AND--OR representation
+% \[
+% 	f(x)
+% 	=
+% 	\mathbb I[x\le t]\,(a_1x+b_1)
+% 	+
+% 	\mathbb I[x>t]\,(a_2x+b_2).
+% \]
+
+% Equivalently, as an AST:
+% \[
+% 	\texttt{OR}\Bigl(
+% 	\texttt{AND}(x\le t,\ \texttt{LINEAR}(a_1,b_1)),
+% 	\texttt{AND}(x>t,\ \texttt{LINEAR}(a_2,b_2))
+% 	\Bigr).
+% \]
+
+% \paragraph{Example: Hierarchical Partition}
+% Let $t_1 < t_2$ and
+% \[
+% 	f(x)=
+% 	\begin{cases}
+% 		a_1x+b_1, & x\le t_1,        \\
+% 		a_2x+b_2, & t_1 < x \le t_2, \\
+% 		a_3x+b_3, & x>t_2.
+% 	\end{cases}
+% \]
+
+% Then $f$ can be written as
+% \[
+% 	f(x)=
+% 	\mathbb I[x\le t_2]
+% 	\Bigl(
+% 	\mathbb I[x\le t_1](a_1x+b_1)
+% 	+
+% 	\mathbb I[t_1<x\le t_2](a_2x+b_2)
+% 	\Bigr)
+% 	+
+% 	\mathbb I[x>t_2](a_3x+b_3).
+% \]
+
+% This corresponds to a depth--2 AND--OR tree.
 
 
-\emile{What is the simplest possible way to empirically validate anything that we've constructed (after constructing it)?}
+% \paragraph{Example: ReLU as AND--OR}
+% For $w\in\mathbb R^d$,
+% \[
+% 	\mathrm{ReLU}(\langle w,x\rangle)
+% 	=
+% 	\mathbb I[\langle w,x\rangle\ge0]\langle w,x\rangle
+% 	+
+% 	\mathbb I[\langle w,x\rangle<0]\cdot 0.
+% \]
 
-\begin{theorem}
-	equivalency between effective dimension and energy?
-\end{theorem}
+% Thus a ReLU unit is an OR node with two AND branches.
+% A finite ReLU network corresponds to a (possibly large) AND--OR tree,
+% whose leaves are linear functions and whose OR structure encodes the
+% activation pattern partition.\\
+
+% \emile{What kind of non-trivial theoretical results to validate this construction would be the most insightful? One thing is that for coarse/non-granular functions, it should sort of recover the original manifold hypothesis? What are the theoretical results pertaining to manifold hypothesis in the other papers we've been reading? Can we establish any analogs?}
+
+
+% \emile{What is the simplest possible way to empirically validate anything that we've constructed (after constructing it)?}
+
+% \begin{theorem}
+% 	equivalency between effective dimension and energy?
+% \end{theorem}
 
 
 \section{Examples}
