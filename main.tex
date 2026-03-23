@@ -19,7 +19,7 @@
 
 
 \begin{abstract}
-	A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure. However, the real-world latent variables that images are drawn from are continuous, not discrete, and therefore cannot be completely captured by a finite manifold. Moreover, the assumption does not properly capture the union of manifolds, stratified spaces, and manifolds with singularities and boundaries. Drawing upon recent advances in energy-based models, we provide an energy-based perspective on the real-world latents, describing an Occam's razor style analog for the manifold hypothesis, which is more amenable to recent literature in the field. We theoretically prove that our construction recovers the manifold hypothesis for coarse functions, and validate it with numerical examples.
+	A commonly adopted assumption in modern machine learning is the \emph{manifold hypothesis}, which claims that although data is embedded in a high-dimensional ambient space, the probability mass concentrates near a much lower-dimensional geometric structure. However, the real-world latent variables that images are drawn from are continuous, not discrete, and therefore cannot be completely captured by a finite manifold. Moreover, the assumption does not properly capture the union of manifolds, stratified spaces, and manifolds with singularities and boundaries. Drawing upon recent advances in energy-based models, we provide an energy-based perspective on the real-world latents, describing an Occam's razor style analog for the manifold hypothesis, which is more amenable to recent literature in the field. We theoretically prove that our construction recovers the manifold hypothesis for coarse functions and provide a diffusion-based perspective on it. Finally, we validate our theoretical framework with numerical examples.
 \end{abstract}
 % \section{Definitions and Previous Results}
 
@@ -579,6 +579,9 @@ Some shortcomings of the manifold hypothesis are that \begin{itemize}
 
 \paragraph{Occam's razor} \cite{elmoznino2025incontextlearningoccamsrazor, rasmussen2000occam}
 
+\paragraph{Bakry-Emery}
+
+\paragraph{Dirichlet Form}
 
 \paragraph{Example: Vision Data}
 
@@ -745,6 +748,7 @@ geometric dimension in the classical setting.
 
 
 
+\newpage
 \section{Relevant Things}
 
 \begin{definition}[Curvature–Dimension Condition, \cite{ledouxGeometryMarkovDiffusion2000} (Definition 1.2)]\label{def:cd}
@@ -983,15 +987,12 @@ https://djalil.chafai.net/blog/2023/01/12/log-sobolev-and-bakry-emery/
 
 
 \section{Energy-Based Model Perspective on Effective Dimension}
-need framework that shows that
 
-- pure noise
+Bakry-Emery theorem??
 
-- fractals
 
-- matryoshka
 
-should be hard to learn
+need framework that shows that pure noise, fractals, hierarchical representations should be hard to learn
 
 
 
@@ -1119,7 +1120,11 @@ should be hard to learn
 % \end{theorem}
 
 
-\section{Examples}
+\section{Experiments}
+
+\paragraph{A learning curve experiment:} estimate a function class regularized by the energy, and show that lower finite-scale complexity predicts sample complexity better than ambient dimension.\\
+
+\paragraph{A 2D synthetic suite} one smooth manifold, a union of two manifolds with intersection, and a stratified example with a singular point. Show that asymptotic Weyl dimension is not the right discriminator, while $d_\mu(t)$ at finite $t$ separates them.
 
 
 \section{Conclusion}
@@ -1134,6 +1139,52 @@ should be hard to learn
 
 \newpage
 \appendix
+
+\section{Mathematical Background}
+
+\newpage
+
+\section{Recovering the Manifold Hypothesis}
+We show that the manifold hypothesis is recovered after coarsening the effective dimension hypothesis in \cref{theorem: recovering the manifold hypothesis}.
+
+\begin{theorem}\label{theorem: recovering the manifold hypothesis}
+    Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
+    \[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
+\end{theorem}
+
+
+\begin{proof}
+    Let $X\sim \mu$ and set $Y\coloneqq \pi(X)$. Since $\bar{\mu}\coloneqq \pi_{\#}\mu$, we have $Y\sim\bar{\mu}$. Since $X\in T_\epsilon(M)$ almost surely, and $\pi(X)$ is the nearest point on $M$, we have $\|X-Y\| = \|X- \pi(X)\| = \mathrm{dist}(X,M) \leq \epsilon$, almost surely. Next, we consider the coupling $\gamma = (\mathrm{Id},\pi)_{\#\mu} \in \Pi(\mu,\bar{\mu})$ of $\mu$ and $\bar{\mu}$, and $\gamma$ is supported on pairs $x,y$ with $\|x-y\|\leq \epsilon$. Therefore, for $1\leq p <\infty$, we have
+    \begin{align*}
+        W_p(\mu,\bar{\mu})^p &\leq \int \|x-y\|^p \mathrm d\gamma(x,y) \\
+        &= \int \|x-\pi(x)\|^p \mathrm d\mu(x) \leq \epsilon^p,
+    \end{align*}
+    which implies $W_p(\mu,\bar{\mu})\leq \epsilon$. Moreover, we have
+    \begin{align*}
+        W_\infty(\mu,\bar{\mu})\leq \mathrm{ess} \sup_{x\sim \mu} \| x - \pi(x)\| \leq \epsilon.
+    \end{align*}
+Next, since $\bar{\mu} = \pi_{\#}\mu$, we have
+$\int f\mathrm d\bar{\mu} = \int f(\pi(x)) \mathrm d\mu(x)$. Therefore, we have
+\begin{align*}
+    \left|\int  f\mathrm d\mu - \int f \mathrm d\bar{\mu}\right| &= \left|\int (f(x) - f(\pi(x)) \mathrm d\mu(x)\right| \\
+    &\leq \int \| f(x) - f(\pi(x)) \| \mathrm d\mu(x) \\
+    &\leq \int L \| x - \pi(x)\| \mathrm d\mu(x) \\
+    &\leq L \epsilon \int \mathrm d\mu(x) \coloneqq L\epsilon,
+\end{align*}
+which proves the theorem.
+\end{proof}
+
+\begin{corollary}
+    Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
+\end{corollary}
+
+\begin{remark}
+    The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
+\end{remark}
+
+% \begin{theorem}
+%     Let $\cM\subset \R^D$ be a compact $C^2$ $d$-manifold with tubular radius $r_0$ and let $\mu$ be supported on the tangent space $T_\epsilon(\cM)$ with $\epsilon < r_0$. Let $\bar{\mu} = \pi_{\#}\mu$ be the projection onto $\cM$. Then, for observables of spatial resolution $\sqrt{t}\gg \epsilon$, the scale-dependent complexity $K_\mu(t)$ and $K_{\bar{\mu}}(t)$ are equivalent up to a controllable error, and hence $d_\mu(t)\approx d$. 
+% \end{theorem}
 
 
 
