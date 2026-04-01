@@ -1,0 +1,384 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\geometry{margin=1in}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Range}{Range}
+\DeclareMathOperator{\Tr}{Tr}
+
+\newcommand{\HK}{\mathcal{H}_K}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
+\newcommand{\inprod}[2]{\langle #1, #2 \rangle}
+\newcommand{\norm}[1]{\| #1 \|}
+
+\title{Gaussian Measures from Positive Semi-Definite Kernels:\\
+Formal Definitions and the RKHS Prior Correspondence}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We provide formal definitions for constructing Gaussian measures from positive semi-definite kernels and establish the precise correspondence between these measures and the informal prior ``$p(f) \propto \exp(-\frac{1}{2}\|f\|_{\HK}^2)$'' via the Onsager-Machlup functional.
+\end{abstract}
+
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Setup and Notation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Let $(\X, \mathcal{A}, P_X)$ be a probability space where $\X$ is the input domain. Let $K: \X \times \X \to \R$ be a symmetric positive semi-definite (PSD) kernel satisfying the integrability condition:
+\begin{equation}
+    \int_{\X} K(x, x) \, dP_X(x) < \infty.
+\end{equation}
+
+We work primarily in the Hilbert space $L^2(P_X)$ with inner product
+\begin{equation}
+    \inprod{f}{g}_{L^2} = \int_{\X} f(x) g(x) \, dP_X(x).
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Integral Operator}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[Integral Operator]
+The integral operator $T_K: L^2(P_X) \to L^2(P_X)$ associated with kernel $K$ is defined by
+\begin{equation}
+    (T_K g)(x) = \int_{\X} K(x, y) \, g(y) \, dP_X(y).
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Spectral Decomposition]
+\label{thm:spectral}
+The operator $T_K$ is self-adjoint, positive, and trace-class. It admits a spectral decomposition
+\begin{equation}
+    T_K \phi_k = \mu_k \phi_k, \quad k \in \N,
+\end{equation}
+where:
+\begin{enumerate}[label=(\roman*)]
+    \item $\mu_1 \geq \mu_2 \geq \cdots > 0$ are the positive eigenvalues (counted with multiplicity),
+    \item $\{\phi_k\}_{k=1}^\infty$ is an orthonormal basis of $\overline{\Range(T_K)} \subseteq L^2(P_X)$,
+    \item $\sum_{k=1}^\infty \mu_k = \Tr(T_K) = \int_{\X} K(x,x) \, dP_X(x) < \infty$.
+\end{enumerate}
+The kernel admits the Mercer representation
+\begin{equation}
+    K(x, y) = \sum_{k=1}^\infty \mu_k \, \phi_k(x) \, \phi_k(y),
+\end{equation}
+with convergence in $L^2(P_X \otimes P_X)$.
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Reproducing Kernel Hilbert Space}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[RKHS via Spectral Representation]
+\label{def:rkhs}
+The reproducing kernel Hilbert space (RKHS) $\HK$ associated with $K$ is
+\begin{equation}
+    \HK = \left\{ f = \sum_{k=1}^\infty \theta_k \phi_k : \norm{f}_{\HK}^2 := \sum_{k=1}^\infty \frac{\theta_k^2}{\mu_k} < \infty \right\},
+\end{equation}
+equipped with the inner product
+\begin{equation}
+    \inprod{f}{g}_{\HK} = \sum_{k=1}^\infty \frac{\theta_k \eta_k}{\mu_k}, \quad \text{where } f = \sum_k \theta_k \phi_k, \; g = \sum_k \eta_k \phi_k.
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Operator Characterization]
+\label{prop:rkhs-operator}
+The RKHS admits the equivalent characterization
+\begin{equation}
+    \HK = \Range(T_K^{1/2})
+\end{equation}
+with norm
+\begin{equation}
+    \norm{f}_{\HK} = \norm{T_K^{-1/2} f}_{L^2}.
+\end{equation}
+The inclusion $\HK \hookrightarrow L^2(P_X)$ is continuous and dense in $\overline{\Range(T_K)}$.
+\end{proposition}
+
+\begin{remark}
+The space $\HK$ is ``smaller'' than $L^2(P_X)$: for $f \in \HK$, the coefficients $\theta_k = \inprod{f}{\phi_k}_{L^2}$ must decay faster than $\sqrt{\mu_k}$.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Gaussian Measure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[Gaussian Measure via Characteristic Functional]
+\label{def:gaussian-measure}
+The \emph{Gaussian measure} $\mu_K$ on $L^2(P_X)$ is the unique Borel probability measure with characteristic functional
+\begin{equation}
+    \boxed{
+    \hat{\mu}_K(g) := \int_{L^2(P_X)} e^{i\inprod{g}{f}_{L^2}} \, d\mu_K(f) = \exp\left( -\frac{1}{2} \inprod{g}{T_K g}_{L^2} \right)
+    }
+\end{equation}
+for all $g \in L^2(P_X)$.
+\end{definition}
+
+\begin{theorem}[Existence and Characterization]
+\label{thm:gaussian-existence}
+The measure $\mu_K$ exists, is unique, and satisfies the following:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Karhunen-Lo\`eve representation:}
+    \begin{equation}
+        \boxed{
+        f \sim \mu_K \iff f = \sum_{k=1}^\infty \sqrt{\mu_k} \, \xi_k \, \phi_k, \quad \xi_k \iid N(0,1)
+        }
+    \end{equation}
+    where the series converges in $L^2(\Omega; L^2(P_X))$.
+    
+    \item \textbf{Mean and covariance:}
+    \begin{align}
+        \E_{\mu_K}[f] &= 0, \\
+        \E_{\mu_K}[\inprod{f}{g}_{L^2} \inprod{f}{h}_{L^2}] &= \inprod{g}{T_K h}_{L^2}, \quad \forall g, h \in L^2(P_X).
+    \end{align}
+    Equivalently, $\E_{\mu_K}[f \otimes f] = T_K$ as operators.
+    
+    \item \textbf{Finite-dimensional distributions:} For any $x_1, \ldots, x_n \in \X$,
+    \begin{equation}
+        (f(x_1), \ldots, f(x_n))^\top \sim N(0, K_{\mathbf{X}\mathbf{X}}),
+    \end{equation}
+    where $(K_{\mathbf{X}\mathbf{X}})_{ij} = K(x_i, x_j)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Gaussian Process Equivalence]
+The measure $\mu_K$ is the law of the Gaussian process $f \sim \mathcal{GP}(0, K)$.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Cameron-Martin Theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following theorem establishes $\HK$ as the Cameron-Martin space of $\mu_K$, providing the fundamental link between the RKHS and the Gaussian measure.
+
+\begin{theorem}[Cameron-Martin]
+\label{thm:cameron-martin}
+Let $\mu_K$ be the Gaussian measure on $L^2(P_X)$ and $\HK$ its associated RKHS. Then:
+
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Null RKHS:} Sample paths lie outside the RKHS almost surely:
+    \begin{equation}
+        \mu_K(\HK) = 0.
+    \end{equation}
+    
+    \item \textbf{Admissible shifts:} For $h \in L^2(P_X)$, define the translated measure $\mu_K^h(A) := \mu_K(A - h)$. Then
+    \begin{equation}
+        \mu_K^h \ll \mu_K \iff h \in \HK.
+    \end{equation}
+    That is, $\HK$ is exactly the set of admissible shifts preserving absolute continuity.
+    
+    \item \textbf{Radon-Nikodym derivative:} For $h \in \HK$,
+    \begin{equation}
+        \boxed{
+        \frac{d\mu_K^h}{d\mu_K}(f) = \exp\left( \inprod{h}{f}_{\HK} - \frac{1}{2}\norm{h}_{\HK}^2 \right)
+        }
+    \end{equation}
+    where the pairing $\inprod{h}{f}_{\HK}$ extends to $f \in L^2(P_X)$ via
+    \begin{equation}
+        \inprod{h}{f}_{\HK} = \sum_{k=1}^\infty \frac{\eta_k \theta_k}{\mu_k}, \quad h = \sum_k \eta_k \phi_k, \; f = \sum_k \theta_k \phi_k.
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+The RKHS norm $\norm{\cdot}_{\HK}$ measures the ``cost'' of deterministic shifts under the Gaussian measure.
+\end{corollary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Onsager-Machlup Functional}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The formal expression ``$p(f) \propto \exp(-\frac{1}{2}\norm{f}_{\HK}^2)$'' is made rigorous by the following theorem.
+
+\begin{theorem}[Onsager-Machlup]
+\label{thm:onsager-machlup}
+Let $\mu_K$ be a Gaussian measure on a Banach space $\B \supseteq \HK$ with Cameron-Martin space $\HK$. Let $\norm{\cdot}_{\B}$ be a measurable norm satisfying appropriate regularity conditions.\footnote{Specifically, $\norm{\cdot}_{\B}$ should be measurable and the small ball probabilities $\mu_K(B_\epsilon(0))$ should satisfy certain asymptotic conditions; see Zeitouni (1989).} Then for any $f, g \in \HK$:
+\begin{equation}
+    \boxed{
+    \lim_{\epsilon \to 0} \frac{\mu_K\bigl(\{h \in \B : \norm{h - f}_{\B} < \epsilon\}\bigr)}{\mu_K\bigl(\{h \in \B : \norm{h - g}_{\B} < \epsilon\}\bigr)} = \exp\left( -\frac{1}{2}\norm{f}_{\HK}^2 + \frac{1}{2}\norm{g}_{\HK}^2 \right)
+    }
+\end{equation}
+\end{theorem}
+
+\begin{corollary}[RKHS Norm as Log-Density]
+Taking $g = 0$:
+\begin{equation}
+    \lim_{\epsilon \to 0} \frac{\mu_K(B_\epsilon(f))}{\mu_K(B_\epsilon(0))} = \exp\left( -\frac{1}{2}\norm{f}_{\HK}^2 \right).
+\end{equation}
+This is the precise sense in which
+\begin{equation}
+    ``p(f) \propto \exp\left(-\frac{1}{2}\norm{f}_{\HK}^2\right)."
+\end{equation}
+\end{corollary}
+
+\begin{remark}
+The function $f \mapsto \frac{1}{2}\norm{f}_{\HK}^2$ is called the \emph{Onsager-Machlup functional} of $\mu_K$. It plays the role of a ``negative log-density'' for the Gaussian measure.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Connection to Bayesian Inference and Kernel Ridge Regression}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{theorem}[Posterior and MAP Estimator]
+\label{thm:posterior}
+Suppose we observe
+\begin{equation}
+    Y_i = f(X_i) + \varepsilon_i, \quad i = 1, \ldots, n,
+\end{equation}
+where $\varepsilon_i \iid N(0, \sigma^2)$, $X_i \iid P_X$, and the prior is $f \sim \mu_K$. Then:
+
+\begin{enumerate}[label=(\roman*)]
+    \item The posterior $\mu_K^{(n)}(\cdot \mid \mathbf{Y}, \mathbf{X})$ is a Gaussian measure.
+    
+    \item The posterior mean coincides with the kernel ridge regression estimator:
+    \begin{equation}
+        \boxed{
+        \hat{f} = \arg\min_{f \in \HK} \left\{ \frac{1}{\sigma^2} \sum_{i=1}^n (Y_i - f(X_i))^2 + \norm{f}_{\HK}^2 \right\}
+        }
+    \end{equation}
+    
+    \item In closed form:
+    \begin{equation}
+        \hat{f}(\cdot) = \mathbf{k}(\cdot)^\top (K_{\mathbf{X}\mathbf{X}} + \sigma^2 I)^{-1} \mathbf{Y},
+    \end{equation}
+    where $\mathbf{k}(x) = (K(x, X_1), \ldots, K(x, X_n))^\top$.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+The RKHS norm appears as the regularizer in the MAP estimator precisely because it is the Onsager-Machlup functional of the GP prior. This establishes the equivalence:
+\begin{center}
+\emph{GP regression with covariance $K$} $\longleftrightarrow$ \emph{Kernel ridge regression with RKHS $\HK$}.
+\end{center}
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sum Kernels}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+For $K = \sum_{j=1}^J a_j K_{A_j}$ with $a_j > 0$ and each $K_{A_j}$ PSD:
+
+\begin{theorem}[Convolution Structure]
+\label{thm:sum-kernel}
+The Gaussian measure satisfies
+\begin{equation}
+    \mu_K = \mu_{a_1 K_{A_1}} * \mu_{a_2 K_{A_2}} * \cdots * \mu_{a_J K_{A_J}},
+\end{equation}
+where $*$ denotes convolution of measures. Equivalently,
+\begin{equation}
+    \boxed{
+    f \sim \mu_K \iff f = \sum_{j=1}^J f_j, \quad f_j \stackrel{\mathrm{ind}}{\sim} \mu_{a_j K_{A_j}}
+    }
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[RKHS of Sum Kernel]
+\label{thm:sum-rkhs}
+The RKHS of $K = \sum_{j=1}^J a_j K_{A_j}$ is
+\begin{equation}
+    \HK = \mathcal{H}_{K_{A_1}} + \cdots + \mathcal{H}_{K_{A_J}} = \left\{ \sum_{j=1}^J f_j : f_j \in \mathcal{H}_{K_{A_j}} \right\}
+\end{equation}
+with the infimal convolution norm:
+\begin{equation}
+    \boxed{
+    \norm{f}_{\HK}^2 = \inf_{\substack{f = \sum_{j=1}^J f_j \\ f_j \in \mathcal{H}_{K_{A_j}}}} \sum_{j=1}^J \frac{1}{a_j} \norm{f_j}_{\mathcal{H}_{K_{A_j}}}^2
+    }
+\end{equation}
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary: The Complete Correspondence}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\textbf{Given:} PSD kernel $K: \X \times \X \to \R$
+
+\vspace{0.5em}
+$\Downarrow$
+\vspace{0.5em}
+
+\textbf{Integral operator:} $T_K: L^2(P_X) \to L^2(P_X)$, \quad $T_K \phi_k = \mu_k \phi_k$
+
+\vspace{0.5em}
+$\Downarrow$
+\vspace{0.5em}
+
+\textbf{RKHS:} $\displaystyle \HK = \left\{ f = \sum_k \theta_k \phi_k : \sum_k \frac{\theta_k^2}{\mu_k} < \infty \right\}$
+
+\vspace{0.5em}
+$\Downarrow$
+\vspace{0.5em}
+
+\textbf{Gaussian measure:} $\displaystyle \hat{\mu}_K(g) = \exp\left(-\frac{1}{2}\inprod{g}{T_K g}_{L^2}\right)$
+
+\vspace{0.5em}
+$\Downarrow$
+\vspace{0.5em}
+
+\textbf{Karhunen-Lo\`eve:} $\displaystyle f \sim \mu_K \iff f = \sum_{k=1}^\infty \sqrt{\mu_k} \, \xi_k \, \phi_k$, \quad $\xi_k \iid N(0,1)$
+
+\vspace{0.5em}
+$\Downarrow$
+\vspace{0.5em}
+
+\textbf{Onsager-Machlup:} $\displaystyle \frac{\mu_K(B_\epsilon(f))}{\mu_K(B_\epsilon(0))} \xrightarrow{\epsilon \to 0} \exp\left(-\frac{1}{2}\norm{f}_{\HK}^2\right)$
+
+\vspace{0.5em}
+$\Downarrow$
+\vspace{0.5em}
+
+\textbf{Prior interpretation:} $\displaystyle p(f) \propto \exp\left(-\frac{1}{2}\norm{f}_{\HK}^2\right)$
+}}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{enumerate}[label={[\arabic*]}]
+    \item V.I.~Bogachev. \emph{Gaussian Measures}. Mathematical Surveys and Monographs, vol.~62. American Mathematical Society, 1998.
+    
+    \item R.H.~Cameron and W.T.~Martin. Transformations of Wiener integrals under translations. \emph{Annals of Mathematics}, 45(2):386--396, 1944.
+    
+    \item O.~Zeitouni. On the Onsager-Machlup functional of diffusion processes around non-smooth curves. \emph{Annals of Probability}, 17(3):1037--1054, 1989.
+    
+    \item A.W.~van der Vaart and J.H.~van Zanten. Reproducing kernel Hilbert spaces of Gaussian priors. In \emph{Pushing the Limits of Contemporary Statistics: Contributions in Honor of Jayanta K. Ghosh}, IMS Collections, vol.~3, pages 200--222, 2008.
+    
+    \item A.~Berlinet and C.~Thomas-Agnan. \emph{Reproducing Kernel Hilbert Spaces in Probability and Statistics}. Springer, 2004.
+    
+    \item G.~Wahba. \emph{Spline Models for Observational Data}. CBMS-NSF Regional Conference Series in Applied Mathematics, vol.~59. SIAM, 1990.
+    
+    \item G.~Kallianpur. The role of reproducing kernel Hilbert spaces in the study of Gaussian processes. In \emph{Advances in Probability and Related Topics}, vol.~2, pages 49--83. Dekker, 1970.
+    
+    \item N.N.~Vakhania, V.I.~Tarieladze, and S.A.~Chobanyan. \emph{Probability Distributions on Banach Spaces}. Mathematics and Its Applications. D.~Reidel Publishing Company, 1987.
+    
+    \item L.~Gross. Abstract Wiener spaces. In \emph{Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability}, vol.~2, pages 31--42, 1967.
+\end{enumerate}
+
+\end{document}

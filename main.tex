@@ -943,7 +943,7 @@ $$
 $$
 
 
-This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.   
+This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.
 
 Hence, the following set is convex:
 $$\mathcal{C}_{\kappa, M}=\left\{v \in D(\mathcal{A}): H_v(f) \geq \kappa \Gamma(f, f) \text{ and } \langle v, v \rangle \leq M \quad \forall f \in \mathcal{A} \right\}$$
@@ -1148,38 +1148,38 @@ need framework that shows that pure noise, fractals, hierarchical representation
 We show that the manifold hypothesis is recovered after coarsening the effective dimension hypothesis in \cref{theorem: recovering the manifold hypothesis}.
 
 \begin{theorem}\label{theorem: recovering the manifold hypothesis}
-    Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
-    \[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
+	Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
+	\[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
 \end{theorem}
 
 
 \begin{proof}
-    Let $X\sim \mu$ and set $Y\coloneqq \pi(X)$. Since $\bar{\mu}\coloneqq \pi_{\#}\mu$, we have $Y\sim\bar{\mu}$. Since $X\in T_\epsilon(M)$ almost surely, and $\pi(X)$ is the nearest point on $M$, we have $\|X-Y\| = \|X- \pi(X)\| = \mathrm{dist}(X,M) \leq \epsilon$, almost surely. Next, we consider the coupling $\gamma = (\mathrm{Id},\pi)_{\#\mu} \in \Pi(\mu,\bar{\mu})$ of $\mu$ and $\bar{\mu}$, and $\gamma$ is supported on pairs $x,y$ with $\|x-y\|\leq \epsilon$. Therefore, for $1\leq p <\infty$, we have
-    \begin{align*}
-        W_p(\mu,\bar{\mu})^p &\leq \int \|x-y\|^p \mathrm d\gamma(x,y) \\
-        &= \int \|x-\pi(x)\|^p \mathrm d\mu(x) \leq \epsilon^p,
-    \end{align*}
-    which implies $W_p(\mu,\bar{\mu})\leq \epsilon$. Moreover, we have
-    \begin{align*}
-        W_\infty(\mu,\bar{\mu})\leq \mathrm{ess} \sup_{x\sim \mu} \| x - \pi(x)\| \leq \epsilon.
-    \end{align*}
-Next, since $\bar{\mu} = \pi_{\#}\mu$, we have
-$\int f\mathrm d\bar{\mu} = \int f(\pi(x)) \mathrm d\mu(x)$. Therefore, we have
-\begin{align*}
-    \left|\int  f\mathrm d\mu - \int f \mathrm d\bar{\mu}\right| &= \left|\int (f(x) - f(\pi(x)) \mathrm d\mu(x)\right| \\
-    &\leq \int \| f(x) - f(\pi(x)) \| \mathrm d\mu(x) \\
-    &\leq \int L \| x - \pi(x)\| \mathrm d\mu(x) \\
-    &\leq L \epsilon \int \mathrm d\mu(x) \coloneqq L\epsilon,
-\end{align*}
-which proves the theorem.
+	Let $X\sim \mu$ and set $Y\coloneqq \pi(X)$. Since $\bar{\mu}\coloneqq \pi_{\#}\mu$, we have $Y\sim\bar{\mu}$. Since $X\in T_\epsilon(M)$ almost surely, and $\pi(X)$ is the nearest point on $M$, we have $\|X-Y\| = \|X- \pi(X)\| = \mathrm{dist}(X,M) \leq \epsilon$, almost surely. Next, we consider the coupling $\gamma = (\mathrm{Id},\pi)_{\#\mu} \in \Pi(\mu,\bar{\mu})$ of $\mu$ and $\bar{\mu}$, and $\gamma$ is supported on pairs $x,y$ with $\|x-y\|\leq \epsilon$. Therefore, for $1\leq p <\infty$, we have
+	\begin{align*}
+		W_p(\mu,\bar{\mu})^p & \leq \int \|x-y\|^p \mathrm d\gamma(x,y)               \\
+		                     & = \int \|x-\pi(x)\|^p \mathrm d\mu(x) \leq \epsilon^p,
+	\end{align*}
+	which implies $W_p(\mu,\bar{\mu})\leq \epsilon$. Moreover, we have
+	\begin{align*}
+		W_\infty(\mu,\bar{\mu})\leq \mathrm{ess} \sup_{x\sim \mu} \| x - \pi(x)\| \leq \epsilon.
+	\end{align*}
+	Next, since $\bar{\mu} = \pi_{\#}\mu$, we have
+	$\int f\mathrm d\bar{\mu} = \int f(\pi(x)) \mathrm d\mu(x)$. Therefore, we have
+	\begin{align*}
+		\left|\int  f\mathrm d\mu - \int f \mathrm d\bar{\mu}\right| & = \left|\int (f(x) - f(\pi(x)) \mathrm d\mu(x)\right|     \\
+		                                                             & \leq \int \| f(x) - f(\pi(x)) \| \mathrm d\mu(x)          \\
+		                                                             & \leq \int L \| x - \pi(x)\| \mathrm d\mu(x)               \\
+		                                                             & \leq L \epsilon \int \mathrm d\mu(x) \coloneqq L\epsilon,
+	\end{align*}
+	which proves the theorem.
 \end{proof}
 
 \begin{corollary}
-    Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
+	Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
 \end{corollary}
 
 \begin{remark}
-    The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
+	The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
 \end{remark}
 
 % \begin{theorem}

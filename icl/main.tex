@@ -8,7 +8,7 @@
   
 
  % \title{Transformers can Learn the Energy Spaces of Functions}
-\title{Provable Learning of Linear Energy Models over Function Spaces}
+\title{Learning Mixtures of Anisotropic Gaussian Kernels with Transformers}
 \newcommand{\energy}{{E}}
 \newcommand{\nsamples}{{n}}
 \newcommand{\nfunctions}{{m}}
@@ -28,13 +28,13 @@
 \begin{abstract}
 	Transformers with billions of parameters have achieved remarkable success across various domains, such as language modeling and computer vision.
 	%
-	Existing theoretical works analyze the empirically observed phenomena, such as training dynamics, in-context learning (ICL) generalization, depth/width effects, scaling laws, only in isolation and in very restricted settings (single-layer, linear regression, fixed width), leaving open whether they are manifestations of a single underlying mechanism.
+	Existing theoretical works analyze the empirically observed phenomena, such as training dynamics, in-context learning (ICL) generalization, depth/width effects, scaling laws, only in isolation and in restricted settings (single-layer, linear regression, fixed width), leaving open whether they are manifestations of a single underlying mechanism.
 	%
-	In this paper, we show how a Transformer-like Energy-Based Model (TEBM) can provably learn a Gibbs distribution over a function space $p_\theta(f) \propto \exp(-\energy_{\theta}(f))$ from noisy observations $f_j(x_i) + \epsilon$.
+	In this paper, we show how a Transformer can provably learn a Gaussian Process (GP) with covariance kernel $\kernel$ over a function space $p_\kernel(f) \propto \exp(-\frac{1}{2}\|f\|_{\HK}^2)$ from noisy observations $f_j(x_i) + \epsilon$.
 	%
-	We consider a few examples of linear families of energy functionals and show how in the mean-field regime, where the number of heads $\to \infty$, training a TEBM recovers the parameter $\theta$ with provable approximation and generalization guarantees.
+	We consider a kernel being mixture of anisotropic Gaussian kernels parametrised by a mixing measure $\theta$ and show how in the mean-field regime, where the number of heads $\to \infty$, training a Transformer recovers $\theta$ with provable approximation and generalization guarantees.
 	%
-	Our findings prove the convergence of the unsupervised training dynamics of TEBMs, the emergence of scaling laws in the considered setting, and the necessity of the regularization of $\theta$ for the generalization properties of the ICL.
+	Our findings prove the convergence of the unsupervised training dynamics of Transformers, the emergence of scaling laws in the considered setting, and the necessity of the regularization of $\theta$ for the generalization properties of the ICL.
 	%
 	We evaluate our architecture on synthetic and real-world benchmarks to support our theoretical findings.
 \end{abstract}
@@ -48,17 +48,15 @@
 This paper makes the following contributions:
 \begin{itemize}
 	\item \textbf{Learning distributions over functions.}
-	      We formulate the problem of learning a distribution $\nu$ over a function space
-	      $\ffam$ from noisy observations as a regularized optimization problem.
-	      We model $\nu$ as an exponential family with sufficient statistic $\Phi \colon \ffam \to \Real^d$,
-	      so that $p(f) \propto \exp(-\langle \theta, \Phi(f) \rangle)$,
-	      and state generalization guarantees for several (semi-)parametric choices of $\Phi$.
+	      We formulate the problem of learning a Gaussian distribution $\mathcal{GP}(0, \kernel)$ over a function space such that $p(f) \propto \exp(-\frac{1}{2}\|f\|_{\HK}^2)$, where $\kernel$ is an integral anisotropic Gaussian kernel,
+	      and the function space $\ffam$ is the reproducing kernel Hilbert space $\HK$ associated with $\kernel$, from noisy observations as a regularized optimization problem.
+
 
 	\item \textbf{Connection to in-context learning.}
-	      We draw a connection of this problem to the in-context learning in Transformer-like Energy-Based Models, discuss how it can explain the convergence to the optimal solution, the empirically observed scaling laws, the role of the positional encodings and the importance of the regularization for the generalization properties.
+	      We draw a connection of this problem to the in-context learning in Transformers Models, discuss how it can explain the convergence to the optimal solution, the empirically observed scaling laws, the role of the positional encodings and the importance of the regularization for the generalization properties.
 
 	\item \textbf{Architectural implications and empirical validation.}
-	      Guided by the optimization problem, we propose a modification of the Transformer
+	      Guided by the optimization problem, we propose a minor modification of the Transformer
 	      architecture that enforces the structural assumptions of our framework.
 	      Experiments on both synthetic and real-world benchmarks demonstrate improvements
 	      in size-generalization, interpretability, and computational efficiency.
@@ -73,18 +71,18 @@ Several works have showed that a fixed Transformer can implemet a gradient desce
 \newpage
 
 
-\section{Problem Setup}\label{sec:set-up}
+\subsection{Problem Setup}\label{sec:set-up}
 
-We are given a manifold $\domain$ equipped with a probability measure $\mu$,
+We are given a domain $\domain$ equipped with a known probability measure $\mu$,
 a function space $\ffam$ of functions $f \colon \domain \to \Real$,
-endowed with an \emph{unknown} probability measure $\nu$ over $\ffam$.
-We observe a dataset $\dataset = \left\{ D^{(1)}, \ldots, D^{(\nfunctions)} \right\}$ consisting of $\nfunctions$ observations $D^{(j)}$ of functions $f_1, \ldots, f_{\nfunctions} \overset{\text{i.i.d.}}{\sim} \nu(\ffam)$,
+endowed with probability measure $\nu(f) \propto \exp(-\frac{1}{2}\|f\|_{\HK}^2))$ where $\HK$ is the reproducing kernel Hilbert space of functions induced by a \emph{unknown} kernel $\kernel$.
+We observe a dataset $\dataset = \left\{ D^{(1)}, \ldots, D^{(\nfunctions)} \right\}$ consisting of $\nfunctions$ observations $D^{(j)}$ of functions $f_1, \ldots, f_{\nfunctions} \sim \nu(\ffam)$
 each evaluated at $\nsamples$ points drawn from $\mu$:
 \begin{gather*}
-	x_1, \ldots, x_{\nsamples} \overset{\text{i.i.d.}}{\sim} \mu(\domain), \qquad
+	\mathbf{X} = \{X_1, \ldots, X_{\nsamples}\} \overset{\text{i.i.d.}}{\sim} \mu(\domain), \qquad
 	\epsilon_{j,i} \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2), \\
 	\dataset = \Bigl\{
-	\bigl\{ (x_i,\, f_j(x_i) + \epsilon_{j,i}) \bigr\}_{i=1}^{\nsamples}
+	\bigl\{ (X_i,\, f_j(X_i) + \epsilon_{j,i}) \bigr\}_{i=1}^{\nsamples}
 	\Bigr\}_{j=1}^{\nfunctions}.
 \end{gather*}
 
@@ -97,225 +95,358 @@ reduces to MAP estimation:
 	\hat{f}
 	= \arg\min_{f \in \ffam}
 	\sum_{i=1}^{\nsamples} \bigl| y_i - f(x_i) \bigr|^2
-	- \log \nu(f).
+	+ \frac{1}{2}\|f\|_{\HK}^2
 \end{align*}
 
 
 \paragraph{Connection to ICL in Transformers.}
 
-The setup described above is closely related to in-context learning in Transformers.
+The setup described above is closely related to the in-context learning in Transformers.
 Given a prompt $(x_1, y_1), \ldots, (x_{\nsamples}, y_{\nsamples})$, where $x_i$ are positional encodings
 and $y_i$ are tokens, the task is to predict the next token at position $x_{\nsamples+1}$.
-Each prompt can be viewed as a noisy observation of a latent function $f \sim \nu(\ffam)$,
-and distinct prompts correspond to distinct draws from $\nu(\ffam)$.
-The Transformer thus implicitly learns the shared structure across functions,
-that is, the measure $\nu$ itself, and uses it to generalize within a new context.
+Each prompt can be viewed as a noisy observation of a latent function $f \sim \exp(-\frac{1}{2}\|f\|_{\HK}^2)$,
+and distinct prompts correspond to distinct draws from $\exp(-\frac{1}{2}\|f\|_{\HK}^2)$.
+The Transformer thus implicitly learns the shared structure of the functions,
+that is, the kernel $\kernel$ itself, and uses it to generalize within a new context.
 
-\section{Linear Energy Functionals}\label{sec:linear-energy-functionals}
+% \section{TODO}\label{sec:linear-energy-functionals}
+\section{Gaussian Measures on the Reproducing Kernel Hilbert Space}\label{sec:gaussian-measure-on-the-rkhs}
 
-In this section, we derive an optimization problem to address the goal described in \Cref{sec:set-up}.
+In this section, we formally define the Gaussian Process in the Hilbert space $\nu(f) \propto \exp(-\frac{1}{2}\|f\|_{\HK}^2))$ and discuss its properties for anisotropic Gaussian kernels on the domain $[0, 1]^D$. We also show how knowing the kernel $\kernel$ and the observed noisy functions values $Y_i = f(X_i) + \varepsilon_i$ for $f \sim \mu_\kernel, i \in [n]$, provides a provable generalization guarantees for the kernel ridge regression estimator $\hat{f}_n$.
 
 % \subsection{Assumptions}
 
-\begin{assumption}
-	The function domain $\domain$ is a smooth Riemannian manifold embedded in a Euclidean space $\domain \subset \Real^d$ equipped with a Riemannian metric $\langle \cdot, \cdot \rangle$ and  a probability measure $\mu$ over it.
-\end{assumption}
-
-\begin{assumption}[Gibbs distribution]
-	We assume that the probability measure $\nu$ over $\ffam$ is a Gibbs distribution induced by a convex energy functional $E_{\theta}: \ffam \to \Real^+$ and a reference measure (\todo{define})$\nu_0$ on $\ffam$:
-	\[
-		\nu_\theta(f) = \frac{1}{Z_{\theta}} \exp(-E_{\theta}(f))
-	\]
-	where $Z_{\theta} = \int_{f \in \ffam} \exp(-E_{\theta}(f)) \nu_0(df)$ is a normalizing constant and $E_{\theta}$ is a family of functionals parametrized by $\theta \in \Theta$.
-\end{assumption}
-
-\begin{assumption}[Linear energy functional]
-	We assume that the energy functional $E_{\theta}$ is linear in $\theta$:
-	\[
-		E_{\theta}(f) = \langle \theta, \Phi(f) \rangle
-	\]
-	where $\Phi$ is a statistic extractor on $\ffam$.
-\end{assumption}
 
 
-Note, that in the general case, learning the energy functional $E_{\theta}$ is a hard problem because the partition function $Z_{\theta}$ is intractable. However, in the case of linear energy functionals for families of functions that we consider in this paper (see \Cref{sec:families-of-energy-functionals}), this term is a lot easier to compute and analyze.
 
-\begin{lemma}
-	\begin{align*}
-		\nabla_\theta \log Z(\theta)=-\E_{f \sim \nu_\theta}[\Phi(f)]
-	\end{align*}
-\end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Setup and Notation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{definition}[Effective dimension]
-	\begin{align*}
-		\deff(\theta)=\E_{f \sim \nu_\theta}[E_\theta(f)]
-	\end{align*}
+Let $(\X, \mathcal{A}, P_X)$ be a probability space where $\X$ is the input domain. Let $\kernel: \X \times \X \to \R$ be a symmetric positive semi-definite (PSD) kernel satisfying the integrability condition:
+$
+	\int_{\X} \kernel(x, x) \, dP_X(x) < \infty.
+$
+We work primarily in the Hilbert space $L^2(P_X)$ with inner product
+$
+	\inprod{f}{g}_{L^2} = \int_{\X} f(x) g(x) \, dP_X(x).
+$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{The Integral Operator}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[Integral Operator]
+	The integral operator $T_\kernel: L^2(P_X) \to L^2(P_X)$ associated with kernel $\kernel$ is defined by
+	\begin{equation}
+		(T_\kernel g)(x) = \int_{\X} \kernel(x, y) \, g(y) \, dP_X(y).
+	\end{equation}
+\end{definition}
+
+\begin{theorem}[Spectral Decomposition]
+	\label{thm:spectral}
+	The operator $T_\kernel$ is self-adjoint, positive, and trace-class. It admits a spectral decomposition
+	$
+		T_\kernel \phi_k = \mu_\kernel \phi_k, k \in \N,
+	$
+	where:
+	\begin{enumerate}[label=(\roman*)]
+		\item $\mu_1 \geq \mu_2 \geq \cdots > 0$ are the positive eigenvalues (counted with multiplicity),
+		\item $\{\phi_k\}_{k=1}^\infty$ is an orthonormal basis of $\overline{\Range(T_\kernel)} \subseteq L^2(P_X)$,
+		\item $\sum_{k=1}^\infty \mu_\kernel = \Tr(T_\kernel) = \int_{\X} K(x,x) \, dP_X(x) < \infty$.
+	\end{enumerate}
+	The kernel admits the Mercer representation
+	$
+		K(x, y) = \sum_{k=1}^\infty \mu_\kernel \, \phi_k(x) \, \phi_k(y),
+	$
+	with convergence in $L^2(P_X \otimes P_X)$.
+\end{theorem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{The Reproducing Kernel Hilbert Space}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[RKHS via Spectral Representation]
+	\label{def:rkhs}
+	The reproducing kernel Hilbert space (RKHS) $\HK$ associated with $\kernel$ is
+	\begin{equation}
+		\HK = \left\{ f = \sum_{k=1}^\infty \theta_k \phi_k : \norm{f}_{\HK}^2 := \sum_{k=1}^\infty \frac{\theta_k^2}{\mu_\kernel} < \infty \right\},
+	\end{equation}
+	equipped with the inner product
+	\begin{equation}
+		\inprod{f}{g}_{\HK} = \sum_{k=1}^\infty \frac{\theta_k \eta_k}{\mu_\kernel}, \quad \text{where } f = \sum_k \theta_k \phi_k, \; g = \sum_k \eta_k \phi_k.
+	\end{equation}
+\end{definition}
+
+\begin{proposition}[Operator Characterization]
+	\label{prop:rkhs-operator}
+	The RKHS admits the equivalent characterization
+	$
+		\HK = \Range(T_\kernel^{1/2})
+	$
+	with norm
+	$
+		\norm{f}_{\HK} = \norm{T_\kernel^{-1/2} f}_{L^2}.
+	$
+	The inclusion $\HK \hookrightarrow L^2(P_X)$ is continuous and dense in $\overline{\Range(T_\kernel)}$.
+\end{proposition}
+
+\begin{remark}
+	The space $\HK$ is ``smaller'' than $L^2(P_X)$: for $f \in \HK$, the coefficients $\theta_k = \inprod{f}{\phi_k}_{L^2}$ must decay faster than $\sqrt{\mu_\kernel}$.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{The Gaussian Measure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{definition}[Gaussian Measure via Characteristic Functional]
+	\label{def:gaussian-measure}
+	The \emph{Gaussian measure} $\mu_\kernel$ on $L^2(P_X)$ is the unique Borel probability measure with characteristic functional
+	\begin{equation}
+		% \boxed{
+		\hat{\mu}_K(g) := \int_{L^2(P_X)} e^{i\inprod{g}{f}_{L^2}} \, d\mu_\kernel(f) = \exp\left( -\frac{1}{2} \inprod{g}{T_\kernel g}_{L^2} \right)
+		% }
+	\end{equation}
+	for all $g \in L^2(P_X)$.
+\end{definition}
+
+\begin{theorem}[Existence and Characterization]
+	\label{thm:gaussian-existence}
+	The measure $\mu_\kernel$ exists, is unique, and satisfies the following:
+
+	\begin{enumerate}[label=(\roman*)]
+		\item \textbf{Karhunen-Lo\`eve representation:}
+		      \begin{equation}
+			      %   \boxed{
+			      f \sim \mu_\kernel \iff f = \sum_{k=1}^\infty \sqrt{\mu_\kernel} \, \xi_k \, \phi_k, \quad \xi_k \iid N(0,1)
+			      %   }
+		      \end{equation}
+		      where the series converges in $L^2(\Omega; L^2(P_X))$.
+
+		\item \textbf{Mean and covariance:}
+		      \begin{align}
+			      \E_{\mu_\kernel}[f]                                       & = 0,                                                              \\
+			      \E_{\mu_\kernel}[\inprod{f}{g}_{L^2} \inprod{f}{h}_{L^2}] & = \inprod{g}{T_\kernel h}_{L^2}, \quad \forall g, h \in L^2(P_X).
+		      \end{align}
+		      Equivalently, $\E_{\mu_\kernel}[f \otimes f] = T_\kernel$ as operators.
+
+		\item \textbf{Finite-dimensional distributions:} For any $x_1, \ldots, x_n \in \X$,
+		      \begin{equation}
+			      (f(x_1), \ldots, f(x_n))^\top \sim N(0, K_{\mathbf{X}\mathbf{X}}),
+		      \end{equation}
+		      where $(K_{\mathbf{X}\mathbf{X}})_{ij} = K(x_i, x_j)$.
+	\end{enumerate}
+\end{theorem}
+
+\begin{remark}[Gaussian Process Equivalence]
+	The measure $\mu_\kernel$ is the law of the Gaussian process $f \sim \mathcal{GP}(0, K)$.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{The Cameron-Martin Theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following theorem establishes $\HK$ as the Cameron-Martin space of $\mu_\kernel$, providing the fundamental link between the RKHS and the Gaussian measure.
+
+\begin{theorem}[Cameron-Martin]
+	\label{thm:cameron-martin}
+	Let $\mu_\kernel$ be the Gaussian measure on $L^2(P_X)$ and $\HK$ its associated RKHS. Then:
+
+	\begin{enumerate}[label=(\roman*)]
+		\item \textbf{Null RKHS:} Sample paths lie outside the RKHS almost surely:
+		      $
+			      \mu_\kernel(\HK) = 0.
+		      $
+
+		\item \textbf{Admissible shifts:} For $h \in L^2(P_X)$, define the translated measure $\mu_\kernel^h(A) := \mu_\kernel(A - h)$. Then
+		      \begin{equation}
+			      \mu_\kernel^h \ll \mu_\kernel \iff h \in \HK.
+		      \end{equation}
+		      That is, $\HK$ is exactly the set of admissible shifts preserving absolute continuity.
+
+		\item \textbf{Radon-Nikodym derivative:} For $h \in \HK$,
+		      \begin{equation}
+			      %   \boxed{
+			      \frac{d\mu_\kernel^h}{d\mu_\kernel}(f) = \exp\left( \inprod{h}{f}_{\HK} - \frac{1}{2}\norm{h}_{\HK}^2 \right)
+			      %   }
+		      \end{equation}
+		      where the pairing $\inprod{h}{f}_{\HK}$ extends to $f \in L^2(P_X)$ via
+		      \begin{equation}
+			      \inprod{h}{f}_{\HK} = \sum_{k=1}^\infty \frac{\eta_k \theta_k}{\mu_\kernel}, \quad h = \sum_k \eta_k \phi_k, \; f = \sum_k \theta_k \phi_k.
+		      \end{equation}
+	\end{enumerate}
+\end{theorem}
+
+\begin{corollary}
+	The RKHS norm $\norm{\cdot}_{\HK}$ measures the ``cost'' of deterministic shifts under the Gaussian measure.
+\end{corollary}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{The Onsager-Machlup Functional}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The formal expression ``$p(f) \propto \exp(-\frac{1}{2}\norm{f}_{\HK}^2)$'' is made rigorous by the following theorem.
+
+\begin{theorem}[Onsager-Machlup]
+	\label{thm:onsager-machlup}
+	Let $\mu_\kernel$ be a Gaussian measure on a Banach space $\B \supseteq \HK$ with Cameron-Martin space $\HK$. Let $\norm{\cdot}_{\B}$ be a measurable norm satisfying appropriate regularity conditions.\footnote{Specifically, $\norm{\cdot}_{\B}$ should be measurable and the small ball probabilities $\mu_\kernel(B_\epsilon(0))$ should satisfy certain asymptotic conditions; see Zeitouni (1989).} Then for any $f, g \in \HK$:
+	\begin{equation}
+		% \boxed{
+		\lim_{\epsilon \to 0} \frac{\mu_\kernel\bigl(\{h \in \B : \norm{h - f}_{\B} < \epsilon\}\bigr)}{\mu_\kernel\bigl(\{h \in \B : \norm{h - g}_{\B} < \epsilon\}\bigr)} = \exp\left( -\frac{1}{2}\norm{f}_{\HK}^2 + \frac{1}{2}\norm{g}_{\HK}^2 \right)
+		% }
+	\end{equation}
+\end{theorem}
+
+\begin{corollary}[RKHS Norm as Log-Density]
+	Taking $g = 0$:
+	\begin{equation}
+		\lim_{\epsilon \to 0} \frac{\mu_\kernel(B_\epsilon(f))}{\mu_\kernel(B_\epsilon(0))} = \exp\left( -\frac{1}{2}\norm{f}_{\HK}^2 \right).
+	\end{equation}
+	This is the precise sense in which
+	$
+		``p(f) \propto \exp\left(-\frac{1}{2}\norm{f}_{\HK}^2\right)."
+	$
+\end{corollary}
+
+\begin{remark}
+	The function $f \mapsto \frac{1}{2}\norm{f}_{\HK}^2$ is called the \emph{Onsager-Machlup functional} of $\mu_\kernel$. It plays the role of a ``negative log-density'' for the Gaussian measure.
+\end{remark}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Connection to Bayesian Inference and Kernel Ridge Regression}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The following theorem establishes the connection between the Bayesian inference and the kernel ridge regression estimator: knowing the kernel $\kernel$ and the observed noisy functions values $\mathbf{Y} = \{Y_i = f(X_i) + \varepsilon_i\}_{i=1}^n$ for $f \sim \mu_\kernel, \varepsilon_i \iid N(0, \sigma^2)$, how well can we estimate this unknown function $f$?
+
+\begin{theorem}[Posterior and MAP Estimator]
+	\label{thm:posterior}
+	Suppose we observe
+	\begin{equation}
+		Y_i = f(X_i) + \varepsilon_i, \quad i = 1, \ldots, n,
+	\end{equation}
+	where $\varepsilon_i \iid N(0, \sigma^2)$, $X_i \iid P_X$, and the prior is $f \sim \mu_\kernel$. Then:
+
+	\begin{enumerate}[label=(\roman*)]
+		\item The posterior $\mu_\kernel^{(n)}(\cdot \mid \mathbf{Y}, \mathbf{X})$ is a Gaussian measure.
+
+		\item The posterior mean coincides with the kernel ridge regression estimator:
+		      \begin{equation}
+			      %   \boxed{
+			      \hat{f}_n = \argmin_{f \in \HK} \left\{ \frac{1}{\sigma^2} \sum_{i=1}^n (Y_i - f(X_i))^2 + \norm{f}_{\HK}^2 \right\}
+			      %   }
+		      \end{equation}
+
+		\item In closed form:
+		      \begin{equation}
+			      \hat{f}_n(\cdot) = \mathbf{k}(\cdot)^\top (\kernel_{\mathbf{X}\mathbf{X}} + \sigma^2 I)^{-1} \mathbf{Y},
+		      \end{equation}
+		      where $\mathbf{k}(x) = (\kernel(x, X_1), \ldots, \kernel(x, X_n))^\top$.
+
+		\item The generalization error of the kernel ridge regression estimator $\hat{f}_n$ is given by:
+		      \begin{equation}
+			      \norm{f - \hat{f}_n}_{\HK}^2  \leq TODO
+		      \end{equation}
+	\end{enumerate}
+
+\end{theorem}
+
+\begin{remark}
+	The RKHS norm appears as the regularizer in the MAP estimator precisely because it is the Onsager-Machlup functional of the GP prior. This establishes the equivalence:
+	\begin{center}
+		\emph{GP regression with covariance $K$} $\longleftrightarrow$ \emph{Kernel ridge regression with RKHS $\HK$}.
+	\end{center}
+\end{remark}
+
+
+
+\section{The Integral Anisotropic Gaussian Kernel}\label{sec:integral-anisotropic-gaussian-kernel}
+
+Here we introduce a family of kernels considered in this work: integral anisotropic Gaussian kernels. They cover a wide range of kernels, including the isotropic Gaussian kernel, the radial Gaussian kernel, the finite mixture of anisotropic Gaussian kernels, the Wishart mixing measure, the rank-one (ridge function) measure, and the integral of the anisotropic Gaussian kernel.
+
+\begin{definition}[Integral Anisotropic Gaussian Kernel]
+	\label{def:integral-kernel}
+	Let $\theta \in \mathcal{M}_+(\Splus)$ be a finite non-negative Borel measure on the cone of positive semi-definite matrices. The \emph{integral anisotropic Gaussian kernel} induced by $\theta$ is the function $K_\theta: \R^d \times \R^d \to \R$ defined by
+	\begin{equation}
+		% \boxed{
+		K_\theta(x, y) = \int_{A \in \Splus} K_A(x, y) \, d\theta(A) = \int_{A \in \Splus} \exp\left( -\frac{1}{2}(x-y)^\top A (x-y) \right) d\theta(A).
+		% }
+	\end{equation}
+	We call $\theta$ the \emph{mixing measure} or \emph{structure measure} of the kernel.
 \end{definition}
 
 
 
-\subsection{Families Of Energy Functionals}\label{sec:families-of-energy-functionals}
-
-Here we look closer at specific linear families of energy functionals $\energy_{\theta} = \langle \theta, \Phi(f) \rangle$ defined by the statistic extractor $\Phi$. We discuss what inductive bias each choice of $\Phi$ induces, what generalization properties it can achieve and how a transformer forward pass can be similar to a (sub)gradient descent for the inner problem, and transformer training can be seen as a gradient descent on the outer problem.
-
-
-% \paragraph{Example 1 (Energy regularization).}
-% \[
-% 	\Phi : L^2(M) \to \mathbb{R},
-% 	\qquad
-% 	\Phi(f) := \|f\|_{L^2(M)}^2.
-% \]
-
-% The induced regularizer $R(f)=\|f\|_{L^2}^2$ corresponds to ridge/Tikhonov regularization.
-% This choice measures only the magnitude of $f$ and ignores geometric structure.
+Given functions $f_1, \ldots, f_{\nfunctions} \sim \mu_{\kernel_\theta}$, where $\kernel_\theta$ is an integral anisotropic Gaussian kernel the MLE estimator of correponding mixing measure $\theta$ is given by:
+\begin{equation}\label{eq:mle-estimator}
+	\hat{\theta}_m = \arg\max_{\theta \in \Theta} \left\{ \prod_{i=1}^{\nfunctions} p(f_i \mid \kernel_\theta) \right\}
+\end{equation}
+where $p(f_i \mid \kernel_\theta) = \exp(-\frac{1}{2}\|f_i\|_{\HK}^2)$. Depending on the $\theta^*$ we can get the error rate of its MLE estimator $\hat{\theta}_m$, and the simpler the $\theta^*$ is, the better the generalization guarantees are. The following notion defines the simplicity of the mixing measure $\theta^*$ as its effective dimension.
 
 
-% \subsection{First-Order Smoothness Bias}
-% \paragraph{Notation}
+\begin{definition}[Effective Dimension]
+	\label{def:eff-dim}
+	The \textbf{effective dimension} of $\theta^*$ relative to the model $\Theta$ is:
+	\begin{equation}
+		D(\theta^*) := \lim_{\epsilon \to 0} \frac{\log N(\epsilon, \Theta_{\theta^*}, d_K)}{\log(1/\epsilon)}
+	\end{equation}
+	where $\Theta_{\theta^*}$ is a local neighborhood of $\theta^*$ in $\Theta$, and $N(\epsilon, \cdot, d_K)$ is the $\epsilon$-covering number in the kernel metric $d_K(\theta_1, \theta_2) = \|K_{\theta_1} - K_{\theta_2}\|$.
+\end{definition}
+
+\begin{remark}
+	The effective dimension $D(\theta^*)$ captures the \emph{local complexity} of the model around $\theta^*$. It can vary with $\theta^*$: the simpler the $\theta^*$ is, the smaller the effective dimension is, the better the generalization guarantees are.
+\end{remark}
 
 
 
-% Let $\mathcal{Q} \subset \mathbf{S}_+^d$ be \todo{define}. Given a PSD matrix $Q$, let $\Delta_Q$ denotes the anisotropic Laplacian operator: $\Delta_Q f := \nabla\cdot(Q\nabla f)$. Total variation norm for a function (\todo{or a Radon measure}) $g:\domain \to \Real$ is defined as $\|g\|_{\mathcal M} := \int\limits_{x \in \domain} |g(x)| \, dx$.
+% \begin{tcolorbox}[colback=blue!5!white, colframe=blue!50!black, title=Main Result]
+\begin{theorem}[General Rate Theorem]
+	\label{thm:theta-mle-rate}
+	Let $\theta^* \in \Theta \subseteq \mathcal{M}_+(\Splus)$. Suppose the model $\{\kernel_\theta : \theta \in \Theta\}$ has \emph{local metric entropy} around $\theta^*$ satisfying:
+	\begin{equation}
+		\log N\left(\epsilon, \{\theta \in \Theta : d_K(\kernel_\theta, \kernel_{\theta^*}) \leq \delta\}, d_K\right) \leq D(\theta^*) \cdot \log\left(\frac{\delta}{\epsilon}\right)
+	\end{equation}
+	for all $0 < \epsilon < \delta$ sufficiently small. Then:
+	\begin{equation}
+		% \boxed{
+		d_K(\hat{\theta}_m, \theta^*) = O_p\left(m^{-\frac{1}{2 + D(\theta^*)/s}}\right)
+		% }
+	\end{equation}
+	where $s$ is the smoothness parameter if $\theta^*$ has a density, or $s = \infty$ (giving rate $m^{-1/2}$) in the parametric case.
+
+	More precisely:
+	\begin{equation}
+		% \boxed{
+		d_K(\hat{\theta}_m, \theta^*) = O_p\left(m^{-\alpha(\theta^*)}\right), \quad \alpha(\theta^*) = \frac{1}{2 + D(\theta^*)}
+		% }
+	\end{equation}
+	when the density has regularity $s = 1$.
+\end{theorem}
+% \end{tcolorbox}
 
 
-\begin{table}[h]
-	\centering
-	\caption{Notation}
-	\label{tab:notation}
-	\begin{tabular}{ll}
-		\toprule
-		\textbf{Symbol}                      & \textbf{Description}                                                       \\
-		\midrule
-		$\domain$                            & Domain, $\domain \subset \mathbb{R}^d$                                     \\
-		$d$                                  & Ambient dimension                                                          \\
-		$\mathbf{S}_+^d$                     & Set of $d \times d$ symmetric positive semi-definite matrices              \\
-		$\mathcal{Q} \subset \mathbf{S}_+^d$ & Admissible set of metric tensors                                           \\
-		$Q \in \mathcal{Q}$                  & PSD matrix defining an anisotropic metric                                  \\
-		$\Delta_Q$                           & Anisotropic Laplacian operator, $\Delta_Q f := \nabla \cdot (Q \nabla f)$  \\
-		$\mathcal{M}(\domain)$               & Space of Radon measures on $\domain$                                       \\
-		$\|\cdot\|_{\mathcal{M}}$            & Total variation norm, $\|g\|_{\mathcal{M}} := \int_{\domain} |g(x)| \, dx$ \\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-% \paragraph{Sobolev $H^1$ regularization.}
-% \[
-% 	\Phi : H^1(M) \to \mathbb{R},
-% 	\qquad
-% 	\Phi(f) := \int_M \|\nabla f(x)\|^2 \, dx.
-% \]
-
-% This feature measures global smoothness.
-% The null space consists of constant functions.
-
-\paragraph{Anisotropic Sobolev regularization.}
-Let $\theta$ be a measure over $\mathcal{Q}$. Let statistic $\Phi : H^1(M) \to \mathbb{R}^k$ be defined as $\Phi(f)(Q) := \int_{x \in \domain} \| \nabla f(x) \|^2_{Q} \, dx$. Then:
-\begin{gather*}
-	\energy_{\theta}(f) = \int\limits_{Q \in \mathcal{Q}} \Phi(f)(Q) d\theta(Q)
-	\quad
-	\quad
-	\quad
-	\nabla_f \energy_{\theta}(f) = \int\limits_{Q \in \mathcal{Q}} \Delta_Q  f  d \theta(Q)
-\end{gather*}
-
-% \subsection{Total Variation and Sparsity}
-
-% \paragraph{First-order sparsity.}
-% $
-% 	\Phi : BV(M) \to \mathbb{R}_+,
-% 	\Phi(f) := \|\nabla f\|_{\mathcal M}.
-% $
-
-% This feature measures the total mass of the gradient as a Radon measure and promotes piecewise-constant functions.
 
 
-% \subsection{Second-Order and Curvature-Based Statistics}\label{par:anisotropic-second-order-tv}
 
-% \paragraph{Example 5 (Second-order total variation / splines).}
-% \[
-% 	\Phi : X \to \mathbb{R}_+,
-% 	\qquad
-% 	\Phi(f) := \|\Delta f\|_{\mathcal M},
-% \]
-% where $X$ is the space of functions with measure-valued Laplacian.
+% \begin{table}[h]
+% 	\centering
+% 	\caption{Notation}
+% 	\label{tab:notation}
+% 	\begin{tabular}{ll}
+% 		\toprule
+% 		\textbf{Symbol}                      & \textbf{Description}                                                       \\
+% 		\midrule
+% 		$\domain$                            & Domain, $\domain \subset \mathbb{R}^d$                                     \\
+% 		$d$                                  & Ambient dimension                                                          \\
+% 		$\mathbf{S}_+^d$                     & Set of $d \times d$ symmetric positive semi-definite matrices              \\
+% 		$\mathcal{Q} \subset \mathbf{S}_+^d$ & Admissible set of metric tensors                                           \\
+% 		$Q \in \mathcal{Q}$                  & PSD matrix defining an anisotropic metric                                  \\
+% 		$\Delta_Q$                           & Anisotropic Laplacian operator, $\Delta_Q f := \nabla \cdot (Q \nabla f)$  \\
+% 		$\mathcal{M}(\domain)$               & Space of Radon measures on $\domain$                                       \\
+% 		$\|\cdot\|_{\mathcal{M}}$            & Total variation norm, $\|g\|_{\mathcal{M}} := \int_{\domain} |g(x)| \, dx$ \\
+% 		\bottomrule
+% 	\end{tabular}
+% \end{table}
 
-% The null space consists of affine functions, and minimizers are adaptive splines.
-
-
-\paragraph{Anisotropic second-order TV}
-Define statistic $\Phi : X \to \mathcal C(\mathcal S_+,\mathbb{R}_+)$ as $\Phi(f)(Q) := \|\Delta_Q f\|_{\mathcal M}$. Then:
-\begin{gather*}
-	\energy_{\theta}(f) = \int_{\mathcal Q} \|\Delta_Q f\|_{\mathcal M}\, d\theta(Q)
-	\quad
-	\quad
-	\quad
-	\nabla_f \energy_{\theta}(f) = \int_{\mathcal Q} \Delta_Q \sign(\Delta_Q f) d\theta(Q)
-\end{gather*}
-This promotes sparse, geometry-aligned curvature and induces a Finsler total variation.
-
-
-\paragraph{Spectral energy features.}
-Let $\{\psi_k\}$ be eigenfunctions of a Laplacian on $M$.
-Define
-$
-	\Phi : L^2(M) \to \ell^1,
-	\Phi_k(f) := |\langle f,\psi_k\rangle|^2.
-$
-
-The corresponding regularizer weights energy by frequency and induces a spectral bias.
-
-
-% \input{icl/families}
-
-\begin{table}[h]
-	\centering
-	\begin{tabular}{p{2cm}p{3.6cm}p{3.6cm}p{4.6cm}}
-		\toprule
-		Energy type                &
-		Energy $\energy_\theta(f)$ &
-		Gradient / Subgradient     &
-		Hessian $\nabla_f^2 \energy_\theta(f)$ \\
-		\midrule
-
-		Anisotropic Sobolev
-		                           &
-		$\displaystyle
-			\int_{\mathcal Q}
-			\int_M \|\nabla f(x)\|_Q^2 \, dx \, d\theta(Q)
-		$
-		                           &
-		$\displaystyle
-			\int_{\mathcal Q} \Delta_Q f \, d\theta(Q)
-		$
-		                           &
-		$\displaystyle
-			\int_{\mathcal Q} \Delta_Q \, d\theta(Q)
-		$
-		(linear operator)
-		\\
-
-		Anisotropic second-order
-		                           &
-		$\displaystyle
-			\int_{\mathcal Q}
-			\|\Delta_Q f\|_{\mathcal M}
-			\, d\theta(Q)
-		$
-		                           &
-		$\displaystyle
-			\int_{\mathcal Q}
-			\Delta_Q \, \mathrm{sign}(\Delta_Q f)
-			\, d\theta(Q)
-		$
-		(subgradient)
-		                           &
-		Not defined
-		(singular second variation)
-		\\
-		\bottomrule
-	\end{tabular}
-	\caption{Examples of energy functionals and their variational derivatives. $\Delta_Q := \mathrm{div}(Q\nabla \cdot)$ denotes the anisotropic Laplacian.}
-\end{table}
 
 % \subsection{Measure-Based and Neural Representations}
 
@@ -399,388 +530,139 @@ The corresponding regularizer weights energy by frequency and induces a spectral
 % \end{align*}
 
 
-\subsection{Function Extrapolation}
+% \subsection{Function Extrapolation}
 
-First, let us see how knowing the energy functional enables function extrapolation.
-Suppose we observe $D = \{(x_i, y_i)\}_{i=1}^{\nsamples}$ with $y_i = f(x_i) + \epsilon_i$,
-$\epsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$, and wish to predict
-$y_{m+1} = f(x_{m+1})$ at a new point $x_{m+1}$.
-Knowing the Gibbs prior $p(f) \propto \exp(-\energy_{\theta^*}(f)) = \exp(-\langle \theta^*, \Phi(f) \rangle)$,
-we recover $f$ via MAP estimation:
-\begin{align*}
-	\hat{f}_{\nsamples}
-	 & = \argmax_{f \in \ffam}\;
-	% p(f \mid \dataset_m)                                \\
-	%  & = \argmax_{f \in \ffam}\;
-	p\left(D \mid f\right)\, p(f)
-	= \argmin_{f \in \ffam}\;
-	\frac{1}{\sigma^2}\sum_{i=1}^{\nsamples} \bigl|y_i - f(x_i)\bigr|^2
-	+ \energy_{\theta^*}(f).
-\end{align*}
-This estimation will have a generalization guarantee of extrapolating $f$ to a new point $x_{\nsamples+1} \sim \mu$ via the following theorem:
-\begin{theorem}[]\label{thm:f-generalization}
-	\begin{align*}
-		\left\|f^*-\hat{f}_{\nsamples}\right\|_{L^2} \lesssim \underbrace{\left\|f^*-f_{\theta^*}\right\|_{L^2}}_{\text{bias}}+\sigma \sqrt{\frac{\deff\left(\theta^*\right)}{\nsamples}}
-	\end{align*}
-
-	Correspondingly taking an expectation over $f \sim p_{\theta^*}$ yields:
-	\begin{align*}
-		\E_{f \sim p_{\theta^*}}\left[ \left\|f-\hat{f}_{\nsamples}\right\|_{L^2} \right] \lesssim \underbrace{\left\|f-f_{\theta^*}\right\|_{L^2}}_{\text{bias}}+\sigma \sqrt{\frac{\deff\left(\theta^*\right)}{\nsamples}}
-	\end{align*}
-\end{theorem}
-
-For example, assuming that our function is $s$-smooth on $\domain \subset \Real^D, \dim(\domain) = d$ then \Cref{thm:f-generalization} recovers the standard rate ${O}\left( \nsamples^{-2s/(2s+d)} \right)$ of the minimax rate of estimation of a smooth function from $\nsamples$ noisy observations.
-
-
-\section{Optimization Problem}\label{sec:optimization-problem}
-
-
-As we mentioned, the family of the energy functionals $E_{\theta}$ depends on some parameter $\theta$. Hence, our goal is to learn the parameter $\theta$ by maximizing the likelihood of the observed data. First, let us consider a simpler case, when we are given full functions $\dataset = \{f_1, \ldots, f_{\nfunctions}\}$, not just empirical samples $f_i(x_j) + \epsilon$ and we want to learn the parameter $\theta$ by maximizing the likelihood of the observed data.
-\begin{align*}
-	\max_{\theta \in \Theta} p_\theta(\dataset) = \min_{\theta \in \Theta} \frac{1}{\nfunctions} \sum_{i=1}^{\nfunctions} \energy_{\theta}(f_i) + \log Z(\theta)
-\end{align*}
-where  $Z(\theta) = \int_{f \in \ffam} \exp(-\energy_{\theta}(f)) \nu(df)$ is a normalizing constant, $\nu$ base reference measure on $\ffam$.
-
-
-
-% Assuming $R_\theta(f) = \langle \theta, \Phi(f) \rangle$ (linear in $\theta$) out problem is convex, yaaaaay! Parameter $\theta$ can be here an infinite-dimensional measure or a vector, hence, the minimization problem can be solved by gradient descent on $\theta$.
-
-% The gradient of the data term is
-% \[
-% 	\nabla_\theta
-% 	\left(
-% 	\frac{1}{T}\sum_{t=1}^T \langle \theta,\Phi(f^{(t)})\rangle
-% 	\right)
-% 	=
-% 	\frac{1}{T}\sum_{t=1}^T \Phi(f^{(t)})\eqqcolon \mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right].
-% \]
-
-% For the partition function term, differentiation under the integral yields
+% First, let us see how knowing the energy functional enables function extrapolation.
+% Suppose we observe $D = \{(x_i, y_i)\}_{i=1}^{\nsamples}$ with $y_i = f(x_i) + \epsilon_i$,
+% $\epsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$, and wish to predict
+% $y_{m+1} = f(x_{m+1})$ at a new point $x_{m+1}$.
+% Knowing the Gibbs prior $p(f) \propto \exp(-\energy_{\theta^*}(f)) = \exp(-\langle \theta^*, \Phi(f) \rangle)$,
+% we recover $f$ via MAP estimation:
 % \begin{align*}
-% 	\nabla_\theta \log Z(\theta)
-% 	 & =
-% 	\frac{1}{Z(\theta)} \nabla_\theta Z(\theta)             \\
-% 	 & =
-% 	\frac{1}{Z(\theta)}
-% 	\int \left(-\Phi(f)\right)
-% 	\exp\!\big(-\langle \theta,\Phi(f)\rangle\big)\,\nu(df) \\
-% 	 & =
-% 	- \mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right].
+% 	\hat{f}_{\nsamples}
+% 	 & = \argmax_{f \in \ffam}\;
+% 	% p(f \mid \dataset_m)                                \\
+% 	%  & = \argmax_{f \in \ffam}\;
+% 	p\left(D \mid f\right)\, p(f)
+% 	= \argmin_{f \in \ffam}\;
+% 	\frac{1}{\sigma^2}\sum_{i=1}^{\nsamples} \bigl|y_i - f(x_i)\bigr|^2
+% 	+ \energy_{\theta^*}(f).
 % \end{align*}
+% This estimation will have a generalization guarantee of extrapolating $f$ to a new point $x_{\nsamples+1} \sim \mu$ via the following theorem:
+% \begin{theorem}[]\label{thm:f-generalization}
+% 	\begin{align*}
+% 		\left\|f^*-\hat{f}_{\nsamples}\right\|_{L^2} \lesssim \underbrace{\left\|f^*-f_{\theta^*}\right\|_{L^2}}_{\text{bias}}+\sigma \sqrt{\frac{\deff\left(\theta^*\right)}{\nsamples}}
+% 	\end{align*}
 
-% Combining the two terms, the gradient of the objective is
-% \[
-% 	\boxed{
-% 		\nabla_\theta \mathcal L(\theta)
-% 		=
-% 		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-% 		-
-% 		\mathbb E_{f \sim p_\theta}\!\left[\Phi(f)\right],
-% 	}.
-% \]
+% 	Correspondingly taking an expectation over $f \sim p_{\theta^*}$ yields:
+% 	\begin{align*}
+% 		\E_{f \sim p_{\theta^*}}\left[ \left\|f-\hat{f}_{\nsamples}\right\|_{L^2} \right] \lesssim \underbrace{\left\|f-f_{\theta^*}\right\|_{L^2}}_{\text{bias}}+\sigma \sqrt{\frac{\deff\left(\theta^*\right)}{\nsamples}}
+% 	\end{align*}
+% \end{theorem}
+
+% For example, assuming that our function is $s$-smooth on $\domain \subset \Real^D, \dim(\domain) = d$ then \Cref{thm:f-generalization} recovers the standard rate ${O}\left( \nsamples^{-2s/(2s+d)} \right)$ of the minimax rate of estimation of a smooth function from $\nsamples$ noisy observations.
 
 
+\section{Making the Optimization Problem Tractable via Transformers}\label{sec:optimization-problem}
 
-% A gradient descent step with step size $\eta>0$ is therefore given by
-% \[
-% 	\boxed{
-% 		\theta_{k+1}
-% 		=
-% 		\theta_k
-% 		-
-% 		\eta
-% 		\left(
-% 		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-% 		-
-% 		\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
-% 		\right).
-% 	}
-% \]
 
-% If $\theta$ is constrained (e.g., $\theta \ge 0$ or $\theta$ lies in a simplex), the update is followed by projection onto the feasible set $\Theta$:
-% \[
-% 	\theta_{k+1}
-% 	=
-% 	\Pi_\Theta
-% 	\left[
-% 		\theta_k
-% 		-
-% 		\eta
-% 		\left(
-% 		\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-% 		-
-% 		\mathbb E_{f \sim p_{\theta_k}}\!\left[\Phi(f)\right]
-% 		\right)
-% 		\right].
-% \]
-
-% At a stationary point $\theta^\star$, the optimality condition is the moment-matching identity
-% \[
-% 	\mathbb E_{\mathrm{data}}\!\left[\Phi(f)\right]
-% 	=
-% 	\mathbb E_{f \sim p_{\theta^\star}}\!\left[\Phi(f)\right].
-% \]
-% $\Phi(f)$ here a statistic extractor on function space.
-
-% \section{Back to the problem}
-% Given all distribution over functions minimizing the negative log-likelihood is
-% \begin{align*}
-% 	\min_\theta \mathcal{L}(\theta) =
-% 	% \underbrace{
-% 	\lambda \int_{f} R_\theta(f)d\pi(f)
-% 	% }_{\text{energy of functions}}
-% 	+
-% 	\log Z(\theta)
-% \end{align*}
-% where  $Z(\theta) = \int_{f \in X} \exp(-R_\theta(f)) \nu(df)$ is a normalizing constant, $X$ is function space, $\nu$ base reference measure on $X$.
-
-% However, everything we observe is just a discrete sample. Hence, given the empirical observations of functions $\{ f_i \}_{i=1}^\nfunctions$ our minimization looks like
-% \begin{align*}
-% 	\min_\theta \mathcal{L}(\theta) =  \frac{1}{\nfunctions} \sum_{i=1}^{\nfunctions} \energy_{\theta}(f_i) + \log Z(\theta)
-% \end{align*}
-
-Now, back to the original problem, where each function $f$ is given by its values i $n$ poitns $x_i$: $y_i = f(x_i) + \epsilon_i$, $\epsilon_i \overset{\text{i.i.d.}}{\sim} \mathcal{N}(0, \sigma^2)$.
-% Note, that
-% \begin{align*}
-% 	\log p_{\theta}(D_Y | f, D_X) \propto - \frac{1}{\sigma^2}\sum_{(x, y) \in D} \|y - f(x)\|_2^2
-% 	= \log p\left(D \mid f\right) \Rightarrow \\
-% 	-\log p_\theta\left(D_Y \mid D_X\right)=-\log \int \exp \left(-\log p\left(D \mid f\right)-\energy_{\theta}(f)\right) \nu(d f)+\log Z(\theta)
-% \end{align*}
-So given an observation $D^{(i)} = \{(x_j, y_j)\}_{j=1}^{\nsamples}$ our optimization problem turns into
+Even though, the \Cref{thm:theta-mle-rate} provides a provable estimation error rate guarantees for recovering the mixing measure $\theta^*$, hence, the kernel $\kernel_\theta$, from the functions $f_1, \ldots, f_{\nfunctions} \sim \mu_{\kernel_\theta}$, in practice we only observe the noisy functions values $Y = f_j(X) + \varepsilon_i$ for $f_j \sim \mu_\kernel, \varepsilon_i \iid N(0, \sigma^2)$.
+% Hence, we need to learn the mixing measure $\theta^*$ from the noisy functions values $Y_i = f_j(X_i) + \varepsilon_i$.
+So given observations $\dataset = \left\{\left(\mathbf{X}^{(i)}, \mathbf{y}^{(i)}\right)\right\}_{i=1}^{\nfunctions}$ our optimization problem turns into
 \begin{gather}\label{eq:loss-w-data}
-	\max_{\theta \in \Theta} p_\theta(\dataset) =
-	\min_{\theta \in \Theta}
+	\hat \theta_m = \argmax_{\theta \in \Theta} p_\theta(\dataset) =
+	\argmin_{\theta \in \Theta}
 	-\frac{1}{\nfunctions} \sum_{i=1}^{\nfunctions}
-	% \underbrace{
-	\log p_\theta\left(D^{(i)} \right)
-	% \log \int_{f \in \ffam} \exp \left(-\log p\left(D^{(i)} \mid f\right)-\energy_{\theta}(f)\right) \nu(d f)
-	% }
-	% _
-	% {L_\theta(D^{(i)})}
-	+\log Z(\theta)
+	\log p_\theta\left(\mathbf{y}^{(i)} \mid \mathbf{X}^{(i)}\right)
 \end{gather}
-
-Unfortunately, in practice each term $\log p_\theta\left(D^{(i)} \right)$ is intractable as
+where
 \begin{align*}
-	\log p_\theta\left(D \right) = \log \int_{f \in \ffam} \exp \left(-\log p\left(D \mid f\right)-\energy_{\theta}(f)\right) \nu(d f)
+	- \log p_\theta(\mathbf{y} \mid \mathbf{X}) =
+	-\log \int \exp\left(-\frac{1}{2\sigma^2}\|\mathbf{y} - f(\mathbf{X})\|^2\right) d\mu_{\kernel_\theta}(f)
 \end{align*}
 
+As our prior is a Gaussian Process, the exact Laplace approximation yields a closed-form expression for the log-likelihood:
+\begin{align*}
+	- \log p_\theta(\mathbf{y} \mid \mathbf{X}) =
+	% L_\theta(\hat{f}_\theta, D)
+	% +
+	% \frac{1}{2}\log \det H_\theta
+	% +
+	% \frac{n}{2}\log(2\pi)
+	% \\
+	% =
+	\frac{1}{2} \mathbf{y}^\top (\kernel_\theta(\mathbf{X}, \mathbf{X}) + \sigma^2 I)^{-1} \mathbf{y}
+	+ \frac{1}{2} \log \det(\kernel_\theta(\mathbf{X}, \mathbf{X}) + \sigma^2 I)
+	+ \frac{\nsamples}{2} \log(2\pi)
+\end{align*}
+
+Even though this problem is convex, there are two main challenges in implementing it in practice via gradient descent:
+\begin{itemize}
+	\item Parameter $\theta$ is infinite-dimensional.
+	\item The matrix inversion $(\kernel_\theta(\mathbf{X}, \mathbf{X}) + \sigma^2 I)^{-1}$ and the gradient with respect to $\theta$ is computationally prohibitive for large $\nsamples$.
+\end{itemize}
+
+First, let us discuss how to avoid the matrix inversion.
 
 \subsection{Bilevel Optimization Via Masking}\label{sec:masking}
-In this section, we discuss how to approximate our intractable convex optimization problem \eqref{eq:loss-w-data} by a bi-level non-convex optimization problem via masking approach. Fix a parameter $\theta$ and a dataset $D=\{(x_j,y_j)\}_{j=1}^n$.
-Define
-$
-	L_\theta(f, D)
-	:=
-	\ell(D,f)+ \energy_{\theta}(f),
-$
-where $\ell(D,f)$ denotes the empirical negative log-likelihood and
-$\energy_{\theta}$ is an energy functional.
-As the expression $-\log p(D \mid f) - \energy_{\theta}(f)$ is strongly convex, the Laplace approximation of $\log p_\theta\left(D \mid f\right)$ gives us
-\begin{equation}
-	\label{eq:laplace-result}
-	- \log p_\theta\left(D \right)
-	\;\approx\;
-	\underbrace{L_\theta(\hat f_\theta, D)}_{\text{MAP cost}}
-	\;+\;
-	\underbrace{\tfrac{1}{2}\log \det H_\theta}_{\text{complexity penalty}}
-	% =
-	% \log p\left(D \mid \hat f_\theta\right)
-	% +
-	% \energy_{\theta}(\hat f_\theta)
-	% +
-	% \frac{1}{2}\log\det H_\theta
-\end{equation}
-where $\hat f_\theta = \arg\min_f L_\theta(f,D)$ is the MAP estimator
-and \todo{fix}
-$H_\theta = \nabla^2_f \ell(D, \hat f_\theta) + \nabla^2 \energy_{\theta}^{\rm sm}(\hat f_\theta)$.
+One way to avoid the matrix inversion is to turn the optimization problem \eqref{eq:loss-w-data} into a bilevel optimization problem via masking approach.
+\begin{align*}
+	\frac{1}{2} \mathbf{y}^\top (\kernel_\theta + \sigma^2 I)^{-1} \mathbf{y}
+	= \frac{1}{2\sigma^2} \|\mathbf{y} - \hat{f}_\theta(\mathbf{X})\|^2
+	+
+	\frac{1}{2} \| f \|_{\kernel_\theta}^2
+\end{align*}
+where via \Cref{thm:posterior} we have
+\begin{align*}
+	\hat{f}_\theta =
+	\argmin_{f \in \ffam}
+	\frac{1}{2\sigma^2} \|\mathbf{y} - f(\mathbf{X})\|_2^2 + \frac{1}{2} \| f \|_{\kernel_\theta}^2
+\end{align*}
 
 
-% Assume:
-% \begin{itemize}
-%     \item The dataset $D$ is large (large $n$ )
-%     \item  Noise variance $\sigma^2$ is small
-%     \item The regularizer $R_\theta$ is coercive
-% \end{itemize}
+Given the collection of datasets $\mathcal{D} = \left\{\left(\mathbf{X}^{(i)}, \mathbf{y}^{(i)}\right)\right\}_{i=1}^{\nfunctions}$ we can split each pair $\left(\mathbf{X}, \mathbf{y}\right)$ into a nonoverlapping masked and unmasked halves: $\left(\mathbf{X}, \mathbf{y}\right) = \left(\mathbf{X}_{\text{C}}, \mathbf{y}_{\text{C}}\right) \bigsqcup \left(\mathbf{X}_{\text{Q}}, \mathbf{y}_{\text{Q}}\right)$.
 
-% Then the functional
-% $$
-% E_\theta(D, f):=\ell(D, f)+\lambda R_\theta(f)
-% $$
-
-% has a unique minimizer
-% $
-% \hat{f}_\theta:=\arg \min _f E_\theta(D, f)
-% $.
-% Around $\hat{f}_\theta$, the energy grows quadratically. Hence, the posterior over $f$,
-% $
-% p_\theta(f \mid D) \propto e^{-E_\theta(D, f)},
-% $
-% is sharply concentrated near $\hat{f}_\theta$
-
-
-% \subsection{Posterior concentration around the MAP estimator}
-
-
-
-% Assume the following:
-% \begin{enumerate}
-% 	\item The dataset $D$ is large (large $n$) and noise variance $\sigma^2$ is small
-% 	\item (\emph{Coercivity}) The functional $R_\theta$ is coercive on $X$
-% 	      modulo a finite-dimensional nullspace $\mathcal N$, i.e.,
-% 	      $\|f\|_X\to\infty$ with $f\perp\mathcal N$ implies $R_\theta(f)\to\infty$.
-% 	\item (\emph{Strict convexity}) The functional $\ell(D,\cdot)$ is strictly
-% 	      convex on $X/\mathcal N$.
-% 	\item (\emph{Regularity}) The map $f\mapsto E_\theta(f)$ is twice
-% 	      differentiable in a neighborhood of its minimizer.
-% \end{enumerate}
-
-% Under these assumptions, 
-% Note, for a fixed $\theta$ the minimizer $f$ of $L_\theta(f, D)$ is unique:
-% $
-% 	\hat f_\theta
-% 	=
-% 	\arg\min_{f\in \ffam} L_\theta(f, D)
-% $
-% % admits a unique solution modulo $\mathcal N$.
-% Moreover, the posterior distribution
-% $
-% 	p_\theta(f\mid D)
-% 	\propto
-% 	\exp\!\big(-L_\theta(f, D)\big)
-% $
-% concentrates in probability around $\hat f_\theta$ as either
-% $n\to\infty$ or $\sigma^2 \to 0$.
-% In particular, for any neighborhood $U$ of $\hat f_\theta$ in $\ffam$, $p_\theta(U\mid D) \longrightarrow 1$.
-% \subsection{Laplace approximation of the marginal likelihood}
-% \label{sec:laplace}
-%
-% Let $E_\theta(f)=\ell(D,f)+\lambda R_\theta(f)$ and let
-% $\hat f_\theta$ denote its unique minimizer.
-% Define the Hessian operator.  % acting on the tangent space of $X/\mathcal N$.
-% Using a second-order Taylor expansion,
-% $$
-% 	L_\theta(f, D)
-% 	=
-% 	L_\theta(\hat f_\theta, D)
-% 	+
-% 	\frac{1}{2}
-% 	\langle f-\hat f_\theta,\,
-% 	H_\theta (f-\hat f_\theta)\rangle
-% 	+
-% 	o(\|f-f^{*}_\theta\|_{L^2(\nu)}^2).
-% $$
-% substituting this expansion into the marginal likelihood integral yields
-% the Laplace approximation
-% \begin{equation}
-% 	\label{eq:laplace-approx}
-% 	\int_X
-% 	\exp\!\big(-L_\theta(f, D)\big)\,\nu(df)
-% 	\;\approx\;
-% 	\exp\!\big(-L_\theta(f^{*}_\theta, D)\big)
-% 	\int
-% 	\exp\!\left(
-% 	-\tfrac{1}{2}
-% 	\langle h, H_\theta h\rangle
-% 	\right)\,dh.
-% \end{equation}
-
-% The remaining integral is Gaussian and evaluates (up to a multiplicative
-% constant) to $(\det H_\theta)^{-1/2}$, where $\det H_\theta$ denotes a suitable
-% regularized determinant. Consequently,
-% where Hessian operator $H_\theta := \nabla^2 E_\theta(\hat f_\theta)$ is the second-order derivative of the energy functional $E_\theta$, we can approximate the intractable integral as:
-% \begin{equation}
-% 	\label{eq:laplace-result}
-% 	\int_X
-% 	\exp\!\big(-\log p\left(D \mid f\right) - \energy_{\theta}(f)\big)\,\nu(df)
-% 	\;\approx\;
-% 	\exp\!\big(-\log p\left(D \mid \hat f_\theta\right) - \energy_{\theta}(\hat f_\theta)\big)
-% 	(\det H_\theta)^{-1/2}.
-% \end{equation}
-
-
-% \subsection{Decomposition of the marginal likelihood objective}
-% \label{sec:objective-decomposition}
-
-% Substituting this approximation \eqref{eq:laplace-result} into the
-% negative log marginal likelihood yields
-% \begin{equation}
-% 	\label{eq:laplace-objective}
-% 	-\log p_\theta(D)
-% 	\;\approx\;
-% 	% +
-% 	% \log Z(\theta)
-% \end{equation}
-% up to additive constants independent of $\theta$. 
-
-Using this approximation, we can turn the intractable convex optimization problem \eqref{eq:loss-w-data} into a tractable bilevel non-convex surrogate of it.
-%
-% This expression decomposes the marginal likelihood into four interpretable
-% components:
-% \begin{enumerate}
-% 	\item \emph{Data-fit term} $\ell(D,\hat f_\theta)$, measuring how well the
-% 	      MAP estimator explains the observations;
-% 	\item \emph{Regularization cost} $\lambda R_\theta(\hat f_\theta)$,
-% 	      encoding alignment between the learned function and the inductive bias
-% 	      imposed by $\theta$;
-% 	\item \emph{Local complexity (Occam) penalty}
-% 	      $\frac{1}{2}\log\det H_\theta$, which penalizes flat or unstable directions
-% 	      around the MAP solution;
-% 	\item \emph{Global complexity penalty} $-\log Z(\theta)$, measuring the
-% 	      overall volume of functions favored by the prior.
-% \end{enumerate}
-%
-% Together, these terms characterize the tradeoff between data fit,
-% regularization, and model complexity in the marginal likelihood objective.
-%
-% \section{Back to the optimization}
-%
-Given the collection of datasets $\mathcal{D} = \left\{\left(D^{(i)}, D^{(i)}_{\text{mask}}\right)\right\}_{i=1}^{\nfunctions}$.
 Substituting this into \Cref{eq:loss-w-data} we have
-\begin{gather}
-	\max_{\theta \in \Theta}  p_\theta(D) =
+\begin{gather*}
+	\hat \theta_{\dataset} =
 	\min_{\theta \in \Theta}
 	\frac{1}{\nfunctions} \sum_{i=1}^\nfunctions
-	\log p\left(D^{(i)}_{\text{mask}} \mid \hat f^{(i)}_\theta\right)
+	\frac{1}{2\sigma^2} \|\mathbf{y}_{\text{Q}} - \hat{f}_\theta(\mathbf{X}_{\text{Q}})\|^2
 	+
-	\energy_{\theta}\left(\hat f^{(i)}_\theta\right)
+	\frac{1}{2} \| \hat{f}_\theta \|_{\kernel_\theta}^2
 	+
-	\frac{1}{2}\log\det H^{(i)}_\theta
-	+
-	\log Z(\theta) \quad \text{(outer problem)}
+	\frac{1}{2} \log \det(\kernel_\theta(\mathbf{X}_{\text{Q}}, \mathbf{X}_{\text{Q}}) + \sigma^2 I)
+	% \quad \text{(outer problem)}
 	\nonumber
 	\\
-	\text{where } \hat f_\theta^{(i)} = \argmin_{f\in \ffam}
-	\log p\left(D^{(i)} \mid f\right)
-	+
-	\energy_{\theta}\left(f\right) \quad \text{(inner problem)}
-\end{gather}
+	\text{where }
+	\hat{f}_\theta =
+	\argmin_{f \in \HK}
+	\frac{1}{2\sigma^2} \|\mathbf{y}_{\text{C}} - f(\mathbf{X}_{\text{C}})\|_2^2 + \frac{1}{2} \| f \|_{\kernel_\theta}^2
+\end{gather*}
 
 % This is bilever optimization. Even though it lost the convexity, it is tractable and can be solved in practice by alternating gradient descent. 
-The inner problem has parameter $\theta$ fixed and find the function $\hat f^{(i)}_\theta$ that minimizes the loss + energy functional. The outer problem then finds the parameter $\theta$ yields the best prediction of $\hat f^{(i)}_\theta$ on the masked dataset $D^{(i)}_{\text{masked}}$. Both problems are convex on their own but not jointly convex. However, we can solve it by alternating gradient descent with a following guarantee:
+The inner problem has parameter $\theta$ fixed and find the MLE of the function $\hat f_\theta$ given the unmasked dataset $\mathbf{X}_{\text{C}}$ and $\mathbf{y}_{\text{C}}$. The outer problem then finds the parameter $\theta$ that yields the best prediction of $\hat f_\theta$ on the masked dataset $\mathbf{X}_{\text{Q}}$ and $\mathbf{y}_{\text{Q}}$. Both problems are convex on their own but not jointly convex. However, we can solve it by alternating gradient descent with a following guarantee:
 \begin{theorem}
 	\todo{add theorem}
 \end{theorem}
 
 \paragraph{The Inner Problem.}
-For a dataset $D = \{(x_i, y_i)\}$ we have
+For a dataset $\mathbf{X}_{\text{C}}, \mathbf{y}_{\text{C}}$ we have
 \begin{align*}
-	\hat f_\theta = \argmin_f
-	\log p\left(D \mid f\right)
-	+
-	\energy_{\theta}\left(f\right)
-	=
-	\argmin_f
-	\| f(x_i) - y_i\|_2^2
-	+
-	\langle \theta, \Phi(f) \rangle
+	\hat{f}_\theta =
+	\argmin_{f \in \HK}
+	\frac{1}{2\sigma^2} \|\mathbf{y}_{\text{C}} - f(\mathbf{X}_{\text{C}})\|_2^2 + \frac{1}{2} \| f \|_{\kernel_\theta}^2
 \end{align*}
 
-Note, that due to convexity, this can be solved by subgradient descent on $f$ with a step size $\eta > 0$:
+One gradient step of the inner problem is:
+
 \begin{align*}
-	f^{(t+1)} = f^{(t)} - \eta \left[ 2\sum_{i=1}^{\nsamples} \bigl(f^{(t)}(x_i) - y_i\bigr) \delta_{x_i} + \nabla_f \energy_{\theta}(f^{(t)}) \right]
+	f^{(t+1)} & = f^{(t)} - \eta \nabla_f \left[\frac{1}{2\sigma^2} \|\mathbf{y}_C - f(\mathbf{X}_C)\|_2^2 + \frac{1}{2}\|f\|_{\mathcal{H}_{\kernel_\theta}}^2\right]\bigg|_{f = f^{(t)}} \\
+	          & = f^{(t)} - \eta \left( -\frac{1}{\sigma^2}\sum_{i=1}^{n_C} (y_i - f^{(t)}(x_i)) \kernel_\theta(\cdot, x_i) + f^{(t)} \right)                                             \\
+	          & = (1 - \eta) f^{(t)} + \frac{\eta}{\sigma^2} \sum_{i=1}^{n_C} (y_i - f^{(t)}(x_i)) \kernel_\theta(\cdot, x_i)
 \end{align*}
-where $\nabla_f \energy_{\theta}(f^{(t)})$ is a (sub)gradient of the energy functional.
+
 
 % Note, in all the examples that follow $\Phi(f)$ is convex in $f$.
 
@@ -789,33 +671,33 @@ where $\nabla_f \energy_{\theta}(f^{(t)})$ is a (sub)gradient of the energy func
 
 
 
-\section{Connection to Transformers And Its Implications}
+% \section{Connection to Transformers And Its Implications}
 
-In most of the examples above, the key step of implementing a (sub)gradient descent for the inner problem is to compute the discrete (anisotropic) Laplacian $\Delta_Q$ for some PSD matrix $Q$. The original Laplacian $\Delta_Q$ can be approximated by its discrete version $\hat \Delta_Q \in \Real^{n \times n}$ computed on a set of points $x_1, \ldots, x_n \in \domain$:
-\begin{gather*}
-	% \label{eq:discrete-laplacian}
-	\hat \Delta_Q = I - D^{-\nicefrac{1}{2}} W D^{-\nicefrac{1}{2}} \quad \text{where} \\
-	W_{ij} = \exp\left(\frac{-\langle x_i - x_j, \Pi_{x_i} Q^\dagger \Pi_{x_i} (x_i - x_j)\rangle}{\epsilon} \right) \quad \text{and} \quad D_{ii} = \sum_{j=1}^n W_{ij}.
-\end{gather*}
+% In most of the examples above, the key step of implementing a (sub)gradient descent for the inner problem is to compute the discrete (anisotropic) Laplacian $\Delta_Q$ for some PSD matrix $Q$. The original Laplacian $\Delta_Q$ can be approximated by its discrete version $\hat \Delta_Q \in \Real^{n \times n}$ computed on a set of points $x_1, \ldots, x_n \in \domain$:
+% \begin{gather*}
+% 	% \label{eq:discrete-laplacian}
+% 	\hat \Delta_Q = I - D^{-\nicefrac{1}{2}} W D^{-\nicefrac{1}{2}} \quad \text{where} \\
+% 	W_{ij} = \exp\left(\frac{-\langle x_i - x_j, \Pi_{x_i} Q^\dagger \Pi_{x_i} (x_i - x_j)\rangle}{\epsilon} \right) \quad \text{and} \quad D_{ii} = \sum_{j=1}^n W_{ij}.
+% \end{gather*}
 
-Even though the attention mechanism is not exactly the same as the discrete Laplacian, it is similar to it in a few ways. The attention mechanism is a way to compute the weighted average ..... The discrete Laplacian is a way to compute the weighted average of the features of the points in the neighborhood of a given point.
-Consider a transformer-like architecture where the softmax attention is replaced with 2 different types of heads per layer:
-\begin{itemize}
-	\item 1 \textbf{linear} head: $g_0(y^{(t)}) = \ldots$
-	\item $H$ \textbf{diffusion} heads each parametrized by some $Q_{h} \in \mathcal{Q}$ and $\theta_{h} \in \Real^+$: $\hat g_i(y^{(t)}) =  \eta \theta_h \Delta_{Q_h} y^{(t)}$.
-\end{itemize}
-Then the forward pass is
-\begin{align*}
-	y^{(t+1)} \in \Real^{\nsamples}, \hat g_i:  \Real^{\nsamples} \to \Real^{\nsamples}:
-	% \\
-	% \quad \quad
-	y^{(t+1)} = \left(I - \left[y^{(t)} - y^{(0)}\right]_\text{mask} - \sum_{h=1}^H \hat g_h(y^{(t)})\right) y^{(t)}
-\end{align*}
-Which in the {mean-field limit} $\nsamples \to \infty, H \to \infty$ yields
-\begin{align*}
-	f^{(t+1)} \in \ffam: g_i: \ffam \to \ffam:
-	f^{(t+1)} = \left(I - \left[f^{(t)} - f^{(0)}\right]_\text{mask} - \int\limits_{Q\in\mathcal Q} g_Q(f^{(t)}) d\theta(Q)\right) f^{(t)}
-\end{align*}
+% Even though the attention mechanism is not exactly the same as the discrete Laplacian, it is similar to it in a few ways. The attention mechanism is a way to compute the weighted average ..... The discrete Laplacian is a way to compute the weighted average of the features of the points in the neighborhood of a given point.
+% Consider a transformer-like architecture where the softmax attention is replaced with 2 different types of heads per layer:
+% \begin{itemize}
+% 	\item 1 \textbf{linear} head: $g_0(y^{(t)}) = \ldots$
+% 	\item $H$ \textbf{diffusion} heads each parametrized by some $Q_{h} \in \mathcal{Q}$ and $\theta_{h} \in \Real^+$: $\hat g_i(y^{(t)}) =  \eta \theta_h \Delta_{Q_h} y^{(t)}$.
+% \end{itemize}
+% Then the forward pass is
+% \begin{align*}
+% 	y^{(t+1)} \in \Real^{\nsamples}, \hat g_i:  \Real^{\nsamples} \to \Real^{\nsamples}:
+% 	% \\
+% 	% \quad \quad
+% 	y^{(t+1)} = \left(I - \left[y^{(t)} - y^{(0)}\right]_\text{mask} - \sum_{h=1}^H \hat g_h(y^{(t)})\right) y^{(t)}
+% \end{align*}
+% Which in the {mean-field limit} $\nsamples \to \infty, H \to \infty$ yields
+% \begin{align*}
+% 	f^{(t+1)} \in \ffam: g_i: \ffam \to \ffam:
+% 	f^{(t+1)} = \left(I - \left[f^{(t)} - f^{(0)}\right]_\text{mask} - \int\limits_{Q\in\mathcal Q} g_Q(f^{(t)}) d\theta(Q)\right) f^{(t)}
+% \end{align*}
 
 
 
