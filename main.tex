@@ -568,6 +568,17 @@ Some shortcomings of the manifold hypothesis are that \begin{itemize}
 
 \emile{would be nice to elaborate on the above, and to point to specific instances where assuming it has some ``catastrophic'' consequences. that could go into a motivating examples section}
 
+
+Data may be infinite-dimensional (images as functions), unions/strata, etc., so a ``single smooth manifold'' is an inadequate representation. 
+
+\paragraph{Contributions:}
+\begin{enumerate}
+    \item We propose an effective-dimension hypothesis at finite scale, and connect it to Occam penalties in energy-based learning,
+    \item We define a multiscale effective dimension hypothesis on general Dirichlet spaces and finite discretizations (showing that coarse/discretized functions recover the manifold hypothesis),
+    \item We show that under quadratic/Laplacian regularization, an Occam term (log det Hessian) induces a trace/effective-dimension quantity that is scale-dependent, and it is large for noise/fractal-like signals,
+    \item We show something diffusion related
+\end{enumerate}
+
 \subsection{Related Works}
 
 
@@ -617,7 +628,7 @@ Also, importantly, each image $f$ is not a smooth function: its a combination of
 \newpage
 
 
-\section{Set Up}
+\section{Preliminaries}
 
 
 We work in an abstract setting that captures the common statistical belief
@@ -748,9 +759,6 @@ geometric dimension in the classical setting.
 
 
 
-\newpage
-\section{Relevant Things}
-
 \begin{definition}[Curvature–Dimension Condition, \cite{ledouxGeometryMarkovDiffusion2000} (Definition 1.2)]\label{def:cd}
 	For $\rho \in \Real, N \in (0, \infty)$, $L_{\nu}$ satisfies $\CD(\rho, N)$ if for all $f \in \mathcal{A}$
 	$$\Gamma_2^{\nu}(f, f) \geq \rho \Gamma(f, f)+ \frac{1}{N} \left(L_{\nu} f\right)^2$$
@@ -794,15 +802,23 @@ Consequences:
 \end{theorem}
 
 The smaller $C_{LS}$ -- the better.
+ 
 
-\subsection{Effective Dimension}
+\subsection{Recovering the Manifold Hypothesis upon coarsening}
+Moreover, we show that the effective dimension hypothesis recovers the manifold hypothesis when the infinite-dimensional space is coarsened into pixels.
 
-
-
+\begin{restatable}{theorem}{recoveringmanifoldhypothesis}{Recovering the Manifold Hypothesis}\label{theorem: recovering the manifold hypothesis}
+Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
+    \[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
+\end{restatable}
 
 \begin{corollary}
-	If $\nu$ satisfies $\CD(\rho, N)$ then $\deff \leq N$
+    Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
 \end{corollary}
+
+\begin{remark}
+    The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
+\end{remark}
 
 \newpage
 \section{Supervised Learning: Learning a Function From Data}
@@ -1147,11 +1163,7 @@ need framework that shows that pure noise, fractals, hierarchical representation
 \section{Recovering the Manifold Hypothesis}
 We show that the manifold hypothesis is recovered after coarsening the effective dimension hypothesis in \cref{theorem: recovering the manifold hypothesis}.
 
-\begin{theorem}\label{theorem: recovering the manifold hypothesis}
-    Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
-    \[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
-\end{theorem}
-
+\recoveringmanifoldhypothesis
 
 \begin{proof}
     Let $X\sim \mu$ and set $Y\coloneqq \pi(X)$. Since $\bar{\mu}\coloneqq \pi_{\#}\mu$, we have $Y\sim\bar{\mu}$. Since $X\in T_\epsilon(M)$ almost surely, and $\pi(X)$ is the nearest point on $M$, we have $\|X-Y\| = \|X- \pi(X)\| = \mathrm{dist}(X,M) \leq \epsilon$, almost surely. Next, we consider the coupling $\gamma = (\mathrm{Id},\pi)_{\#\mu} \in \Pi(\mu,\bar{\mu})$ of $\mu$ and $\bar{\mu}$, and $\gamma$ is supported on pairs $x,y$ with $\|x-y\|\leq \epsilon$. Therefore, for $1\leq p <\infty$, we have
@@ -1174,13 +1186,6 @@ $\int f\mathrm d\bar{\mu} = \int f(\pi(x)) \mathrm d\mu(x)$. Therefore, we have
 which proves the theorem.
 \end{proof}
 
-\begin{corollary}
-    Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
-\end{corollary}
-
-\begin{remark}
-    The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
-\end{remark}
 
 % \begin{theorem}
 %     Let $\cM\subset \R^D$ be a compact $C^2$ $d$-manifold with tubular radius $r_0$ and let $\mu$ be supported on the tangent space $T_\epsilon(\cM)$ with $\epsilon < r_0$. Let $\bar{\mu} = \pi_{\#}\mu$ be the projection onto $\cM$. Then, for observables of spatial resolution $\sqrt{t}\gg \epsilon$, the scale-dependent complexity $K_\mu(t)$ and $K_{\bar{\mu}}(t)$ are equivalent up to a controllable error, and hence $d_\mu(t)\approx d$. 
