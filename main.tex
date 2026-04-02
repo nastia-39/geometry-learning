@@ -568,56 +568,20 @@ Some shortcomings of the manifold hypothesis are that \begin{itemize}
 
 \emile{would be nice to elaborate on the above, and to point to specific instances where assuming it has some ``catastrophic'' consequences. that could go into a motivating examples section}
 
-\subsection{Related Works}
+
+Data may be infinite-dimensional (images as functions), unions/strata, etc., so a ``single smooth manifold'' is an inadequate representation.
+
+\paragraph{Contributions:}
+\begin{enumerate}
+	\item We propose an effective-dimension hypothesis at finite scale, and connect it to Occam penalties in energy-based learning,
+	\item We define a multiscale effective dimension hypothesis on general Dirichlet spaces and finite discretizations (showing that coarse/discretized functions recover the manifold hypothesis),
+	\item We show that under quadratic/Laplacian regularization, an Occam term (log det Hessian) induces a trace/effective-dimension quantity that is scale-dependent, and it is large for noise/fractal-like signals,
+	\item We show something diffusion related
+\end{enumerate}
 
 
 
-\paragraph{Energy-based models} \cite{song2021trainenergybasedmodels, du2019implicit, lecun2006tutorial, zhu2024learning, du2021unsupervised, du2020compositional}
-
-
-\paragraph{Compositional generation} \cite{decompdiffusion, liu2021learning, 10.1007/978-3-031-19790-1_26, DBLP:conf/iccv/0010DLT023, composition_position,  bagautdinov2018modeling}
-
-\paragraph{Occam's razor} \cite{elmoznino2025incontextlearningoccamsrazor, rasmussen2000occam}
-
-\paragraph{Bakry-Emery}
-
-\paragraph{Dirichlet Form}
-
-\paragraph{Example: Vision Data}
-
-Each 2d image (or 3d scene or a point cloud) can be modeled $f: \Real^2 \to \Real^3$ as a function from coordinates to RGB (or XYZ) values. That's how NeRFS work:
-
-\paragraph{Neural Radiance Fields (NeRFs).}
-\cite{mildenhall2021nerf, pumarola2021d, 50730, wang2022nerfneuralradiancefields, rabby2024beyondpixelscomprehensivereviewevolution, 9710464, 10.1145/3528223.3530127, 9578751, 9577688, 10.1007/978-3-031-19824-3_20}
-\emile{this actually looks very relevant. would be worth doing a deeper dive into this}
-A \emph{Neural Radiance Field} models a 3D scene as a continuous function
-\[
-	f_\theta : (\mathbf{x}, \mathbf{d}) \;\mapsto\; (\sigma, \mathbf{c}),
-\]
-where
-\begin{itemize}
-	\item $\mathbf{x} \in \mathbb{R}^3$ denotes a spatial location,
-	\item $\mathbf{d} \in \mathbb{S}^2$ denotes a viewing direction,
-	\item $\sigma \in \mathbb{R}_{\ge 0}$ is the volume density at $\mathbf{x}$,
-	\item $\mathbf{c} \in \mathbb{R}^3$ is the emitted RGB color in direction $\mathbf{d}$.
-\end{itemize}
-
-The key idea is that the scene is represented neither as a mesh, nor as a voxel grid,
-nor as a point cloud, but as a \emph{continuous radiance field} parameterized by a neural network.
-
-In a similar way, each 2d image can be modeled as a function from coordinates to RGB values: $f: \Real^2 \to \Real^3$ and the embedding of this function would the weights of the corresponding ReLU network. The regular manifold hypothesis doesn't properly capture this structure that:
-\begin{itemize}
-	\item In a union of manifolds
-	\item Has some hierarchical structure.
-	\item Has permutation-invariance with respect to weights in each layer.
-\end{itemize}
-
-Also, importantly, each image $f$ is not a smooth function: its a combination of a "simple" in some sense partition of the image into smooth enough regions.
-
-\newpage
-
-
-\section{Set Up}
+\section{Preliminaries}
 
 
 We work in an abstract setting that captures the common statistical belief
@@ -713,7 +677,7 @@ evolves under this semigroup:
 The Bakry--Émery condition $\Gamma_2^\nu(f)\ge\rho\,\Gamma(f)$ ($\rho\in\mathbb{R}$)
 encodes a lower bound on the Ricci curvature of the underlying space.
 
-\paragraph{Spectral dimension.}
+\paragraph{Effective dimension.}
 The eigenvalue asymptotics of $L_\nu$ encode the intrinsic dimension of the
 learning space, providing the key rate parameter throughout the paper.
 
@@ -748,9 +712,6 @@ geometric dimension in the classical setting.
 
 
 
-\newpage
-\section{Relevant Things}
-
 \begin{definition}[Curvature–Dimension Condition, \cite{ledouxGeometryMarkovDiffusion2000} (Definition 1.2)]\label{def:cd}
 	For $\rho \in \Real, N \in (0, \infty)$, $L_{\nu}$ satisfies $\CD(\rho, N)$ if for all $f \in \mathcal{A}$
 	$$\Gamma_2^{\nu}(f, f) \geq \rho \Gamma(f, f)+ \frac{1}{N} \left(L_{\nu} f\right)^2$$
@@ -766,215 +727,53 @@ geometric dimension in the classical setting.
 	\end{itemize}
 \end{example}
 
-\subsection{Sub-Exponential Concentration}
+% \subsection{Sub-Exponential Concentration}
 
-\begin{definition}[Log-Sobolev Inequality]
-	Given $\mu$ for there is a constant $C_{LS}$ such that the following holds for any $f: X \to \Real$
-	$$\operatorname{Ent}_\mu\left(f^2\right) \leq 2 C_{LS} \int\|D f\|^2 d \mu$$
-	where $\operatorname{Ent}_\mu(g)=\int g \log g d \mu-\int g d \mu \cdot \log \int g d \mu$ for $g \geq 0$.
-\end{definition}
+% \begin{definition}[Log-Sobolev Inequality]
+% 	Given $\mu$ for there is a constant $C_{LS}$ such that the following holds for any $f: X \to \Real$
+% 	$$\operatorname{Ent}_\mu\left(f^2\right) \leq 2 C_{LS} \int\|D f\|^2 d \mu$$
+% 	where $\operatorname{Ent}_\mu(g)=\int g \log g d \mu-\int g d \mu \cdot \log \int g d \mu$ for $g \geq 0$.
+% \end{definition}
 
-\begin{lemma}
-	Assuming $\Gamma_2^{\mu}(f, f) \geq \rho \Gamma(f, f)$ for all $f \in \mathcal{A}$ then $C_{LS}\leq \frac{1}{\rho}$
-\end{lemma}
+% \begin{lemma}
+% 	Assuming $\Gamma_2^{\mu}(f, f) \geq \rho \Gamma(f, f)$ for all $f \in \mathcal{A}$ then $C_{LS}\leq \frac{1}{\rho}$
+% \end{lemma}
 
-Consequences:
-\begin{theorem}[Hypercontractivity, Gross 1975]
-	The LSI is equivalent  to hypercontractivity of the semigroup: for $1<p<q<\infty$,
-	$$
-		\left\|P_t f\right\|_{L^q(\mu)} \leq\|f\|_{L^p(\mu)} \quad \text { when } t \geq \frac{C_{L S}}{2} \log \frac{q-1}{p-1}
-	$$
-\end{theorem}
+% Consequences:
+% \begin{theorem}[Hypercontractivity, Gross 1975]
+% 	The LSI is equivalent  to hypercontractivity of the semigroup: for $1<p<q<\infty$,
+% 	$$
+% 		\left\|P_t f\right\|_{L^q(\mu)} \leq\|f\|_{L^p(\mu)} \quad \text { when } t \geq \frac{C_{L S}}{2} \log \frac{q-1}{p-1}
+% 	$$
+% \end{theorem}
 
-\begin{theorem}[Sub-Gaussian concentration]
-	For $f$ with $\Gamma(f, f) \leq 1$,$ \mu$--a.e., the Herbst argument gives
-	$$
-		\mu\left(f-\mathbb{E}_\mu f \geq t\right) \leq \exp \left(-\frac{t^2}{2 C_{L S}}\right)
-	$$
-\end{theorem}
+% \begin{theorem}[Sub-Gaussian concentration]
+% 	For $f$ with $\Gamma(f, f) \leq 1$,$ \mu$--a.e., the Herbst argument gives
+% 	$$
+% 		\mu\left(f-\mathbb{E}_\mu f \geq t\right) \leq \exp \left(-\frac{t^2}{2 C_{L S}}\right)
+% 	$$
+% \end{theorem}
 
-The smaller $C_{LS}$ -- the better.
-
-\subsection{Effective Dimension}
+% The smaller $C_{LS}$ -- the better.
 
 
+\subsection{Recovering the Manifold Hypothesis upon coarsening}
+Moreover, we show that the effective dimension hypothesis recovers the manifold hypothesis when the infinite-dimensional space is coarsened into pixels.
 
+\begin{restatable}{theorem}{recoveringmanifoldhypothesis}{Recovering the Manifold Hypothesis}\label{theorem: recovering the manifold hypothesis}
+	Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
+	\[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
+\end{restatable}
 
 \begin{corollary}
-	If $\nu$ satisfies $\CD(\rho, N)$ then $\deff \leq N$
+	Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
 \end{corollary}
 
-\newpage
-\section{Supervised Learning: Learning a Function From Data}
-
-Adding a prior $p(f) \propto e^{-E(f)}$ over functions $f: X \to \Real$ the supervised learning problem is equivalent to the following optimization problem:
-\begin{align*}
-	\hat f_n =  \min_f  \sum_{i=1}^n \| f(x_i) - y_i \|^2 + E(f)
-\end{align*}
-
-Note, that $E(f)$ defines sublevel sets $\mathcal{F}_r=\{f: E(f) \leq r\}$. The generalization error of $\hat{f}_n$ decomposes as:
-
-$$
-	\mathbb{E}\left\|f^*-\hat{f}_n\right\|_{L^2}^2 \leq \underbrace{\inf _{f: E(f) \leq r}\left\|f-f^*\right\|^2}_{\text {bias: how well } \mathcal{F}_r \text { approximates } f^*}+\underbrace{\varepsilon_n^2(r)}_{\text {variance: estimation error within } \mathcal{F}_r}
-$$
-
-
-\begin{definition}[Sublevel set]
-	Given a convex functional $E: \mathcal{A} \rightarrow \mathbb{R} \cup\{+\infty\}$, a radius $r>0$, and a metric $d$ on $\mathcal{A}$, the sublevel set is:
-	$$
-		\mathcal{B}_r(E)=\{f \in \mathcal{A}: E(f) \leq r\}
-	$$
-\end{definition}
-
-\begin{definition}[Covering number]
-	The $\epsilon$-covering number is:
-
-	$$
-		N\left(\epsilon, \mathcal{B}_r(E), d\right)=\min \left\{m \in \mathbb{N}: \exists f_1, \ldots, f_m \in \mathcal{A} \text { s.t. } \mathcal{B}_r(E) \subseteq \bigcup_{i=1}^m\left\{g: d\left(g, f_i\right) \leq \epsilon\right\}\right\}
-	$$
-
-	The natural metric in our setting is $d(f, g)=\|f-g\|_{L^2(\mu)}=\left(\int_X(f-g)^2 d \mu\right)^{1 / 2}$
-\end{definition}
-
-\begin{definition}[Metric entropy]
-	$$
-		\mathcal{H}\left(\epsilon, \mathcal{B}_r(E), d\right)=\log N\left(\epsilon, \mathcal{B}_r(E), d\right)
-	$$
-\end{definition}
-
-The smaller the metric entropy -- the less samples we need to learn a function from data.
-
-Lets consider 3 simple enough cases of what $E(f)$ can be:
-\begin{enumerate}
-	\item Given convex $g: \Real \to \Real$ define $E(f) = \int_X g(f(x)) d \mu(x)$
-	\item $E(f) = \mathcal{E}_{\mu}(f, f)$
-	\item Given $\phi: \Real \to \Real$ define $E(f) = \langle f, \phi(L_{\mu}) f \rangle$
-\end{enumerate}
-
-
-\begin{proposition}
-	For $E(f) = \int_X g(f(x)) d \mu(x)$
-	The covering number of $\mathcal{B}_r(E)$ is at most $N(r, E) = \frac{1}{r} \int_0^r \mathcal{H}(\epsilon, \mathcal{B}_r(E), d) d \epsilon$.
-\end{proposition}
-
-
-
-\newcommand{\basemeasure}{\mu_0}
-\newcommand{\targetmeasure}{\mu}
-
-
-As we introduced Definition \ref{def:cd} that captures the "compactness" of the measure, we can say now that  $\mu \ll \nu$ if
-\begin{gather*}
-	\mu \in CD(\rho_\mu, N_{\mu}), \nu \in CD(\rho_\nu, N_{\nu}) \\
-	\text{ and } \\
-	\rho_\mu > \rho_\nu, N_{\mu} < N_{\nu}
-\end{gather*}
-
-The following theorem captures what density $\frac{d \mu}{d \nu}$ "simplifies" the measure.
-
-\begin{theorem}[Perturbation of $\operatorname{CD}(\rho, N)$]
-	\todo{double check, add a proof, better notation}
-
-	Let $\left(X, \mathcal{A}, \Gamma, \mu_0\right)$ be a Markov diffusion structure with generator $L_0$ satisfying $\operatorname{CD}(\rho, N):$
-
-	$$
-		\Gamma_2^{(0)}(f, f) \geq \rho \Gamma(f, f)+\frac{1}{N}\left(L_0 f\right)^2 \quad \text { for all } f \in \mathcal{A}
-	$$
-
-
-	Let $U \in \mathcal{A}$ satisfy:
-	\begin{itemize}
-		\item Abstract $\kappa$-convexity: $\quad \Gamma(f, \Gamma(U, f))-\frac{1}{2} \Gamma(U, \Gamma(f, f)) \geq \kappa \Gamma(f, f) \quad$ for all $f$
-		\item Bounded abstract gradient: $\quad \Gamma(U, U) \leq M \quad \mu_0$-a.e.
-	\end{itemize}
-
-	Let $d \mu=Z^{-1} e^{-U} d \mu_0$ with $L_U f=L_0 f-\Gamma(U, f)$.
-	Then for any $\varepsilon \in(0,1),\left(L_U, \Gamma, \mu\right)$ satisfies $\operatorname{CD}\left(\rho^{\prime}, N^{\prime}\right)$ with
-
-	$$
-		\rho^{\prime}=\rho+\kappa-\frac{(1 / \varepsilon-1) M}{N}, \quad N^{\prime}=\frac{N}{1-\varepsilon}
-	$$
-
-
-	In particular, $C_{L S}(\mu) \leq \frac{1}{\rho^{\prime}}$ whenever $\rho^{\prime}>0$.
-\end{theorem}
+\begin{remark}
+	The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
+\end{remark}
 
 \newpage
-
-\section{Diffusion Models}
-
-\todo{Add noise schedule maybe.}
-
-\paragraph{Forward process: $\mu \to \basemeasure$} Density $p_t = \mu_t / \basemeasure$ evolves according to the diffusion equation:
-
-$$
-	\frac{\partial p_t}{\partial t} = L_{\basemeasure} p_t \implies p_t = e^{tL_{\basemeasure}} \basemeasure
-$$
-
-
-
-\paragraph{Backward process: $\basemeasure \to \mu$} Density $p_t$ evolves according to the diffusion+drift equation:
-$$
-	\frac{\partial p_t}{\partial t} = L_{\basemeasure} p_t - \nabla \cdot (p_t \nabla \log p_t)
-$$
-
-To be able to reverse it back, we need to learn $\nabla \log p_t$. Let us look at the very first $\delta$  step of the forward process (corresponding to the very last $\delta$ step of the backward process) and learn a score function for that step $s(\cdot) = \nabla \log p_{T} = \nabla \log \frac{d\mu}{d\nu}$. The minimization problem is:
-
-\begin{align}\label{eq:s-min}
-	\min_s \underbrace{\mathbb{E}_{p_T} \left[ \left\| s(\cdot) - \nabla \log p_{T} \right\|^2 \right]}_{\text{data term}} +
-	\underbrace{R(s)}_{\text{regularizer term}}
-\end{align}
-
-
-
-While the data term is straightforward, the regularizer term is to be chosen. Assuming $d \mu=Z^{-1} e^{-U} d \mu_0 \Rightarrow \nabla \log p_{T} = - D U$. Our prior (hope) for $U$ is that it concentrates the measure better, specifically, that by Definition \ref{def:cd}
-$U \in \mathcal{A}$ satisfies:
-\begin{itemize}
-	\item $\kappa$-convexity: $\quad \Gamma(f, \Gamma(U, f))-\frac{1}{2} \Gamma(U, \Gamma(f, f)) \geq \kappa \Gamma(f, f) \quad$ for all $f$
-	\item Bounded gradient: $\quad \Gamma(U, U) \leq M \quad \mu_0$-a.e.
-\end{itemize}
-
-% Let us loos at these two conditions one by one.
-% \paragraph{$\kappa$-convexity.}
-Define the abstract Hessian as a map from 1-forms to bilinear forms on $D(\mathcal{A})$ :
-
-$$
-	H_v(f):=\langle D f, D\langle v, D f\rangle\rangle-\frac{1}{2}\langle v, D\langle D f, D f\rangle\rangle
-$$
-
-
-This is linear in $v: H_{\alpha v_1+\beta v_2}(f)=\alpha H_{v_1}(f)+\beta H_{v_2}(f)$. Note, that the term $\langle v, v \rangle \leq M$ is quadratic in $v$.
-
-Hence, the following set is convex:
-$$\mathcal{C}_{\kappa, M}=\left\{v \in D(\mathcal{A}): H_v(f) \geq \kappa \Gamma(f, f) \text{ and } \langle v, v \rangle \leq M \quad \forall f \in \mathcal{A} \right\}$$
-
-First let us compute its covering number.
-\begin{lemma}
-	The covering number of $\mathcal{C}_{\kappa, M}$ is at most $N(M, \kappa) = \frac{M}{\kappa}$.
-\end{lemma}
-
-
-
-
-\begin{lemma}[Very rough sketch]
-	Define $W_{\kappa, M}$ as \todo{a fixed set of very cool points from $\mathcal{C}_{\kappa, M}$}. Then for every $v \in \mathcal{C}_{\kappa, M}$ the following problem has a unique solution:
-	\begin{align*}
-		\min_{\omega \in \mathfrak{M}_+(W_{\kappa, M})} \| \omega \|_{TV}
-		\text{ such that }
-		\int_{w \in W_{\kappa, M}} w d \omega(w) = f
-	\end{align*}
-\end{lemma}
-
-Hence, if we know the set $W_{\kappa, M}$ then \Cref{eq:s-min} can be rewritten as:
-
-\begin{align*}
-	\min_{\omega \in \mathfrak{M}_+(W)}
-	\mathbb{E}_{p_T} \left[ \left\| \int_{w \in W_{\kappa, M}} w d \omega(w) - \nabla \log p_{T} \right\|^2 \right]
-	+
-	\| \omega \|_{TV}
-\end{align*}
-
-
 
 
 
@@ -985,139 +784,53 @@ https://djalil.chafai.net/blog/2023/01/12/log-sobolev-and-bakry-emery/
 
 
 
-
-\section{Energy-Based Model Perspective on Effective Dimension}
-
-Bakry-Emery theorem??
+\subsection{Somewhat Related Works}
 
 
 
-need framework that shows that pure noise, fractals, hierarchical representations should be hard to learn
+\paragraph{Energy-based models} \cite{song2021trainenergybasedmodels, du2019implicit, lecun2006tutorial, zhu2024learning, du2021unsupervised, du2020compositional}
 
 
+\paragraph{Compositional generation} \cite{decompdiffusion, liu2021learning, 10.1007/978-3-031-19790-1_26, DBLP:conf/iccv/0010DLT023, composition_position,  bagautdinov2018modeling}
 
-% \subsection{ASTs}
+\paragraph{Occam's razor} \cite{elmoznino2025incontextlearningoccamsrazor, rasmussen2000occam}
 
-% \begin{definition}[AND--OR Abstract Syntax Tree]
-% 	Let $\mathcal X$ be an input space and $\phi:\mathcal X\to\mathbb R^d$ an embedding.
-% 	An \emph{AND--OR abstract syntax tree (AST)} is defined recursively as:
+\paragraph{Bakry-Emery}
 
-% 	\begin{itemize}
-% 		\item \textbf{Atom (Leaf):}
-% 		      \[
-% 			      T(x) = g(x), \qquad g \in \mathcal G,
-% 		      \]
-% 		      where $\mathcal G$ is a class of simple local models (e.g.\ linear or affine functions).
+\paragraph{Dirichlet Form}
 
-% 		\item \textbf{AND node:}
-% 		      \[
-% 			      T(x) = \mathbb I\bigl[C_1(x)\wedge\cdots\wedge C_k(x)\bigr]\cdot T'(x),
-% 		      \]
-% 		      where each $C_i(x)$ is a constraint and $T'$ is a subtree.
+\paragraph{Example: Vision Data}
 
-% 		\item \textbf{OR node:}
-% 		      \[
-% 			      T(x) = \sum_{j=1}^m \mathbb I\bigl[C_j(x)\bigr]\cdot T_j(x),
-% 		      \]
-% 		      where $\{C_j\}_{j=1}^m$ form a partition of $\mathcal X$ and $T_j$ are subtrees.
-% 	\end{itemize}
+Each 2d image (or 3d scene or a point cloud) can be modeled $f: \Real^2 \to \Real^3$ as a function from coordinates to RGB (or XYZ) values. That's how NeRFS work:
 
-% 	The constraints $C(x)$ are typically hyperplane tests of the form
-% 	\[
-% 		C(x) := \langle w, \phi(x)\rangle \ge 0 .
-% 	\]
-% \end{definition}
+\paragraph{Neural Radiance Fields (NeRFs).}
+\cite{mildenhall2021nerf, pumarola2021d, 50730, wang2022nerfneuralradiancefields, rabby2024beyondpixelscomprehensivereviewevolution, 9710464, 10.1145/3528223.3530127, 9578751, 9577688, 10.1007/978-3-031-19824-3_20}
+\emile{this actually looks very relevant. would be worth doing a deeper dive into this}
+A \emph{Neural Radiance Field} models a 3D scene as a continuous function
+\[
+	f_\theta : (\mathbf{x}, \mathbf{d}) \;\mapsto\; (\sigma, \mathbf{c}),
+\]
+where
+\begin{itemize}
+	\item $\mathbf{x} \in \mathbb{R}^3$ denotes a spatial location,
+	\item $\mathbf{d} \in \mathbb{S}^2$ denotes a viewing direction,
+	\item $\sigma \in \mathbb{R}_{\ge 0}$ is the volume density at $\mathbf{x}$,
+	\item $\mathbf{c} \in \mathbb{R}^3$ is the emitted RGB color in direction $\mathbf{d}$.
+\end{itemize}
 
+The key idea is that the scene is represented neither as a mesh, nor as a voxel grid,
+nor as a point cloud, but as a \emph{continuous radiance field} parameterized by a neural network.
 
-% \paragraph{Semantics.}
-% \begin{itemize}
-% 	\item AND nodes represent conjunctions of constraints and correspond to intersections
-% 	      of half-spaces or cross-products of independent factors.
-% 	\item OR nodes represent partitions of the input space into disjoint regions.
-% 	\item Each root-to-leaf path defines a region
-% 	      \[
-% 		      \mathcal X_\ell = \bigcap_{C \in \text{path}(\ell)} C,
-% 	      \]
-% 	      on which the function reduces to a simple local model.
-% \end{itemize}
+In a similar way, each 2d image can be modeled as a function from coordinates to RGB values: $f: \Real^2 \to \Real^3$ and the embedding of this function would the weights of the corresponding ReLU network. The regular manifold hypothesis doesn't properly capture this structure that:
+\begin{itemize}
+	\item In a union of manifolds
+	\item Has some hierarchical structure.
+	\item Has permutation-invariance with respect to weights in each layer.
+\end{itemize}
 
-% \paragraph{Example: 1D Piecewise Linear Function}
-% Let
-% \[
-% 	f(x)=
-% 	\begin{cases}
-% 		a_1 x + b_1, & x \le t, \\
-% 		a_2 x + b_2, & x > t.
-% 	\end{cases}
-% \]
+Also, importantly, each image $f$ is not a smooth function: its a combination of a "simple" in some sense partition of the image into smooth enough regions.
 
-% This function admits the AND--OR representation
-% \[
-% 	f(x)
-% 	=
-% 	\mathbb I[x\le t]\,(a_1x+b_1)
-% 	+
-% 	\mathbb I[x>t]\,(a_2x+b_2).
-% \]
-
-% Equivalently, as an AST:
-% \[
-% 	\texttt{OR}\Bigl(
-% 	\texttt{AND}(x\le t,\ \texttt{LINEAR}(a_1,b_1)),
-% 	\texttt{AND}(x>t,\ \texttt{LINEAR}(a_2,b_2))
-% 	\Bigr).
-% \]
-
-% \paragraph{Example: Hierarchical Partition}
-% Let $t_1 < t_2$ and
-% \[
-% 	f(x)=
-% 	\begin{cases}
-% 		a_1x+b_1, & x\le t_1,        \\
-% 		a_2x+b_2, & t_1 < x \le t_2, \\
-% 		a_3x+b_3, & x>t_2.
-% 	\end{cases}
-% \]
-
-% Then $f$ can be written as
-% \[
-% 	f(x)=
-% 	\mathbb I[x\le t_2]
-% 	\Bigl(
-% 	\mathbb I[x\le t_1](a_1x+b_1)
-% 	+
-% 	\mathbb I[t_1<x\le t_2](a_2x+b_2)
-% 	\Bigr)
-% 	+
-% 	\mathbb I[x>t_2](a_3x+b_3).
-% \]
-
-% This corresponds to a depth--2 AND--OR tree.
-
-
-% \paragraph{Example: ReLU as AND--OR}
-% For $w\in\mathbb R^d$,
-% \[
-% 	\mathrm{ReLU}(\langle w,x\rangle)
-% 	=
-% 	\mathbb I[\langle w,x\rangle\ge0]\langle w,x\rangle
-% 	+
-% 	\mathbb I[\langle w,x\rangle<0]\cdot 0.
-% \]
-
-% Thus a ReLU unit is an OR node with two AND branches.
-% A finite ReLU network corresponds to a (possibly large) AND--OR tree,
-% whose leaves are linear functions and whose OR structure encodes the
-% activation pattern partition.\\
-
-% \emile{What kind of non-trivial theoretical results to validate this construction would be the most insightful? One thing is that for coarse/non-granular functions, it should sort of recover the original manifold hypothesis? What are the theoretical results pertaining to manifold hypothesis in the other papers we've been reading? Can we establish any analogs?}
-
-
-% \emile{What is the simplest possible way to empirically validate anything that we've constructed (after constructing it)?}
-
-% \begin{theorem}
-% 	equivalency between effective dimension and energy?
-% \end{theorem}
+\newpage
 
 
 \section{Experiments}
@@ -1147,11 +860,7 @@ need framework that shows that pure noise, fractals, hierarchical representation
 \section{Recovering the Manifold Hypothesis}
 We show that the manifold hypothesis is recovered after coarsening the effective dimension hypothesis in \cref{theorem: recovering the manifold hypothesis}.
 
-\begin{theorem}\label{theorem: recovering the manifold hypothesis}
-	Let $M\subset \R^D$ be a compact embedded $C^2$ submanifold with tubular radius $r_0$, with the nearest-point projection $\pi:T_{r_0}(M)\to M$. Fix $0<\epsilon < r_0$. Let $\mu$ be a Borel probability measure supported on the tangent space $T_\epsilon(M)\coloneqq \{x\in\R^D: \mathrm{dist}(x,M)\}$, and define the manifold-supported measure $\bar{\mu}\coloneqq \pi_{\#}\mu$. Then, for every $p\geq 1$, we have $W_p(\mu,\bar{\mu})\leq \epsilon$ and for every $L$-Lipschitz observable function $f:\R^D\to\R$, we have that
-	\[\left|\int f \mathrm d\mu - \int f \mathrm d\bar{\mu} \right| \leq L \epsilon.\]
-\end{theorem}
-
+\recoveringmanifoldhypothesis
 
 \begin{proof}
 	Let $X\sim \mu$ and set $Y\coloneqq \pi(X)$. Since $\bar{\mu}\coloneqq \pi_{\#}\mu$, we have $Y\sim\bar{\mu}$. Since $X\in T_\epsilon(M)$ almost surely, and $\pi(X)$ is the nearest point on $M$, we have $\|X-Y\| = \|X- \pi(X)\| = \mathrm{dist}(X,M) \leq \epsilon$, almost surely. Next, we consider the coupling $\gamma = (\mathrm{Id},\pi)_{\#\mu} \in \Pi(\mu,\bar{\mu})$ of $\mu$ and $\bar{\mu}$, and $\gamma$ is supported on pairs $x,y$ with $\|x-y\|\leq \epsilon$. Therefore, for $1\leq p <\infty$, we have
@@ -1174,13 +883,6 @@ We show that the manifold hypothesis is recovered after coarsening the effective
 	which proves the theorem.
 \end{proof}
 
-\begin{corollary}
-	Let $F_\delta \coloneqq \{f: \mathrm{Lip}(f) \leq 1/\delta\}$. By \cref{theorem: recovering the manifold hypothesis}, we have that $\sup_{f\in F_\delta} | \int f\mathrm d\mu - \int f \mathrm d\bar{\mu} | \leq \epsilon/\delta$. Therefore, once $\delta\gg \epsilon$, the tube supported distribution $\epsilon$ and the manifold-supported distribution $\bar{\mu}$ are indistinguishable by coarse observations. Therefore, the manifold hypothesis is recovered upon coarsening the effective dimension hypothesis.
-\end{corollary}
-
-\begin{remark}
-	The proof of \cref{theorem: recovering the manifold hypothesis} is based on the metric space, not on any of its spectral properties. Moreover, the manifold structure is only used to guarantee the existence of the projection $\pi$, and the same argument would also follow for any measurable set $S\subset \R^D$ equipped with a measurable map $\pi: T_\epsilon(S)\to S$  such that $\|x - \pi(x)\| \leq \epsilon$, which allows the result to extend beyond smooth manifolds. Finally, the Lipschitz bound in \cref{theorem: recovering the manifold hypothesis} is tight in general. For this, take $M = \{0\} \subset \R^D, \mu = \delta_\epsilon, \bar{\mu} = \delta_0$, and $f(x) = Lx$. Then, $|\int f\mathrm d\mu - \int f \mathrm d\bar{\mu}| = L\epsilon$.
-\end{remark}
 
 % \begin{theorem}
 %     Let $\cM\subset \R^D$ be a compact $C^2$ $d$-manifold with tubular radius $r_0$ and let $\mu$ be supported on the tangent space $T_\epsilon(\cM)$ with $\epsilon < r_0$. Let $\bar{\mu} = \pi_{\#}\mu$ be the projection onto $\cM$. Then, for observables of spatial resolution $\sqrt{t}\gg \epsilon$, the scale-dependent complexity $K_\mu(t)$ and $K_{\bar{\mu}}(t)$ are equivalent up to a controllable error, and hence $d_\mu(t)\approx d$. 
