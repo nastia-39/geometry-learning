@@ -73,6 +73,36 @@
   file = {/Users/aalokhina3/Zotero/storage/FLHHHYY7/Aghajanyan et al. - 2020 - Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning.pdf;/Users/aalokhina3/Zotero/storage/5ARAREHK/2012.html}
 }
 
+@article{ahnTransformersLearnImplement2023,
+  title = {Transformers Learn to Implement Preconditioned Gradient Descent for In-Context Learning},
+  author = {Ahn, Kwangjun and Cheng, Xiang and Daneshmand, Hadi and Sra, Suvrit},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2306.00297},
+  urldate = {2026-04-01},
+  abstract = {Several recent works demonstrate that transformers can implement algorithms like gradient descent. By a careful construction of weights, these works show that multiple layers of transformers are expressive enough to simulate iterations of gradient descent. Going beyond the question of expressivity, we ask: Can transformers learn to implement such algorithms by training over random problem instances? To our knowledge, we make the first theoretical progress on this question via an analysis of the loss landscape for linear transformers trained over random instances of linear regression. For a single attention layer, we prove the global minimum of the training objective implements a single iteration of preconditioned gradient descent. Notably, the preconditioning matrix not only adapts to the input distribution but also to the variance induced by data inadequacy. For a transformer with \$L\$ attention layers, we prove certain critical points of the training objective implement \$L\$ iterations of preconditioned gradient descent. Our results call for future theoretical studies on learning algorithms by training transformers.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),FOS: Computer and information sciences,Machine Learning (cs.LG)}
+}
+
+@misc{akyurekWhatLearningAlgorithm2023,
+  title = {What Learning Algorithm Is In-Context Learning? {{Investigations}} with Linear Models},
+  shorttitle = {What Learning Algorithm Is In-Context Learning?},
+  author = {Aky{\"u}rek, Ekin and Schuurmans, Dale and Andreas, Jacob and Ma, Tengyu and Zhou, Denny},
+  year = 2023,
+  month = may,
+  number = {arXiv:2211.15661},
+  eprint = {2211.15661},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2211.15661},
+  urldate = {2026-04-01},
+  abstract = {Neural sequence models, especially transformers, exhibit a remarkable capacity for in-context learning. They can construct new predictors from sequences of labeled examples \$(x, f(x))\$ presented in the input without further parameter updates. We investigate the hypothesis that transformer-based in-context learners implement standard learning algorithms implicitly, by encoding smaller models in their activations, and updating these implicit models as new examples appear in the context. Using linear regression as a prototypical problem, we offer three sources of evidence for this hypothesis. First, we prove by construction that transformers can implement learning algorithms for linear models based on gradient descent and closed-form ridge regression. Second, we show that trained in-context learners closely match the predictors computed by gradient descent, ridge regression, and exact least-squares regression, transitioning between different predictors as transformer depth and dataset noise vary, and converging to Bayesian estimators for large widths and depths. Third, we present preliminary evidence that in-context learners share algorithmic features with these predictors: learners' late layers non-linearly encode weight vectors and moment matrices. These results suggest that in-context learning is understandable in algorithmic terms, and that (at least in the linear case) learners may rediscover standard estimation algorithms. Code and reference implementations are released at https://github.com/ekinakyurek/google-research/blob/master/incontext.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/T8ZYL2PL/Akyürek et al. - 2023 - What learning algorithm is in-context learning Investigations with linear models.pdf;/Users/aalokhina3/Zotero/storage/9FWPQGPZ/2211.html}
+}
+
 @misc{alokhinaSmallLargeGeneralization2026,
   title = {From {{Small}} to {{Large}}: {{Generalization Bounds}} for {{Transformers}} on {{Variable-Size Inputs}}},
   shorttitle = {From {{Small}} to {{Large}}},
@@ -189,6 +219,24 @@
   pages = {57125--57211},
   urldate = {2025-12-09},
   langid = {english}
+}
+
+@misc{baiTransformersStatisticiansProvable2023a,
+  title = {Transformers as {{Statisticians}}: {{Provable In-Context Learning}} with {{In-Context Algorithm Selection}}},
+  shorttitle = {Transformers as {{Statisticians}}},
+  author = {Bai, Yu and Chen, Fan and Wang, Huan and Xiong, Caiming and Mei, Song},
+  year = 2023,
+  month = jul,
+  number = {arXiv:2306.04637},
+  eprint = {2306.04637},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2306.04637},
+  urldate = {2026-04-01},
+  abstract = {Neural sequence models based on the transformer architecture have demonstrated remarkable \textbackslash emph\textbraceleft in-context learning\textbraceright{} (ICL) abilities, where they can perform new tasks when prompted with training and test examples, without any parameter update to the model. This work first provides a comprehensive statistical theory for transformers to perform ICL. Concretely, we show that transformers can implement a broad class of standard machine learning algorithms in context, such as least squares, ridge regression, Lasso, learning generalized linear models, and gradient descent on two-layer neural networks, with near-optimal predictive power on various in-context data distributions. Using an efficient implementation of in-context gradient descent as the underlying mechanism, our transformer constructions admit mild size bounds, and can be learned with polynomially many pretraining sequences. Building on these ``base'' ICL algorithms, intriguingly, we show that transformers can implement more complex ICL procedures involving \textbackslash emph\textbraceleft in-context algorithm selection\textbraceright, akin to what a statistician can do in real life -- A \textbackslash emph\textbraceleft single\textbraceright{} transformer can adaptively select different base ICL algorithms -- or even perform qualitatively different tasks -- on different input sequences, without any explicit prompting of the right algorithm or task. We both establish this in theory by explicit constructions, and also observe this phenomenon experimentally. In theory, we construct two general mechanisms for algorithm selection with concrete examples: pre-ICL testing, and post-ICL validation. As an example, we use the post-ICL validation mechanism to construct a transformer that can perform nearly Bayes-optimal ICL on a challenging task -- noisy linear models with mixed noise levels. Experimentally, we demonstrate the strong in-context algorithm selection capabilities of standard transformer architectures.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning,Mathematics - Statistics Theory,Statistics - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/9GHECIS5/Bai et al. - 2023 - Transformers as Statisticians Provable In-Context Learning with In-Context Algorithm Selection.pdf;/Users/aalokhina3/Zotero/storage/KF556F5B/2306.html}
 }
 
 @book{bakryAnalysisGeometryMarkov2014,
@@ -327,6 +375,18 @@
   file = {/Users/aalokhina3/Zotero/storage/J6DW9BBS/Bauer et al. - 2007 - On regularization algorithms in learning theory.pdf;/Users/aalokhina3/Zotero/storage/QFU7PX5U/S0885064X06000781.html}
 }
 
+@misc{baUsingFastWeights2016,
+  title = {Using {{Fast Weights}} to {{Attend}} to the {{Recent Past}}},
+  author = {Ba, Jimmy and Hinton, Geoffrey and Mnih, Volodymyr and Leibo, Joel Z. and Ionescu, Catalin},
+  year = 2016,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.1610.06258},
+  urldate = {2026-04-01},
+  abstract = {Until recently, research on artificial neural networks was largely restricted to systems with only two types of variable: Neural activities that represent the current or recent input and weights that learn to capture regularities among inputs, outputs and payoffs. There is no good reason for this restriction. Synapses have dynamics at many different time-scales and this suggests that artificial neural networks might benefit from variables that change slower than activities but much faster than the standard weights. These "fast weights" can be used to store temporary memories of the recent past and they provide a neurally plausible way of implementing the type of attention to the past that has recently proved very helpful in sequence-to-sequence models. By using fast weights we can avoid the need to store copies of neural activity patterns.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML),Neural and Evolutionary Computing (cs.NE)}
+}
+
 @inproceedings{belkinConvergenceLaplacianEigenmaps2006,
   title = {Convergence of {{Laplacian Eigenmaps}}},
   booktitle = {Advances in {{Neural Information Processing Systems}}},
@@ -413,6 +473,22 @@
   file = {/Users/aalokhina3/Zotero/storage/M6P7MDLM/Blanchard et al. - 2007 - Statistical properties of kernel principal component analysis.pdf}
 }
 
+@article{bochnerMonotoneFunktionenStieltjessche1933,
+  title = {{Monotone Funktionen, Stieltjessche Integrale und harmonische Analyse}},
+  author = {Bochner, S.},
+  year = 1933,
+  month = dec,
+  journal = {Mathematische Annalen},
+  volume = {108},
+  number = {1},
+  pages = {378--410},
+  issn = {1432-1807},
+  doi = {10.1007/BF01452844},
+  urldate = {2026-04-01},
+  langid = {german},
+  file = {/Users/aalokhina3/Zotero/storage/SM6TXCDH/Bochner - 1933 - Monotone Funktionen, Stieltjessche Integrale und harmonische Analyse.pdf}
+}
+
 @misc{boissardSimpleBoundsConvergence2011,
   title = {Simple Bounds for the Convergence of Empirical and Occupation Measures in 1-{{Wasserstein}} Distance},
   author = {Boissard, Emmanuel},
@@ -464,6 +540,18 @@
   langid = {english},
   keywords = {Data Compression,Dimensionality Reduction,Feature Space,Multilayer Perceptrons,PCA,Processing Application},
   file = {/Users/aalokhina3/Zotero/storage/FIQC7D3R/Bourlard and Kamp - 1988 - Auto-association by multilayer perceptrons and singular value decomposition.pdf}
+}
+
+@misc{brownLanguageModelsAre2020,
+  title = {Language {{Models}} Are {{Few-Shot Learners}}},
+  author = {Brown, Tom B. and Mann, Benjamin and Ryder, Nick and Subbiah, Melanie and Kaplan, Jared and Dhariwal, Prafulla and Neelakantan, Arvind and Shyam, Pranav and Sastry, Girish and Askell, Amanda and Agarwal, Sandhini and {Herbert-Voss}, Ariel and Krueger, Gretchen and Henighan, Tom and Child, Rewon and Ramesh, Aditya and Ziegler, Daniel M. and Wu, Jeffrey and Winter, Clemens and Hesse, Christopher and Chen, Mark and Sigler, Eric and Litwin, Mateusz and Gray, Scott and Chess, Benjamin and Clark, Jack and Berner, Christopher and McCandlish, Sam and Radford, Alec and Sutskever, Ilya and Amodei, Dario},
+  year = 2020,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2005.14165},
+  urldate = {2026-04-01},
+  abstract = {Recent work has demonstrated substantial gains on many NLP tasks and benchmarks by pre-training on a large corpus of text followed by fine-tuning on a specific task. While typically task-agnostic in architecture, this method still requires task-specific fine-tuning datasets of thousands or tens of thousands of examples. By contrast, humans can generally perform a new language task from only a few examples or from simple instructions - something which current NLP systems still largely struggle to do. Here we show that scaling up language models greatly improves task-agnostic, few-shot performance, sometimes even reaching competitiveness with prior state-of-the-art fine-tuning approaches. Specifically, we train GPT-3, an autoregressive language model with 175 billion parameters, 10x more than any previous non-sparse language model, and test its performance in the few-shot setting. For all tasks, GPT-3 is applied without any gradient updates or fine-tuning, with tasks and few-shot demonstrations specified purely via text interaction with the model. GPT-3 achieves strong performance on many NLP datasets, including translation, question-answering, and cloze tasks, as well as several tasks that require on-the-fly reasoning or domain adaptation, such as unscrambling words, using a novel word in a sentence, or performing 3-digit arithmetic. At the same time, we also identify some datasets where GPT-3's few-shot learning still struggles, as well as some datasets where GPT-3 faces methodological issues related to training on large web corpora. Finally, we find that GPT-3 can generate samples of news articles which human evaluators have difficulty distinguishing from articles written by humans. We discuss broader societal impacts of this finding and of GPT-3 in general.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {Computation and Language (cs.CL),FOS: Computer and information sciences}
 }
 
 @misc{bruel-gabrielssonRewiringPositionalEncodings2023,
@@ -586,6 +674,35 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Information Retrieval,Computer Science - Machine Learning},
   file = {/Users/aalokhina3/Zotero/storage/MVLFHFT7/Chamberlain et al. - 2023 - Graph Neural Networks for Link Prediction with Subgraph Sketching.pdf;/Users/aalokhina3/Zotero/storage/76I285RL/2209.html}
+}
+
+@misc{chanDataDistributionalProperties2022,
+  title = {Data {{Distributional Properties Drive Emergent In-Context Learning}} in {{Transformers}}},
+  author = {Chan, Stephanie C. Y. and Santoro, Adam and Lampinen, Andrew K. and Wang, Jane X. and Singh, Aaditya and Richemond, Pierre H. and McClelland, Jay and Hill, Felix},
+  year = 2022,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2205.05055},
+  urldate = {2026-04-01},
+  abstract = {Large transformer-based models are able to perform in-context few-shot learning, without being explicitly trained for it. This observation raises the question: what aspects of the training regime lead to this emergent behavior? Here, we show that this behavior is driven by the distributions of the training data itself. In-context learning emerges when the training data exhibits particular distributional properties such as burstiness (items appear in clusters rather than being uniformly distributed over time) and having large numbers of rarely occurring classes. In-context learning also emerges more strongly when item meanings or interpretations are dynamic rather than fixed. These properties are exemplified by natural language, but are also inherent to naturalistic data in a wide range of other domains. They also depart significantly from the uniform, i.i.d. training distributions typically used for standard supervised learning. In our initial experiments, we found that in-context learning traded off against more conventional weight-based learning, and models were unable to achieve both simultaneously. However, our later experiments uncovered that the two modes of learning could co-exist in a single model when it was trained on data following a skewed Zipfian distribution -- another common property of naturalistic data, including language. In further experiments, we found that naturalistic data distributions were only able to elicit in-context learning in transformers, and not in recurrent models. In sum, our findings indicate how the transformer architecture works together with particular properties of the training data to drive the intriguing emergent in-context learning behaviour of large language models, and how future work might encourage both in-context and in-weights learning in domains beyond language.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences,Machine Learning (cs.LG)}
+}
+
+@misc{chengTransformersImplementFunctional2024,
+  title = {Transformers {{Implement Functional Gradient Descent}} to {{Learn Non-Linear Functions In Context}}},
+  author = {Cheng, Xiang and Chen, Yuxin and Sra, Suvrit},
+  year = 2024,
+  month = jun,
+  number = {arXiv:2312.06528},
+  eprint = {2312.06528},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2312.06528},
+  urldate = {2026-04-02},
+  abstract = {Many neural network architectures are known to be Turing Complete, and can thus, in principle implement arbitrary algorithms. However, Transformers are unique in that they can implement gradient-based learning algorithms under simple parameter configurations. This paper provides theoretical and empirical evidence that (non-linear) Transformers naturally learn to implement gradient descent in function space, which in turn enable them to learn non-linear functions in context. Our results apply to a broad class of combinations of non-linear architectures and non-linear in-context learning tasks. Additionally, we show that the optimal choice of non-linear activation depends in a natural way on the class of functions that need to be learned.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/SCZ7TN4C/Cheng et al. - 2024 - Transformers Implement Functional Gradient Descent to Learn Non-Linear Functions In Context.pdf;/Users/aalokhina3/Zotero/storage/NSI3YGDC/2312.html}
 }
 
 @article{chenSpectralMethodsData2021,
@@ -795,6 +912,19 @@
   copyright = {https://www.elsevier.com/tdm/userlicense/1.0/},
   langid = {english},
   file = {/Users/aalokhina3/Zotero/storage/3HITVLUC/Coulhon - 1996 - Ultracontractivity and Nash Type Inequalities.pdf}
+}
+
+@misc{daiWhyCanGPT2022,
+  title = {Why {{Can GPT Learn In-Context}}? {{Language Models Implicitly Perform Gradient Descent}} as {{Meta-Optimizers}}},
+  shorttitle = {Why {{Can GPT Learn In-Context}}?},
+  author = {Dai, Damai and Sun, Yutao and Dong, Li and Hao, Yaru and Ma, Shuming and Sui, Zhifang and Wei, Furu},
+  year = 2022,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2212.10559},
+  urldate = {2026-04-01},
+  abstract = {Large pretrained language models have shown surprising in-context learning (ICL) ability. With a few demonstration input-label pairs, they can predict the label for an unseen input without parameter updates. Despite the great success in performance, its working mechanism still remains an open question. In this paper, we explain language models as meta-optimizers and understand in-context learning as implicit finetuning. Theoretically, we figure out that Transformer attention has a dual form of gradient descent. On top of it, we understand ICL as follows: GPT first produces meta-gradients according to the demonstration examples, and then these meta-gradients are applied to the original GPT to build an ICL model. We comprehensively compare the behaviors of in-context learning and explicit finetuning on real tasks to provide empirical evidence that supports our understanding. Experimental results show that in-context learning behaves similarly to explicit finetuning from multiple perspectives. Inspired by the dual form between Transformer attention and gradient descent, we design a momentum-based attention by analogy with gradient descent with momentum. The improved performance over vanilla attention further supports our understanding from another perspective, and more importantly, shows the potential to utilize our understanding for future model design. The code is available at \textbackslash url\textbraceleft https://aka.ms/icl\textbraceright.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {Computation and Language (cs.CL),FOS: Computer and information sciences}
 }
 
 @inproceedings{defferrardConvolutionalNeuralNetworks2016,
@@ -1169,6 +1299,19 @@
   file = {/Users/aalokhina3/Zotero/storage/WFKR994U/Golowich et al. - 2025 - The Role of Sparsity for Length Generalization in Transformers.pdf;/Users/aalokhina3/Zotero/storage/TM7ZT7GJ/2502.html}
 }
 
+@misc{guoHowTransformersLearn2023,
+  title = {How {{Do Transformers Learn In-Context Beyond Simple Functions}}? {{A Case Study}} on {{Learning}} with {{Representations}}},
+  shorttitle = {How {{Do Transformers Learn In-Context Beyond Simple Functions}}?},
+  author = {Guo, Tianyu and Hu, Wei and Mei, Song and Wang, Huan and Xiong, Caiming and Savarese, Silvio and Bai, Yu},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2310.10616},
+  urldate = {2026-04-01},
+  abstract = {While large language models based on the transformer architecture have demonstrated remarkable in-context learning (ICL) capabilities, understandings of such capabilities are still in an early stage, where existing theory and mechanistic understanding focus mostly on simple scenarios such as learning simple function classes. This paper takes initial steps on understanding ICL in more complex scenarios, by studying learning with representations. Concretely, we construct synthetic in-context learning problems with a compositional structure, where the label depends on the input through a possibly complex but fixed representation function, composed with a linear function that differs in each instance. By construction, the optimal ICL algorithm first transforms the inputs by the representation function, and then performs linear ICL on top of the transformed dataset. We show theoretically the existence of transformers that approximately implement such algorithms with mild depth and size. Empirically, we find trained transformers consistently achieve near-optimal ICL performance in this setting, and exhibit the desired dissection where lower layers transforms the dataset and upper layers perform linear ICL. Through extensive probing and a new pasting experiment, we further reveal several mechanisms within the trained transformers, such as concrete copying behaviors on both the inputs and the representations, linear ICL capability of the upper layers alone, and a post-ICL representation selection mechanism in a harder mixture setting. These observed mechanisms align well with our theory and may shed light on how transformers perform ICL in more realistic scenarios.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {FOS: Computer and information sciences,Machine Learning (cs.LG)}
+}
+
 @misc{hamiltonInductiveRepresentationLearning2018,
   title = {Inductive {{Representation Learning}} on {{Large Graphs}}},
   author = {Hamilton, William L. and Ying, Rex and Leskovec, Jure},
@@ -1216,6 +1359,18 @@
   urldate = {2026-03-19},
   langid = {english},
   file = {/Users/aalokhina3/Zotero/storage/LR24MF6M/Hang and Steinwart - 2021 - Optimal learning with anisotropic Gaussian SVMs.pdf}
+}
+
+@misc{hanUnderstandingEmergentInContext2023,
+  title = {Understanding {{Emergent In-Context Learning}} from a {{Kernel Regression Perspective}}},
+  author = {Han, Chi and Wang, Ziqi and Zhao, Han and Ji, Heng},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2305.12766},
+  urldate = {2026-04-01},
+  abstract = {Large language models (LLMs) have initiated a paradigm shift in transfer learning. In contrast to the classic pretraining-then-finetuning procedure, in order to use LLMs for downstream prediction tasks, one only needs to provide a few demonstrations, known as in-context examples, without adding more or updating existing model parameters. This in-context learning (ICL) capability of LLMs is intriguing, and it is not yet fully understood how pretrained LLMs acquire such capabilities. In this paper, we investigate the reason why a transformer-based language model can accomplish in-context learning after pre-training on a general language corpus by proposing a kernel-regression perspective of understanding LLMs' ICL bahaviors when faced with in-context examples. More concretely, we first prove that Bayesian inference on in-context prompts can be asymptotically understood as kernel regression \$\textbackslash hat y = \textbackslash sum\_i y\_i K(x, x\_i)/\textbackslash sum\_i K(x, x\_i)\$ as the number of in-context demonstrations grows. Then, we empirically investigate the in-context behaviors of language models. We find that during ICL, the attention and hidden features in LLMs match the behaviors of a kernel regression. Finally, our theory provides insights into multiple phenomena observed in the ICL field: why retrieving demonstrative samples similar to test samples can help, why ICL performance is sensitive to the output formats, and why ICL accuracy benefits from selecting in-distribution and representative samples. Code and resources are publicly available at https://github.com/Glaciohound/Explain-ICL-As-Kernel-Regression.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences,Machine Learning (cs.LG)}
 }
 
 @misc{haoGNOTGeneralNeural2023,
@@ -1368,6 +1523,18 @@
   file = {/Users/aalokhina3/Zotero/storage/UK7UQDW7/Huang et al. - 2020 - Combining Label Propagation and Simple Models Out-performs Graph Neural Networks.pdf;/Users/aalokhina3/Zotero/storage/6VMA5U67/2010.html}
 }
 
+@misc{huangInContextConvergenceTransformers2023,
+  title = {In-{{Context Convergence}} of {{Transformers}}},
+  author = {Huang, Yu and Cheng, Yuan and Liang, Yingbin},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2310.05249},
+  urldate = {2026-04-01},
+  abstract = {Transformers have recently revolutionized many domains in modern machine learning and one salient discovery is their remarkable in-context learning capability, where models can solve an unseen task by utilizing task-specific prompts without further parameters fine-tuning. This also inspired recent theoretical studies aiming to understand the in-context learning mechanism of transformers, which however focused only on linear transformers. In this work, we take the first step toward studying the learning dynamics of a one-layer transformer with softmax attention trained via gradient descent in order to in-context learn linear function classes. We consider a structured data model, where each token is randomly sampled from a set of feature vectors in either balanced or imbalanced fashion. For data with balanced features, we establish the finite-time convergence guarantee with near-zero prediction error by navigating our analysis over two phases of the training dynamics of the attention map. More notably, for data with imbalanced features, we show that the learning dynamics take a stage-wise convergence process, where the transformer first converges to a near-zero prediction error for the query tokens of dominant features, and then converges later to a near-zero prediction error for the query tokens of under-represented features, respectively via one and four training phases. Our proof features new techniques for analyzing the competing strengths of two types of attention weights, the change of which determines different training phases.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {Artificial Intelligence (cs.AI),FOS: Computer and information sciences,FOS: Mathematics,Machine Learning (cs.LG),Machine Learning (stat.ML),Optimization and Control (math.OC)}
+}
+
 @misc{huangRiemannianNetworkSPD2016,
   title = {A {{Riemannian Network}} for {{SPD Matrix Learning}}},
   author = {Huang, Zhiwu and Gool, Luc Van},
@@ -1400,6 +1567,18 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Artificial Intelligence,Computer Science - Machine Learning},
   file = {/Users/aalokhina3/Zotero/storage/3DAAEXHW/Huang et al. - 2024 - On the Stability of Expressive Positional Encodings for Graphs.pdf;/Users/aalokhina3/Zotero/storage/8IPVJQBA/2310.html}
+}
+
+@misc{hubingerRisksLearnedOptimization2019,
+  title = {Risks from {{Learned Optimization}} in {{Advanced Machine Learning Systems}}},
+  author = {Hubinger, Evan and {van Merwijk}, Chris and Mikulik, Vladimir and Skalse, Joar and Garrabrant, Scott},
+  year = 2019,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.1906.01820},
+  urldate = {2026-04-01},
+  abstract = {We analyze the type of learned optimization that occurs when a learned model (such as a neural network) is itself an optimizer - a situation we refer to as mesa-optimization, a neologism we introduce in this paper. We believe that the possibility of mesa-optimization raises two important questions for the safety and transparency of advanced machine learning systems. First, under what circumstances will learned models be optimizers, including when they should not be? Second, when a learned model is an optimizer, what will its objective be - how will it differ from the loss function it was trained under - and how can it be aligned? In this paper, we provide an in-depth analysis of these two primary questions and provide an overview of topics for future research.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {Artificial Intelligence (cs.AI),FOS: Computer and information sciences}
 }
 
 @misc{humayunDeepNetworksAlways2024,
@@ -1484,6 +1663,13 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning,Physics - Computational Physics,Physics - Data Analysis Statistics and Probability,Quantum Physics},
   file = {/Users/aalokhina3/Zotero/storage/5WZTFRXJ/Innan et al. - 2024 - Quantum State Tomography using Quantum Machine Learning.pdf;/Users/aalokhina3/Zotero/storage/TW3IHIC3/2308.html}
+}
+
+@misc{InterpolationSpatialData,
+  title = {Interpolation of {{Spatial Data}}: {{Some Theory}} for {{Kriging}} \textbar{} {{Springer Nature Link}}},
+  urldate = {2026-04-01},
+  howpublished = {https://link.springer.com/book/10.1007/978-1-4612-1494-6},
+  file = {/Users/aalokhina3/Zotero/storage/XD8MUMU4/978-1-4612-1494-6.html}
 }
 
 @misc{IPM,
@@ -1697,6 +1883,19 @@
   urldate = {2025-12-10},
   howpublished = {https://www.google.com/search?q=Kiho+Park\%2C+Yo+Joong+Choe\%2C+Yibo+Jiang\%2C+and+Victor+Veitch.+The+geometry+of+categorical+and+hierarchical+concepts+in+large+language+models.+arXiv+preprint+arXiv\%3A2406.01506\%2C+2024a\&oq=Kiho+Park\%2C+Yo+Joong+Choe\%2C+Yibo+Jiang\%2C+and+Victor+Veitch.+The+geometry+of+categorical+and+hierarchical+concepts+in+large+language+models.+arXiv+preprint+arXiv\%3A2406.01506\%2C+2024a\&gs\_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRiPAjIHCAIQIRiPAtIBBzE4MmowajeoAgCwAgA\&sourceid=chrome\&ie=UTF-8},
   file = {/Users/aalokhina3/Zotero/storage/5959A4FH/search.html}
+}
+
+@misc{kimTransformersLearnNonlinear2024,
+  title = {Transformers {{Learn Nonlinear Features In Context}}: {{Nonconvex Mean-field Dynamics}} on the {{Attention Landscape}}},
+  shorttitle = {Transformers {{Learn Nonlinear Features In Context}}},
+  author = {Kim, Juno and Suzuki, Taiji},
+  year = 2024,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2402.01258},
+  urldate = {2026-04-01},
+  abstract = {Large language models based on the Transformer architecture have demonstrated impressive capabilities to learn in context. However, existing theoretical studies on how this phenomenon arises are limited to the dynamics of a single layer of attention trained on linear regression tasks. In this paper, we study the optimization of a Transformer consisting of a fully connected layer followed by a linear attention layer. The MLP acts as a common nonlinear representation or feature map, greatly enhancing the power of in-context learning. We prove in the mean-field and two-timescale limit that the infinite-dimensional loss landscape for the distribution of parameters, while highly nonconvex, becomes quite benign. We also analyze the second-order stability of mean-field dynamics and show that Wasserstein gradient flow almost always avoids saddle points. Furthermore, we establish novel methods for obtaining concrete improvement rates both away from and near critical points. This represents the first saddle point analysis of mean-field dynamics in general and the techniques are of independent interest.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML)}
 }
 
 @misc{kipfSemiSupervisedClassificationGraph2017,
@@ -2065,6 +2264,19 @@
   file = {/Users/aalokhina3/Zotero/storage/TE8EWVI3/Lim et al. - 2022 - Sign and Basis Invariant Networks for Spectral Graph Representation Learning.pdf;/Users/aalokhina3/Zotero/storage/FRSTZNAD/2202.html}
 }
 
+@misc{liTransformersAlgorithmsGeneralization2023,
+  title = {Transformers as {{Algorithms}}: {{Generalization}} and {{Stability}} in {{In-context Learning}}},
+  shorttitle = {Transformers as {{Algorithms}}},
+  author = {Li, Yingcong and Ildiz, M. Emrullah and Papailiopoulos, Dimitris and Oymak, Samet},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2301.07067},
+  urldate = {2026-04-01},
+  abstract = {In-context learning (ICL) is a type of prompting where a transformer model operates on a sequence of (input, output) examples and performs inference on-the-fly. In this work, we formalize in-context learning as an algorithm learning problem where a transformer model implicitly constructs a hypothesis function at inference-time. We first explore the statistical aspects of this abstraction through the lens of multitask learning: We obtain generalization bounds for ICL when the input prompt is (1) a sequence of i.i.d. (input, label) pairs or (2) a trajectory arising from a dynamical system. The crux of our analysis is relating the excess risk to the stability of the algorithm implemented by the transformer. We characterize when transformer/attention architecture provably obeys the stability condition and also provide empirical verification. For generalization on unseen tasks, we identify an inductive bias phenomenon in which the transfer learning risk is governed by the task complexity and the number of MTL tasks in a highly predictable manner. Finally, we provide numerical evaluations that (1) demonstrate transformers can indeed implement near-optimal algorithms on classical regression problems with i.i.d. and dynamic data, (2) provide insights on stability, and (3) verify our theoretical predictions.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Computation and Language (cs.CL),FOS: Computer and information sciences,Machine Learning (cs.LG),Machine Learning (stat.ML)}
+}
+
 @misc{liuFlatFormerFlattenedWindow2023,
   title = {{{FlatFormer}}: {{Flattened Window Attention}} for {{Efficient Point Cloud Transformer}}},
   shorttitle = {{{FlatFormer}}},
@@ -2214,6 +2426,18 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Data Structures and Algorithms,Computer Science - Machine Learning,spectral clustering},
   file = {/Users/aalokhina3/Zotero/storage/LXPPZZVB/Luxburg - 2007 - A Tutorial on Spectral Clustering.pdf;/Users/aalokhina3/Zotero/storage/7RH9FU29/0711.html}
+}
+
+@misc{mahankaliOneStepGradient2023,
+  title = {One {{Step}} of {{Gradient Descent}} Is {{Provably}} the {{Optimal In-Context Learner}} with {{One Layer}} of {{Linear Self-Attention}}},
+  author = {Mahankali, Arvind and Hashimoto, Tatsunori B. and Ma, Tengyu},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2307.03576},
+  urldate = {2026-04-01},
+  abstract = {Recent works have empirically analyzed in-context learning and shown that transformers trained on synthetic linear regression tasks can learn to implement ridge regression, which is the Bayes-optimal predictor, given sufficient capacity [Aky\"urek et al., 2023], while one-layer transformers with linear self-attention and no MLP layer will learn to implement one step of gradient descent (GD) on a least-squares linear regression objective [von Oswald et al., 2022]. However, the theory behind these observations remains poorly understood. We theoretically study transformers with a single layer of linear self-attention, trained on synthetic noisy linear regression data. First, we mathematically show that when the covariates are drawn from a standard Gaussian distribution, the one-layer transformer which minimizes the pre-training loss will implement a single step of GD on the least-squares linear regression objective. Then, we find that changing the distribution of the covariates and weight vector to a non-isotropic Gaussian distribution has a strong impact on the learned algorithm: the global minimizer of the pre-training loss now implements a single step of \$\textbackslash textit\textbraceleft pre-conditioned\textbraceright\$ GD. However, if only the distribution of the responses is changed, then this does not have a large effect on the learned algorithm: even when the response comes from a more general family of \$\textbackslash textit\textbraceleft nonlinear\textbraceright\$ functions, the global minimizer of the pre-training loss still implements a single step of GD on a least-squares linear regression objective.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {FOS: Computer and information sciences,Machine Learning (cs.LG)}
 }
 
 @misc{MailAlokhinaAnastasiia,
@@ -2482,6 +2706,20 @@
   file = {/Users/aalokhina3/Zotero/storage/E28RYVUB/Miao et al. - 2024 - Locality-Sensitive Hashing-Based Efficient Point Transformer with Applications in High-Energy Physic.pdf;/Users/aalokhina3/Zotero/storage/NDCHSD3H/2402.html}
 }
 
+@article{micchelliUniversalKernels2006,
+  title = {Universal {{Kernels}}},
+  author = {Micchelli, Charles A. and Xu, Yuesheng and Zhang, Haizhang},
+  year = 2006,
+  journal = {Journal of Machine Learning Research},
+  volume = {7},
+  number = {95},
+  pages = {2651--2667},
+  issn = {1533-7928},
+  urldate = {2026-04-01},
+  abstract = {In this paper we investigate conditions on the features of a continuous kernel so that it may approximate an arbitrary continuous target function uniformly on any compact subset of the input space. A number of concrete examples are given of kernels with this universal approximating property.},
+  file = {/Users/aalokhina3/Zotero/storage/YM6UFLFX/Micchelli et al. - 2006 - Universal Kernels.pdf}
+}
+
 @inproceedings{mikolovLinguisticRegularitiesContinuous2013,
   title = {Linguistic {{Regularities}} in {{Continuous Space Word Representations}}},
   booktitle = {Proceedings of the 2013 {{Conference}} of the {{North American Chapter}} of the {{Association}} for {{Computational Linguistics}}: {{Human Language Technologies}}},
@@ -2519,6 +2757,19 @@
   urldate = {2025-12-08},
   howpublished = {https://projecteuclid.org/journals/journal-of-the-mathematical-society-of-japan/volume-18/issue-4/Minimal-immersions-of-Riemannian-manifolds/10.2969/jmsj/01840380.full},
   file = {/Users/aalokhina3/Zotero/storage/XHTZW855/undefined}
+}
+
+@misc{minRethinkingRoleDemonstrations2022,
+  title = {Rethinking the {{Role}} of {{Demonstrations}}: {{What Makes In-Context Learning Work}}?},
+  shorttitle = {Rethinking the {{Role}} of {{Demonstrations}}},
+  author = {Min, Sewon and Lyu, Xinxi and Holtzman, Ari and Artetxe, Mikel and Lewis, Mike and Hajishirzi, Hannaneh and Zettlemoyer, Luke},
+  year = 2022,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2202.12837},
+  urldate = {2026-04-01},
+  abstract = {Large language models (LMs) are able to in-context learn -- perform a new task via inference alone by conditioning on a few input-label pairs (demonstrations) and making predictions for new inputs. However, there has been little understanding of how the model learns and which aspects of the demonstrations contribute to end task performance. In this paper, we show that ground truth demonstrations are in fact not required -- randomly replacing labels in the demonstrations barely hurts performance on a range of classification and multi-choce tasks, consistently over 12 different models including GPT-3. Instead, we find that other aspects of the demonstrations are the key drivers of end task performance, including the fact that they provide a few examples of (1) the label space, (2) the distribution of the input text, and (3) the overall format of the sequence. Together, our analysis provides a new way of understanding how and why in-context learning works, while opening up new questions about how much can be learned from large language models through inference alone.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences}
 }
 
 @article{morenoJEDInetJetIdentification2020,
@@ -2620,6 +2871,35 @@
   file = {/Users/aalokhina3/Zotero/storage/RVMGC5CS/Nadler - 2008 - Finite sample approximation results for principal component analysis a matrix perturbation approach.pdf;/Users/aalokhina3/Zotero/storage/CVGYCKL4/0901.html}
 }
 
+@misc{nichaniHowTransformersLearn2024,
+  title = {How {{Transformers Learn Causal Structure}} with {{Gradient Descent}}},
+  author = {Nichani, Eshaan and Damian, Alex and Lee, Jason D.},
+  year = 2024,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2402.14735},
+  urldate = {2026-04-01},
+  abstract = {The incredible success of transformers on sequence modeling tasks can be largely attributed to the self-attention mechanism, which allows information to be transferred between different parts of a sequence. Self-attention allows transformers to encode causal structure which makes them particularly suitable for sequence modeling. However, the process by which transformers learn such causal structure via gradient-based training algorithms remains poorly understood. To better understand this process, we introduce an in-context learning task that requires learning latent causal structure. We prove that gradient descent on a simplified two-layer transformer learns to solve this task by encoding the latent causal graph in the first attention layer. The key insight of our proof is that the gradient of the attention matrix encodes the mutual information between tokens. As a consequence of the data processing inequality, the largest entries of this gradient correspond to edges in the latent causal graph. As a special case, when the sequences are generated from in-context Markov chains, we prove that transformers learn an induction head (Olsson et al., 2022). We confirm our theoretical findings by showing that transformers trained on our in-context learning task are able to recover a wide variety of causal structures.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {FOS: Computer and information sciences,Information Theory (cs.IT),Machine Learning (cs.LG),Machine Learning (stat.ML)}
+}
+
+@misc{nichaniHowTransformersLearn2024a,
+  title = {How {{Transformers Learn Causal Structure}} with {{Gradient Descent}}},
+  author = {Nichani, Eshaan and Damian, Alex and Lee, Jason D.},
+  year = 2024,
+  month = aug,
+  number = {arXiv:2402.14735},
+  eprint = {2402.14735},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2402.14735},
+  urldate = {2026-04-02},
+  abstract = {The incredible success of transformers on sequence modeling tasks can be largely attributed to the self-attention mechanism, which allows information to be transferred between different parts of a sequence. Self-attention allows transformers to encode causal structure which makes them particularly suitable for sequence modeling. However, the process by which transformers learn such causal structure via gradient-based training algorithms remains poorly understood. To better understand this process, we introduce an in-context learning task that requires learning latent causal structure. We prove that gradient descent on a simplified two-layer transformer learns to solve this task by encoding the latent causal graph in the first attention layer. The key insight of our proof is that the gradient of the attention matrix encodes the mutual information between tokens. As a consequence of the data processing inequality, the largest entries of this gradient correspond to edges in the latent causal graph. As a special case, when the sequences are generated from in-context Markov chains, we prove that transformers learn an induction head (Olsson et al., 2022). We confirm our theoretical findings by showing that transformers trained on our in-context learning task are able to recover a wide variety of causal structures.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Information Theory,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/QEIXSL9E/Nichani et al. - 2024 - How Transformers Learn Causal Structure with Gradient Descent.pdf;/Users/aalokhina3/Zotero/storage/TLI4LIRZ/2402.html}
+}
+
 @incollection{nikolskiiFunctionClasses1975,
   title = {The {{Function Classes W}}, {{H}}, {{B}}},
   booktitle = {Approximation of {{Functions}} of {{Several Variables}} and {{Imbedding Theorems}}},
@@ -2688,6 +2968,23 @@
   publisher = {Curran Associates, Inc.}
 }
 
+@misc{okoPretrainedTransformerEfficiently2024,
+  title = {Pretrained Transformer Efficiently Learns Low-Dimensional Target Functions in-Context},
+  author = {Oko, Kazusato and Song, Yujin and Suzuki, Taiji and Wu, Denny},
+  year = 2024,
+  month = nov,
+  number = {arXiv:2411.02544},
+  eprint = {2411.02544},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2411.02544},
+  urldate = {2026-04-02},
+  abstract = {Transformers can efficiently learn in-context from example demonstrations. Most existing theoretical analyses studied the in-context learning (ICL) ability of transformers for linear function classes, where it is typically shown that the minimizer of the pretraining loss implements one gradient descent step on the least squares objective. However, this simplified linear setting arguably does not demonstrate the statistical efficiency of ICL, since the pretrained transformer does not outperform directly solving linear regression on the test prompt. In this paper, we study ICL of a nonlinear function class via transformer with nonlinear MLP layer: given a class of \textbackslash textit\textbraceleft single-index\textbraceright{} target functions \$f\_*(\textbackslash boldsymbol\textbraceleft x\textbraceright ) = {$\sigma\_$}*(\textbackslash langle\textbackslash boldsymbol\textbraceleft x\textbraceright,\textbackslash boldsymbol{$\beta\backslash$}rangle)\$, where the index features \$\textbackslash boldsymbol{$\beta\backslash$}in\textbackslash mathbb\textbraceleft R\textbraceright\textasciicircum d\$ are drawn from a \$r\$-dimensional subspace, we show that a nonlinear transformer optimized by gradient descent (with a pretraining sample complexity that depends on the \textbackslash textit\textbraceleft information exponent\textbraceright{} of the link functions \${$\sigma\_$}*\$) learns \$f\_*\$ in-context with a prompt length that only depends on the dimension of the distribution of target functions \$r\$; in contrast, any algorithm that directly learns \$f\_*\$ on test prompt yields a statistical complexity that scales with the ambient dimension \$d\$. Our result highlights the adaptivity of the pretrained transformer to low-dimensional structures of the function class, which enables sample-efficient ICL that outperforms estimators that only have access to the in-context data.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/KJSDFA3J/Oko et al. - 2024 - Pretrained transformer efficiently learns low-dimensional target functions in-context.pdf;/Users/aalokhina3/Zotero/storage/FME28U35/2411.html}
+}
+
 @article{olahZoomIntroductionCircuits2020,
   title = {Zoom {{In}}: {{An Introduction}} to {{Circuits}}},
   shorttitle = {Zoom {{In}}},
@@ -2701,6 +2998,18 @@
   issn = {2476-0757},
   doi = {10.23915/distill.00024.001},
   urldate = {2025-06-02}
+}
+
+@misc{olssonIncontextLearningInduction2022,
+  title = {In-Context {{Learning}} and {{Induction Heads}}},
+  author = {Olsson, Catherine and Elhage, Nelson and Nanda, Neel and Joseph, Nicholas and DasSarma, Nova and Henighan, Tom and Mann, Ben and Askell, Amanda and Bai, Yuntao and Chen, Anna and Conerly, Tom and Drain, Dawn and Ganguli, Deep and {Hatfield-Dodds}, Zac and Hernandez, Danny and Johnston, Scott and Jones, Andy and Kernion, Jackson and Lovitt, Liane and Ndousse, Kamal and Amodei, Dario and Brown, Tom and Clark, Jack and Kaplan, Jared and McCandlish, Sam and Olah, Chris},
+  year = 2022,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2209.11895},
+  urldate = {2026-04-01},
+  abstract = {"Induction heads" are attention heads that implement a simple algorithm to complete token sequences like [A][B] ... [A] -\&gt; [B]. In this work, we present preliminary and indirect evidence for a hypothesis that induction heads might constitute the mechanism for the majority of all "in-context learning" in large transformer models (i.e. decreasing loss at increasing token indices). We find that induction heads develop at precisely the same point as a sudden sharp increase in in-context learning ability, visible as a bump in the training loss. We present six complementary lines of evidence, arguing that induction heads may be the mechanistic source of general in-context learning in transformer models of any size. For small attention-only models, we present strong, causal evidence; for larger models with MLPs, we present correlational evidence.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {FOS: Computer and information sciences,Machine Learning (cs.LG)}
 }
 
 @inproceedings{ongLearningNonpositiveKernels2004,
@@ -2718,6 +3027,21 @@
   abstract = {In this paper we show that many kernel methods can be adapted to deal with indefinite kernels, that is, kernels which are not positive semidefinite. They do not satisfy Mercer's condition and they induce associated functional spaces called Reproducing Kernel Kre{\u \i}n Spaces (RKKS), a generalization of Reproducing Kernel Hilbert Spaces (RKHS).Machine learning in RKKS shares many "nice" properties of learning in RKHS, such as orthogonality and projection. However, since the kernels are indefinite, we can no longer minimize the loss, instead we stabilize it. We show a general representer theorem for constrained stabilization and prove generalization bounds by computing the Rademacher averages of the kernel class. We list several examples of indefinite kernels and investigate regularization methods to solve spline interpolation. Some preliminary experiments with indefinite kernels for spline smoothing are reported for truncated spectral factorization, Landweber-Fridman iterations, and MR-II.},
   isbn = {978-1-58113-838-2},
   file = {/Users/aalokhina3/Zotero/storage/D977I7N6/ong04krein-icml.pdf}
+}
+
+@inproceedings{oswaldTransformersLearnInContext2023,
+  title = {Transformers {{Learn In-Context}} by {{Gradient Descent}}},
+  booktitle = {Proceedings of the 40th {{International Conference}} on {{Machine Learning}}},
+  author = {Oswald, Johannes Von and Niklasson, Eyvind and Randazzo, Ettore and Sacramento, Joao and Mordvintsev, Alexander and Zhmoginov, Andrey and Vladymyrov, Max},
+  year = 2023,
+  month = jul,
+  pages = {35151--35174},
+  publisher = {PMLR},
+  issn = {2640-3498},
+  urldate = {2026-04-01},
+  abstract = {At present, the mechanisms of in-context learning in Transformers are not well understood and remain mostly an intuition. In this paper, we suggest that training Transformers on auto-regressive objectives is closely related to gradient-based meta-learning formulations. We start by providing a simple weight construction that shows the equivalence of data transformations induced by 1) a single linear self-attention layer and by 2) gradient-descent (GD) on a regression loss. Motivated by that construction, we show empirically that when training self-attention-only Transformers on simple regression tasks either the models learned by GD and Transformers show great similarity or, remarkably, the weights found by optimization match the construction. Thus we show how trained Transformers become mesa-optimizers i.e. learn models by gradient descent in their forward pass. This allows us, at least in the domain of regression problems, to mechanistically understand the inner workings of in-context learning in optimized Transformers. Building on this insight, we furthermore identify how Transformers surpass the performance of plain gradient descent by learning an iterative curvature correction and learn linear models on deep data representations to solve non-linear regression tasks. Finally, we discuss intriguing parallels to a mechanism identified to be crucial for in-context learning termed induction-head (Olsson et al., 2022) and show how it could be understood as a specific case of in-context learning by gradient descent learning within Transformers.},
+  langid = {english},
+  file = {/Users/aalokhina3/Zotero/storage/2RUDPJKC/Oswald et al. - 2023 - Transformers Learn In-Context by Gradient Descent.pdf}
 }
 
 @article{parhiNearMinimaxOptimalEstimation2023,
@@ -2971,6 +3295,17 @@
   file = {/Users/aalokhina3/Zotero/storage/W4T2RISG/Qu et al. - 2024 - Particle Transformer for Jet Tagging.pdf;/Users/aalokhina3/Zotero/storage/9DBLSLI7/2202.html}
 }
 
+@inproceedings{rahimiRandomFeaturesLargeScale2007,
+  title = {Random {{Features}} for {{Large-Scale Kernel Machines}}},
+  booktitle = {Advances in {{Neural Information Processing Systems}}},
+  author = {Rahimi, Ali and Recht, Benjamin},
+  year = 2007,
+  volume = {20},
+  publisher = {Curran Associates, Inc.},
+  urldate = {2026-04-01},
+  file = {/Users/aalokhina3/Zotero/storage/JA98YGHV/Rahimi and Recht - 2007 - Random Features for Large-Scale Kernel Machines.pdf}
+}
+
 @misc{rampasekRecipeGeneralPowerful2023,
   title = {Recipe for a {{General}}, {{Powerful}}, {{Scalable Graph Transformer}}},
   author = {Ramp{\'a}{\v s}ek, Ladislav and Galkin, Mikhail and Dwivedi, Vijay Prakash and Luu, Anh Tuan and Wolf, Guy and Beaini, Dominique},
@@ -2986,6 +3321,30 @@
   archiveprefix = {arXiv},
   keywords = {Computer Science - Machine Learning},
   file = {/Users/aalokhina3/Zotero/storage/8ISIHXQ9/Rampášek et al. - 2023 - Recipe for a General, Powerful, Scalable Graph Transformer.pdf;/Users/aalokhina3/Zotero/storage/P7A4VU8R/2205.html}
+}
+
+@book{rasmussenGaussianProcessesMachine2008,
+  title = {Gaussian Processes for Machine Learning},
+  author = {Rasmussen, Carl Edward and Williams, Christopher K. I.},
+  year = 2008,
+  series = {Adaptive Computation and Machine Learning},
+  edition = {3. print},
+  publisher = {MIT Press},
+  address = {Cambridge, Mass.},
+  isbn = {978-0-262-18253-9},
+  langid = {english}
+}
+
+@misc{raventosPretrainingTaskDiversity2023,
+  title = {Pretraining Task Diversity and the Emergence of Non-{{Bayesian}} in-Context Learning for Regression},
+  author = {Ravent{\'o}s, Allan and Paul, Mansheej and Chen, Feng and Ganguli, Surya},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2306.15063},
+  urldate = {2026-04-01},
+  abstract = {Pretrained transformers exhibit the remarkable ability of in-context learning (ICL): they can learn tasks from just a few examples provided in the prompt without updating any weights. This raises a foundational question: can ICL solve fundamentally \$\textbackslash textit\textbraceleft new\textbraceright\$ tasks that are very different from those seen during pretraining? To probe this question, we examine ICL's performance on linear regression while varying the diversity of tasks in the pretraining dataset. We empirically demonstrate a \$\textbackslash textit\textbraceleft task diversity threshold\textbraceright\$ for the emergence of ICL. Below this threshold, the pretrained transformer cannot solve unseen regression tasks, instead behaving like a Bayesian estimator with the \$\textbackslash textit\textbraceleft non-diverse pretraining task distribution\textbraceright\$ as the prior. Beyond this threshold, the transformer significantly outperforms this estimator; its behavior aligns with that of ridge regression, corresponding to a Gaussian prior over \$\textbackslash textit\textbraceleft all tasks\textbraceright\$, including those not seen during pretraining. Thus, when pretrained on data with task diversity greater than the threshold, transformers \$\textbackslash textit\textbraceleft can\textbraceright\$ optimally solve fundamentally new tasks in-context. Importantly, this capability hinges on it deviating from the Bayes optimal estimator with the pretraining distribution as the prior. This study also explores the effect of regularization, model capacity and task structure and underscores, in a concrete example, the critical role of task diversity, alongside data and model scale, in the emergence of ICL. Code is available at https://github.com/mansheej/icl-task-diversity.},
+  copyright = {arXiv.org perpetual, non-exclusive license},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences,Machine Learning (cs.LG)}
 }
 
 @misc{renSpectralDecompositionRepresentation2023,
@@ -3071,6 +3430,77 @@
   file = {/Users/aalokhina3/Zotero/storage/FHUYSIRS/Saragadam et al. - 2024 - DeepTensor Low-Rank Tensor Decomposition With Deep Network Priors.pdf}
 }
 
+@misc{schlagLinearTransformersAre2021,
+  title = {Linear {{Transformers Are Secretly Fast Weight Programmers}}},
+  author = {Schlag, Imanol and Irie, Kazuki and Schmidhuber, J{\"u}rgen},
+  year = 2021,
+  month = jun,
+  number = {arXiv:2102.11174},
+  eprint = {2102.11174},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2102.11174},
+  urldate = {2026-04-01},
+  abstract = {We show the formal equivalence of linearised self-attention mechanisms and fast weight controllers from the early '90s, where a ``slow" neural net learns by gradient descent to program the ``fast weights" of another net through sequences of elementary programming instructions which are additive outer products of self-invented activation patterns (today called keys and values). Such Fast Weight Programmers (FWPs) learn to manipulate the contents of a finite memory and dynamically interact with it. We infer a memory capacity limitation of recent linearised softmax attention variants, and replace the purely additive outer products by a delta rule-like programming instruction, such that the FWP can more easily learn to correct the current mapping from keys to values. The FWP also learns to compute dynamically changing learning rates. We also propose a new kernel function to linearise attention which balances simplicity and effectiveness. We conduct experiments on synthetic retrieval problems as well as standard machine translation and language modelling tasks which demonstrate the benefits of our methods.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/GIKKNL75/Schlag et al. - 2021 - Linear Transformers Are Secretly Fast Weight Programmers.pdf;/Users/aalokhina3/Zotero/storage/ASXP5SD6/2102.html}
+}
+
+@article{schmidhuberLearningControlFastWeight1992,
+  title = {Learning to {{Control Fast-Weight Memories}}: {{An Alternative}} to {{Dynamic Recurrent Networks}}},
+  shorttitle = {Learning to {{Control Fast-Weight Memories}}},
+  author = {Schmidhuber, J{\"u}rgen},
+  year = 1992,
+  month = jan,
+  journal = {Neural Computation},
+  volume = {4},
+  number = {1},
+  pages = {131--139},
+  issn = {0899-7667, 1530-888X},
+  doi = {10.1162/neco.1992.4.1.131},
+  urldate = {2026-04-01},
+  abstract = {Previous algorithms for supervised sequence learning are based on dynamic recurrent networks. This paper describes an alternative class of gradient-based systems consisting of two feedforward nets that learn to deal with temporal sequences using fast weights: The first net learns to produce context-dependent weight changes for the second net whose weights may vary very quickly. The method offers the potential for STM storage efficiency: A single weight (instead of a full-fledged unit) may be sufficient for storing temporal information. Various learning methods are derived. Two experiments with unknown time delays illustrate the approach. One experiment shows how the system can be used for adaptive temporary variable binding.},
+  langid = {english}
+}
+
+@article{schoenberg1938metric,
+  title = {Metric Spaces and Positive Definite Functions},
+  author = {Schoenberg, I. J.},
+  year = 1938,
+  journal = {Transactions of the American Mathematical Society},
+  volume = {44},
+  number = {3},
+  pages = {522--536},
+  issn = {0002-9947, 1088-6850},
+  doi = {10.1090/S0002-9947-1938-1501980-0},
+  urldate = {2026-04-01},
+  langid = {english},
+  file = {/Users/aalokhina3/Zotero/storage/YV9HQPRB/Schoenberg - 1938 - Metric spaces and positive definite functions.pdf}
+}
+
+@article{schoenbergMETRICSPACESPOSITIVE,
+  title = {{{METRIC SPACES AND POSITIVE DEFINITE FUNCTIONS}}},
+  author = {Schoenberg, J},
+  langid = {english},
+  file = {/Users/aalokhina3/Zotero/storage/4A2IW2SP/Schoenberg - METRIC SPACES AND POSITIVE DEFINITE FUNCTIONS.pdf}
+}
+
+@article{schoenbergMetricSpacesPositive1938,
+  title = {Metric Spaces and Positive Definite Functions},
+  author = {Schoenberg, I. J.},
+  year = 1938,
+  journal = {Transactions of the American Mathematical Society},
+  volume = {44},
+  number = {3},
+  pages = {522--536},
+  issn = {0002-9947, 1088-6850},
+  doi = {10.1090/S0002-9947-1938-1501980-0},
+  urldate = {2026-04-01},
+  langid = {english},
+  file = {/Users/aalokhina3/Zotero/storage/CGVX3DAK/Schoenberg - 1938 - Metric spaces and positive definite functions.pdf}
+}
+
 @article{scholkopfNonlinearComponentAnalysis1998,
   title = {Nonlinear {{Component Analysis}} as a {{Kernel Eigenvalue Problem}}},
   author = {Sch{\"o}lkopf, Bernhard and Smola, Alexander and M{\"u}ller, Klaus-Robert},
@@ -3143,6 +3573,35 @@
   copyright = {https://ieeexplore.ieee.org/Xplorehelp/downloads/license-information/IEEE.html},
   langid = {english},
   file = {/Users/aalokhina3/Zotero/storage/GY26SFGW/Shawe-Taylor et al. - 2005 - On the Eigenspectrum of the Gram Matrix and the Generalization Error of Kernel-PCA.pdf}
+}
+
+@misc{shenPretrainedTransformersLearn2023,
+  title = {Do Pretrained {{Transformers Learn In-Context}} by {{Gradient Descent}}?},
+  author = {Shen, Lingfeng and Mishra, Aayush and Khashabi, Daniel},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2310.08540},
+  urldate = {2026-04-01},
+  abstract = {The emergence of In-Context Learning (ICL) in LLMs remains a remarkable phenomenon that is partially understood. To explain ICL, recent studies have created theoretical connections to Gradient Descent (GD). We ask, do such connections hold up in actual pre-trained language models? We highlight the limiting assumptions in prior works that make their setup considerably different from the practical setup in which language models are trained. For example, their experimental verification uses \textbackslash emph\textbraceleft ICL objective\textbraceright{} (training models explicitly for ICL), which differs from the emergent ICL in the wild. Furthermore, the theoretical hand-constructed weights used in these studies have properties that don't match those of real LLMs. We also look for evidence in real models. We observe that ICL and GD have different sensitivity to the order in which they observe demonstrations. Finally, we probe and compare the ICL vs. GD hypothesis in a natural setting. We conduct comprehensive empirical analyses on language models pre-trained on natural data (LLaMa-7B). Our comparisons of three performance metrics highlight the inconsistent behavior of ICL and GD as a function of various factors such as datasets, models, and the number of demonstrations. We observe that ICL and GD modify the output distribution of language models differently. These results indicate that \textbackslash emph\textbraceleft the equivalence between ICL and GD remains an open hypothesis\textbraceright{} and calls for further studies.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Artificial Intelligence (cs.AI),Computation and Language (cs.CL),FOS: Computer and information sciences,Machine Learning (cs.LG)}
+}
+
+@misc{shenPretrainedTransformersLearn2024,
+  title = {Do Pretrained {{Transformers Learn In-Context}} by {{Gradient Descent}}?},
+  author = {Shen, Lingfeng and Mishra, Aayush and Khashabi, Daniel},
+  year = 2024,
+  month = jun,
+  number = {arXiv:2310.08540},
+  eprint = {2310.08540},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2310.08540},
+  urldate = {2026-04-02},
+  abstract = {The emergence of In-Context Learning (ICL) in LLMs remains a remarkable phenomenon that is partially understood. To explain ICL, recent studies have created theoretical connections to Gradient Descent (GD). We ask, do such connections hold up in actual pre-trained language models? We highlight the limiting assumptions in prior works that make their setup considerably different from the practical setup in which language models are trained. For example, their experimental verification uses \textbackslash emph\textbraceleft ICL objective\textbraceright{} (training models explicitly for ICL), which differs from the emergent ICL in the wild. Furthermore, the theoretical hand-constructed weights used in these studies have properties that don't match those of real LLMs. We also look for evidence in real models. We observe that ICL and GD have different sensitivity to the order in which they observe demonstrations. Finally, we probe and compare the ICL vs. GD hypothesis in a natural setting. We conduct comprehensive empirical analyses on language models pre-trained on natural data (LLaMa-7B). Our comparisons of three performance metrics highlight the inconsistent behavior of ICL and GD as a function of various factors such as datasets, models, and the number of demonstrations. We observe that ICL and GD modify the output distribution of language models differently. These results indicate that \textbackslash emph\textbraceleft the equivalence between ICL and GD remains an open hypothesis\textbraceright{} and calls for further studies.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/TVIC7VEI/Shen et al. - 2024 - Do pretrained Transformers Learn In-Context by Gradient Descent.pdf;/Users/aalokhina3/Zotero/storage/4RRGU3MP/2310.html}
 }
 
 @misc{shenStudyReLUSoftmax2023,
@@ -3705,6 +4164,31 @@
   file = {/Users/aalokhina3/Zotero/storage/36TUR8VV/Wen et al. - 2023 - Transformers in Time Series A Survey.pdf;/Users/aalokhina3/Zotero/storage/VU48G7HQ/2202.html}
 }
 
+@misc{wiesLearnabilityInContextLearning2023,
+  title = {The {{Learnability}} of {{In-Context Learning}}},
+  author = {Wies, Noam and Levine, Yoav and Shashua, Amnon},
+  year = 2023,
+  month = mar,
+  journal = {arXiv.org},
+  urldate = {2026-04-01},
+  abstract = {In-context learning is a surprising and important phenomenon that emerged when modern language models were scaled to billions of learned parameters. Without modifying a large language model's weights, it can be tuned to perform various downstream natural language tasks simply by including concatenated training examples of these tasks in its input. Though disruptive for many practical applications of large language models, this emergent learning paradigm is not well understood from a theoretical perspective. In this paper, we propose a first-of-its-kind PAC based framework for in-context learnability, and use it to provide the first finite sample complexity results for the in-context learning setup. Our framework includes an initial pretraining phase, which fits a function to the pretraining distribution, and then a second in-context learning phase, which keeps this function constant and concatenates training examples of the downstream task in its input. We use our framework in order to prove that, under mild assumptions, when the pretraining distribution is a mixture of latent tasks (a model often considered for natural language pretraining), these tasks can be efficiently learned via in-context learning, even though the model's weights are unchanged and the input significantly diverges from the pretraining distribution. Our theoretical analysis reveals that in this setting, in-context learning is more about identifying the task than about learning it, a result which is in line with a series of recent empirical findings. We hope that the in-context learnability framework presented in this paper will facilitate future progress towards a deeper understanding of this important new learning paradigm.},
+  howpublished = {https://arxiv.org/abs/2303.07895v1},
+  langid = {english},
+  file = {/Users/aalokhina3/Zotero/storage/X9F8IPDG/Wies et al. - 2023 - The Learnability of In-Context Learning.pdf}
+}
+
+@misc{wiesLearnabilityInContextLearning2023a,
+  title = {The {{Learnability}} of {{In-Context Learning}}},
+  author = {Wies, Noam and Levine, Yoav and Shashua, Amnon},
+  year = 2023,
+  publisher = {arXiv},
+  doi = {10.48550/ARXIV.2303.07895},
+  urldate = {2026-04-01},
+  abstract = {In-context learning is a surprising and important phenomenon that emerged when modern language models were scaled to billions of learned parameters. Without modifying a large language model's weights, it can be tuned to perform various downstream natural language tasks simply by including concatenated training examples of these tasks in its input. Though disruptive for many practical applications of large language models, this emergent learning paradigm is not well understood from a theoretical perspective. In this paper, we propose a first-of-its-kind PAC based framework for in-context learnability, and use it to provide the first finite sample complexity results for the in-context learning setup. Our framework includes an initial pretraining phase, which fits a function to the pretraining distribution, and then a second in-context learning phase, which keeps this function constant and concatenates training examples of the downstream task in its input. We use our framework in order to prove that, under mild assumptions, when the pretraining distribution is a mixture of latent tasks (a model often considered for natural language pretraining), these tasks can be efficiently learned via in-context learning, even though the model's weights are unchanged and the input significantly diverges from the pretraining distribution. Our theoretical analysis reveals that in this setting, in-context learning is more about identifying the task than about learning it, a result which is in line with a series of recent empirical findings. We hope that the in-context learnability framework presented in this paper will facilitate future progress towards a deeper understanding of this important new learning paradigm.},
+  copyright = {Creative Commons Attribution 4.0 International},
+  keywords = {Computation and Language (cs.CL),FOS: Computer and information sciences}
+}
+
 @misc{wilsonDeepKernelLearning2015,
   title = {Deep {{Kernel Learning}}},
   author = {Wilson, Andrew Gordon and Hu, Zhiting and Salakhutdinov, Ruslan and Xing, Eric P.},
@@ -3757,6 +4241,23 @@
   abstract = {Molecular machine learning has been maturing rapidly over the last few years. Improved methods and the presence of larger datasets have enabled machine learning algorithms to make increasingly accurate predictions about molecular properties. However, algorithmic progress has been limited due to the lack of a standard benchmark to compare the efficacy of proposed methods; most new algorithms are benchmarked on different datasets making it challenging to gauge the quality of proposed methods. This work introduces MoleculeNet, a large scale benchmark for molecular machine learning. MoleculeNet curates multiple public datasets, establishes metrics for evaluation, and offers high quality open-source implementations of multiple previously proposed molecular featurization and learning algorithms (released as part of the DeepChem open source library). MoleculeNet benchmarks demonstrate that learnable representations are powerful tools for molecular machine learning and broadly offer the best performance. However, this result comes with caveats. Learnable representations still struggle to deal with complex tasks under data scarcity and highly imbalanced classification. For quantum mechanical and biophysical datasets, the use of physics-aware featurizations can be more important than choice of particular learning algorithm.},
   langid = {english},
   file = {/Users/aalokhina3/Zotero/storage/23CABDDZ/Wu et al. - 2018 - MoleculeNet a benchmark for molecular machine learning.pdf;/Users/aalokhina3/Zotero/storage/GWKA2WZ5/Wu et al. - 2018 - MoleculeNet a benchmark for molecular machine learning.pdf}
+}
+
+@misc{xieExplanationIncontextLearning2022,
+  title = {An {{Explanation}} of {{In-context Learning}} as {{Implicit Bayesian Inference}}},
+  author = {Xie, Sang Michael and Raghunathan, Aditi and Liang, Percy and Ma, Tengyu},
+  year = 2022,
+  month = jul,
+  number = {arXiv:2111.02080},
+  eprint = {2111.02080},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2111.02080},
+  urldate = {2026-04-01},
+  abstract = {Large language models (LMs) such as GPT-3 have the surprising ability to do in-context learning, where the model learns to do a downstream task simply by conditioning on a prompt consisting of input-output examples. The LM learns from these examples without being explicitly pretrained to learn. Thus, it is unclear what enables in-context learning. In this paper, we study how in-context learning can emerge when pretraining documents have long-range coherence. Here, the LM must infer a latent document-level concept to generate coherent next tokens during pretraining. At test time, in-context learning occurs when the LM also infers a shared latent concept between examples in a prompt. We prove when this occurs despite a distribution mismatch between prompts and pretraining data in a setting where the pretraining distribution is a mixture of HMMs. In contrast to messy large-scale datasets used to train LMs capable of in-context learning, we generate a small-scale synthetic dataset (GINC) where Transformers and LSTMs both exhibit in-context learning. Beyond the theory, experiments on GINC exhibit large-scale real-world phenomena including improved in-context performance with model scaling (despite the same pretraining loss), sensitivity to example order, and instances where zero-shot is better than few-shot in-context learning.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Computation and Language,Computer Science - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/CYPDX34V/Xie et al. - 2022 - An Explanation of In-context Learning as Implicit Bayesian Inference.pdf;/Users/aalokhina3/Zotero/storage/DCNZFT5T/2111.html}
 }
 
 @misc{xingLessMoreOverGlobalizing2024,
@@ -3933,6 +4434,23 @@
   abstract = {Attention-based neural networks such as transformers have demonstrated a remarkable ability to exhibit in-context learning (ICL): Given a short prompt sequence of tokens from an unseen task, they can formulate relevant per-token and next-token predictions without any parameter updates. By embedding a sequence of labeled training data and unlabeled test data as a prompt, this allows for transformers to behave like supervised learning algorithms. Indeed, recent work has shown that when training transformer architectures over random instances of linear regression problems, these models' predictions mimic those of ordinary least squares.},
   langid = {english},
   file = {/Users/aalokhina3/Zotero/storage/I3AZQE8D/Zhang et al. - Trained Transformers Learn Linear Models In-Context.pdf}
+}
+
+@misc{zhangTrainedTransformersLearn2023,
+  title = {Trained {{Transformers Learn Linear Models In-Context}}},
+  author = {Zhang, Ruiqi and Frei, Spencer and Bartlett, Peter L.},
+  year = 2023,
+  month = oct,
+  number = {arXiv:2306.09927},
+  eprint = {2306.09927},
+  primaryclass = {stat},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.2306.09927},
+  urldate = {2026-04-01},
+  abstract = {Attention-based neural networks such as transformers have demonstrated a remarkable ability to exhibit in-context learning (ICL): Given a short prompt sequence of tokens from an unseen task, they can formulate relevant per-token and next-token predictions without any parameter updates. By embedding a sequence of labeled training data and unlabeled test data as a prompt, this allows for transformers to behave like supervised learning algorithms. Indeed, recent work has shown that when training transformer architectures over random instances of linear regression problems, these models' predictions mimic those of ordinary least squares. Towards understanding the mechanisms underlying this phenomenon, we investigate the dynamics of ICL in transformers with a single linear self-attention layer trained by gradient flow on linear regression tasks. We show that despite non-convexity, gradient flow with a suitable random initialization finds a global minimum of the objective function. At this global minimum, when given a test prompt of labeled examples from a new prediction task, the transformer achieves prediction error competitive with the best linear predictor over the test prompt distribution. We additionally characterize the robustness of the trained transformer to a variety of distribution shifts and show that although a number of shifts are tolerated, shifts in the covariate distribution of the prompts are not. Motivated by this, we consider a generalized ICL setting where the covariate distributions can vary across prompts. We show that although gradient flow succeeds at finding a global minimum in this setting, the trained transformer is still brittle under mild covariate shifts. We complement this finding with experiments on large, nonlinear transformer architectures which we show are more robust under covariate shifts.},
+  archiveprefix = {arXiv},
+  keywords = {Computer Science - Artificial Intelligence,Computer Science - Computation and Language,Computer Science - Machine Learning,Statistics - Machine Learning},
+  file = {/Users/aalokhina3/Zotero/storage/KJJ6FF97/Zhang et al. - 2023 - Trained Transformers Learn Linear Models In-Context.pdf;/Users/aalokhina3/Zotero/storage/JYWVA5KS/2306.html}
 }
 
 @misc{zhaoContextLearningVision2025,
